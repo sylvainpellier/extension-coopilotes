@@ -5,7 +5,7 @@
     "dependencies": {
         "core": "*",
         "radio": "*",
-        "neopixel": "github:kittenbot/pxt-neopixel#v0.6.12"
+        "neopixel": "github:lzty634158/pxt-neopixel"
     },
     "files": [
         "README.md",
