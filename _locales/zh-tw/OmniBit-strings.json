@@ -1,0 +1,47 @@
+{
+  "OmniBit.CarRun|block":"全向小車|%direction|速度(0~255) %speed",
+  "OmniBit.CarDrift|block":"原地漂移|%direction|速度(0~255) %speed",
+  "OmniBit.WideAngleDrift|block":"大角度漂移|%direction|前電機速度(0~255) %speed_front|後電機速度(0~255) %speed_back",
+  "OmniBit.Polygon|block":"圖形|%polygon|速度(0~255) %speed",
+  "OmniBit.Handle|block":"模擬手柄遙控|X值(-512~512) %x|Y值(-512~512) %y|旋轉方向 %leftOrRight",
+
+  "OmniBit.RGB_Program|block": "RGB編程燈",
+  "OmniBit.Music|block": "音樂播放|%index",
+  "OmniBit.Servo|block": "舵機(180)|編號 %num|角度 %value",
+  "OmniBit.Servo2|block": "舵機(270)|編號 %num|角度 %value",
+  "OmniBit.Servo3|block": "舵機(360)|編號 %num|方向 %pos|速度 %value",
+  "OmniBit.MotorRun|block": " 直流電機|%index|速度(-255~255) %speed",
+  "OmniBit.MotorRunDual|block": " 直流電機|%motor1|速度(-255~255) %speed1|%motor2|速度(-255~255) %speed2",
+  "OmniBit.MotorStopAll|block": "停止所有電機",
+  
+  "OmniBit.enPos.forward|block": "正轉",
+  "OmniBit.enPos.reverse|block": "反轉",
+  "OmniBit.enPos.stop|block": "停止",
+  
+
+  "OmniBit.enCarDrift.Head_To_Left|block": "車頭向左",
+  "OmniBit.enCarDrift.Head_To_Right|block": "車頭向右",
+  "OmniBit.enCarDrift.Rear_To_Left|block": "車尾向左",
+  "OmniBit.enCarDrift.Rear_To_Right|block": "車尾向右",
+
+  "OmniBit.enWideAngleDrift.Left|block": "向左",
+  "OmniBit.enWideAngleDrift.Right|block": "向右",
+
+  "OmniBit.enPolygon.Pentacle|block": "五角星形",
+  "OmniBit.enPolygon.Square|block": "正方形",
+  "OmniBit.enPolygon.Parallelogram|block": "平行四邊形",
+  "OmniBit.enPolygon.Rhombus|block": "菱形",
+
+  "OmniBit.enCarRun.Forward|block": "前進",
+  "OmniBit.enCarRun.Back|block": "後退",
+  "OmniBit.enCarRun.MoveLeft|block": "向左平移",
+  "OmniBit.enCarRun.MoveRight|block": "向右平移",
+  "OmniBit.enCarRun.Spin_Left|block": "向左旋轉",
+  "OmniBit.enCarRun.Spin_Right|block": "向右旋轉",
+  "OmniBit.enCarRun.Left_Front|block": "向左前方",
+  "OmniBit.enCarRun.Right_Front|block": "向右前方",
+  "OmniBit.enCarRun.Left_Back|block": "向左後方",
+  "OmniBit.enCarRun.Right_Back|block": "向右後方",
+  "OmniBit.enCarRun.CarStop|block": "停止"
+  
+}

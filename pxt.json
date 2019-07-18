@@ -1,0 +1,21 @@
+{
+    "name": "OmniBit",
+    "version": "1.0.1",
+    "description": "Extension for YahBoom OmniBit V1.0.1",
+    "dependencies": {
+        "core": "*",
+        "radio": "*",
+        "neopixel": "github:kittenbot/pxt-neopixel#v0.6.12"
+    },
+    "files": [
+        "README.md",
+        "main.ts",
+        "_locales/zh-cn/OmniBit-strings.json",
+        "_locales/zh-tw/OmniBit-strings.json"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": false,
+    "license": "MIT"
+}
