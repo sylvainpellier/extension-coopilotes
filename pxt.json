@@ -4,7 +4,8 @@
     "description": "Extension for YahBoom OmniBit V1.0.1",
     "dependencies": {
         "core": "*",
-        "neopixel": "github:lzty634158/pxt-neopixel"
+        "radio": "*",
+        "neopixel": "github:kittenbot/pxt-neopixel#v0.6.12"
     },
     "files": [
         "README.md",
