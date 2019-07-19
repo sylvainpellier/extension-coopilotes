@@ -14,6 +14,7 @@
   "OmniBit.MotorRun|block": " 直流电机|%index|速度(-255~255) %speed",
   "OmniBit.MotorRunDual|block": " 直流电机|%motor1|速度(-255~255) %speed1|%motor2|速度(-255~255) %speed2",
   "OmniBit.MotorStopAll|block": "停止所有电机",
+  "OmniBit.Reset|block": "重置直流电机和RGB灯",
   
   "OmniBit.enPos.forward|block": "正转",
   "OmniBit.enPos.reverse|block": "反转",
@@ -27,7 +28,8 @@
   "OmniBit.enWideAngleDrift.Left|block": "向左",
   "OmniBit.enWideAngleDrift.Right|block": "向右",
 
-  "OmniBit.enPolygon.Pentacle|block": "五角星形",
+  "OmniBit.enPolygon.Flash1|block": "闪电1",
+  "OmniBit.enPolygon.Flash2|block": "闪电2",
   "OmniBit.enPolygon.Square|block": "正方形",
   "OmniBit.enPolygon.Parallelogram|block": "平行四边形",
   "OmniBit.enPolygon.Rhombus|block": "菱形",
