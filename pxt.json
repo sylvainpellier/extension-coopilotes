@@ -1,7 +1,7 @@
 {
     "name": "OmniBit",
-    "version": "1.0.2",
-    "description": "Extension for YahBoom OmniBit V1.0.2",
+    "version": "1.0.3",
+    "description": "Extension for YahBoom OmniBit V1.0.3",
     "dependencies": {
         "core": "*",
         "neopixel": "github:lzty634158/pxt-neopixel"

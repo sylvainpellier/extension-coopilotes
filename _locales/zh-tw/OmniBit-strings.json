@@ -13,7 +13,6 @@
   "OmniBit.MotorRun|block": " 直流電機|%index|速度(-255~255) %speed",
   "OmniBit.MotorRunDual|block": " 直流電機|%motor1|速度(-255~255) %speed1|%motor2|速度(-255~255) %speed2",
   "OmniBit.MotorStopAll|block": "停止所有電機",
-  "OmniBit.Reset|block": "重置直流電機和RGB燈",
   
   "OmniBit.enPos.forward|block": "正轉",
   "OmniBit.enPos.reverse|block": "反轉",
