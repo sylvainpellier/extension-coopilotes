@@ -555,7 +555,7 @@ namespace OmniBit {
         if (!initialized) {
             initPCA9685();
         }
-        if (Math.abs(x) <= 10 && Math.abs(y) <= 10) {
+        if (Math.abs(x) <= 20 && Math.abs(y) <= 20) {
             x = 0;
             y = 0;
         }
