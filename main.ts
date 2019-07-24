@@ -2,7 +2,7 @@
 Copyright (C): 2010-2019, Shenzhen Yahboom Tech
 modified from chengengyue
 load dependency
-"OmniBit": "file:../pxt-OmniBit"
+"OmniBit": "file:../OmniBit"
 */
 
 //% color="#ECA40D" weight=20 icon="\uf047"
@@ -555,7 +555,7 @@ namespace OmniBit {
         if (!initialized) {
             initPCA9685();
         }
-        if (Math.abs(x) <= 20 && Math.abs(y) <= 20) {
+        if (Math.abs(x) <= 50 && Math.abs(y) <= 50) {
             x = 0;
             y = 0;
         }

@@ -1,6 +1,6 @@
 # OmniBit
 
-Extension for YahBoom OmniBit
+Extension for YahBoom OmniBit V1.0.5
 
 ## TODO
 
