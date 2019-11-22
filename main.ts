@@ -60,7 +60,7 @@ namespace CooPilotes {
         //% blockId="reverse" block="reverse"
         Recule = 2,
         //% blockId="stop" block="stop"
-        stop = 3
+        Stop = 3
     }
 
     export enum servos {
@@ -650,17 +650,17 @@ namespace CooPilotes {
 
         // 50hz: 20,000 us
 
-        if (pos == positions.stop) {
+        if (pos == positions.Stop) {
             let us = (86 * 1800 / 180 + 600); // 0.6 ~ 2.4
             let pwm = us * 4096 / 20000;
             setPwm(num, 0, pwm);
         }
-        else if (pos == positions.forward) { //0-90 -> 90 - 0
+        else if (pos == positions.Avance) { //0-90 -> 90 - 0
             let us = ((90 - value) * 1800 / 180 + 600); // 0.6 ~ 2.4
             let pwm = us * 4096 / 20000;
             setPwm(num, 0, pwm);
         }
-        else if (pos == positions.reverse) { //0-90 -> 90 -180
+        else if (pos == positions.Recule) { //0-90 -> 90 -180
             let us = ((90 + value) * 1800 / 180 + 600); // 0.6 ~ 2.4
             let pwm = us * 4096 / 20000;
             setPwm(num, 0, pwm);
