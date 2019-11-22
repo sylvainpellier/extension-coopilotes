@@ -6,6 +6,9 @@ load dependency
 //% color="#ECA40D" weight=20 icon="\uf1b9"
 namespace CooPilotes {
 
+    export var cp = CooPilotes;
+
+
     const PCA9685_ADD = 0x40
     const MODE1 = 0x00
     const MODE2 = 0x01
@@ -26,7 +29,10 @@ namespace CooPilotes {
     const PRESCALE = 0xFE
 
     let initialized = false
-    let yahStrip: neopixel.Strip;
+    let yahStrip: neopixel.Strip
+
+
+
 
 
     export enum sons {
@@ -105,6 +111,7 @@ namespace CooPilotes {
         //% blockId="CarStop" block="CarStop"
         Arret
     }
+
 
     export enum drifts {
         //% blockId="Head_To_Left" block="Head_To_Left"
