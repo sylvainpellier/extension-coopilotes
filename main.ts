@@ -55,11 +55,11 @@ namespace CooPilotes {
     }
 
     export enum positions {
-        //% blockId="forward" block="forward"
+        //% blockId="avance" block="avance"
         Avance = 1,
-        //% blockId="reverse" block="reverse"
+        //% blockId="recule" block="recule"
         Recule = 2,
-        //% blockId="stop" block="stop"
+        //% blockId="arret" block="arret"
         Stop = 3
     }
 
@@ -82,9 +82,9 @@ namespace CooPilotes {
     }
 
     export enum deplacements {
-        //% blockId="Forward" block="Forward"
+        //% blockId="Avance" block="Avance"
         Avance = 1,
-        //% blockId="Back" block="Back"
+        //% blockId="Recule" block="Recule"
         Recule,
         //% blockId="MoveLeft" block="MoveLeft"
         BougeGauche,
@@ -296,7 +296,7 @@ namespace CooPilotes {
         ActiveMoteur(moteurs.M4, speedm4);
     }
 
-    //% blockId=OmniBit_CarRun block="CarRun|%direction|speed %speed"
+    //% blockId=Avance block="Avance|%direction|speed %speed"
     //% weight=102
     //% blockGap=10
     //% group="CarControl"
@@ -464,7 +464,7 @@ namespace CooPilotes {
     }
 
 
-    //% blockId=OmniBit_CarDrift block="CarDrift|%direction|speed %speed"
+    //% blockId=Drift block="Drift|%direction|speed %speed"
     //% weight=100
     //% blockGap=10
     //% group="CarControl"
@@ -579,7 +579,7 @@ namespace CooPilotes {
         return yahStrip;
     }
 
-    //% blockId=OmniBit_Music block="Music|%index"
+    //% blockId=Musique block="Music|%index"
     //% weight=96
     //% blockGap=10
     //% group="BoardFuntion"
@@ -609,7 +609,7 @@ namespace CooPilotes {
         }
     }
 
-    //% blockId=OmniBit_Servo block="Servo(180°)|num %num|value %value"
+    //% blockId=Servo block="Servo(180°)|num %num|value %value"
     //% weight=95
     //% blockGap=20
     //% advanced=true
@@ -667,7 +667,7 @@ namespace CooPilotes {
         }
     }
 
-    //% blockId=OmniBit_ActiveMoteur block="Motor|%index|speed(-255~255) %speed"
+    //% blockId=ActiveMoteur block="ActiveMoteur|%index|speed(-255~255) %speed"
     //% weight=92
     //% blockGap=10
     //% group="BoardFuntion"
@@ -708,7 +708,7 @@ namespace CooPilotes {
         }
     }
 
-    //% blockId=OmniBit_MotorStopAll block="Motor Stop All"
+    //% blockId=ArretMoteurs block="Motor Stop All"
     //% weight=91
     //% blockGap=10
     //% group="BoardFuntion"
