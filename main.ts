@@ -1,11 +1,9 @@
 /*
-Copyright (C): 2010-2019, Shenzhen Yahboom Tech
-modified from chengengyue
 load dependency
-"OmniBit": "file:../OmniBit"
+"OmniBit": "file:../CooPilotes"
 */
 
-//% color="#ECA40D" weight=20 icon="\uf047"
+//% color="#ECA40D" weight=20 icon="\uf1b9"
 namespace CooPilotes {
 
     const PCA9685_ADD = 0x40
