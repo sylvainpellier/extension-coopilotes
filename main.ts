@@ -58,9 +58,9 @@ namespace CooPilotes {
 
     export enum enPos {
         //% blockId="forward" block="forward"
-        forward = 1,
+        Avance = 1,
         //% blockId="reverse" block="reverse"
-        reverse = 2,
+        Recule = 2,
         //% blockId="stop" block="stop"
         stop = 3
     }
@@ -85,38 +85,38 @@ namespace CooPilotes {
 
     export enum enCarRun {
         //% blockId="Forward" block="Forward"
-        Forward = 1,
+        Avance = 1,
         //% blockId="Back" block="Back"
-        Back,
+        Recule,
         //% blockId="MoveLeft" block="MoveLeft"
-        MoveLeft,
+        BougeGauche,
         //% blockId="MoveRight" block="MoveRight"
-        MoveRight,
+        BougeDroite,
         //% blockId="Spin_Left" block="Spin_Left"
-        Spin_Left,
+        RotationDroite,
         //% blockId="Spin_Right" block="Spin_Right"
-        Spin_Right,
+        RotationGauche,
         //% blockId="Left_Front" block="Left_Front"
-        Left_Front,
+        AvantGauche,
         //% blockId="Right_Front" block="Right_Front"
-        Right_Front,
+        AvantDroite,
         //% blockId="Left_Back" block="Left_Back"
-        Left_Back,
+        ArriereGauche,
         //% blockId="Right_Back" block="Right_Back"
-        Right_Back,
+        ArriereDroite,
         //% blockId="CarStop" block="CarStop"
-        CarStop
+        Arret
     }
 
     export enum enCarDrift {
         //% blockId="Head_To_Left" block="Head_To_Left"
-        Head_To_Left = 1,
+        AvantGauche = 1,
         //% blockId="Head_To_Right" block="Head_To_Right"
-        Head_To_Right,
+        AvantDroite,
         //% blockId="Rear_To_Left" block="Rear_To_Left"
-        Rear_To_Left,
+        ArriereGauche,
         //% blockId="Rear_To_Right" block="Rear_To_Right"
-        Rear_To_Right
+        ArriereDroite
     }
 
     export enum enWideAngleDrift {
@@ -304,7 +304,7 @@ namespace CooPilotes {
     //% group="CarControl"
     //% speed.min=0 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function CarRun(direction: enCarRun, speed: number): void {
+    export function Roule(direction: enCarRun, speed: number): void {
         if (!initialized) {
             initPCA9685();
         }
@@ -312,37 +312,37 @@ namespace CooPilotes {
             speed = 0;
         }
         switch (direction) {
-            case enCarRun.Forward:
+            case enCarRun.Avance:
                 forward(speed);
                 break;
-            case enCarRun.Back:
+            case enCarRun.Recule:
                 back(speed);
                 break;
-            case enCarRun.MoveLeft:
+            case enCarRun.BougeGauche:
                 moveLeft(speed);
                 break;
-            case enCarRun.MoveRight:
+            case enCarRun.BougeDroite:
                 moveRight(speed);
                 break;
-            case enCarRun.Spin_Left:
+            case enCarRun.RotationGauche:
                 spin_Left(speed);
                 break;
-            case enCarRun.Spin_Right:
+            case enCarRun.RotationDroite:
                 spin_Right(speed);
                 break;
-            case enCarRun.Left_Front:
+            case enCarRun.AvantGauche:
                 left_Front(speed);
                 break;
-            case enCarRun.Left_Back:
+            case enCarRun.ArriereGauche:
                 left_Back(speed);
                 break;
-            case enCarRun.Right_Front:
+            case enCarRun.AvantDroite:
                 right_Front(speed);
                 break;
-            case enCarRun.Right_Back:
+            case enCarRun.ArriereDroite:
                 right_Back(speed);
                 break;
-            case enCarRun.CarStop:
+            case enCarRun.Arret:
                 carStop();
                 break;
             default:
@@ -472,7 +472,7 @@ namespace CooPilotes {
     //% group="CarControl"
     //% speed.min=0 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function CarDrift(direction: enCarDrift, speed: number): void {
+    export function Drift(direction: enCarDrift, speed: number): void {
         if (!initialized) {
             initPCA9685();
         }
@@ -480,25 +480,25 @@ namespace CooPilotes {
             speed = 0;
         }
         switch (direction) {
-            case enCarDrift.Rear_To_Left:
+            case enCarDrift.ArriereGauche:
                 MotorRun(enMotors.M1, 0);
                 MotorRun(enMotors.M2, speed);
                 MotorRun(enMotors.M3, 0);
                 MotorRun(enMotors.M4, -speed);
                 break;
-            case enCarDrift.Rear_To_Right:
+            case enCarDrift.ArriereDroite:
                 MotorRun(enMotors.M1, 0);
                 MotorRun(enMotors.M2, -speed);
                 MotorRun(enMotors.M3, 0);
                 MotorRun(enMotors.M4, speed);
                 break;
-            case enCarDrift.Head_To_Left:
+            case enCarDrift.AvantGauche:
                 MotorRun(enMotors.M1, -speed);
                 MotorRun(enMotors.M2, 0);
                 MotorRun(enMotors.M3, speed);
                 MotorRun(enMotors.M4, 0);
                 break;
-            case enCarDrift.Head_To_Right:
+            case enCarDrift.AvantDroite:
                 MotorRun(enMotors.M1, speed);
                 MotorRun(enMotors.M2, 0);
                 MotorRun(enMotors.M3, -speed);
@@ -574,7 +574,7 @@ namespace CooPilotes {
     //% blockGap=10
     //% group="BoardFuntion"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function RGB_Program(): neopixel.Strip {
+    export function RGB_Programme(): neopixel.Strip {
         if (!yahStrip) {
             yahStrip = neopixel.create(DigitalPin.P12, 4, NeoPixelMode.RGB);
         }
@@ -675,7 +675,7 @@ namespace CooPilotes {
     //% group="BoardFuntion"
     //% speed.min=-255 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function MotorRun(index: enMotors, speed: number): void {
+    export function ActiveMoteur(index: enMotors, speed: number): void {
         if (!initialized) {
             initPCA9685();
         }
