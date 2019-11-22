@@ -496,7 +496,7 @@ namespace CooPilotes {
                 ActiveMoteur(moteurs.M3, speed);
                 ActiveMoteur(moteurs.M4, 0);
                 break;
-            case drifts.Head_To_Right:
+            case drifts.AvantDroite:
                 ActiveMoteur(moteurs.M1, speed);
                 ActiveMoteur(moteurs.M2, 0);
                 ActiveMoteur(moteurs.M3, -speed);
