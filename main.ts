@@ -296,13 +296,13 @@ namespace CooPilotes {
         ActiveMoteur(moteurs.M4, speedm4);
     }
 
-    //% blockId=Avance block="Avance|%direction|speed %speed"
+    //% blockId=Déplace block="Déplace|%direction|speed %speed"
     //% weight=102
     //% blockGap=10
     //% group="CarControl"
     //% speed.min=0 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Roule(direction: deplacements, speed: number): void {
+    export function Deplace(direction: deplacements, speed: number): void {
         if (!initialized) {
             initPCA9685();
         }
