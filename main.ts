@@ -29,7 +29,7 @@ namespace CooPilotes {
     let yahStrip: neopixel.Strip;
 
 
-    export enum enMusic {
+    export enum sons {
 
         dadadum = 0,
         entertainer,
@@ -200,73 +200,73 @@ namespace CooPilotes {
 
 
     function forward(speed: number) {
-        MotorRun(moteurs.M1, speed);
-        MotorRun(moteurs.M2, speed);
-        MotorRun(moteurs.M3, speed);
-        MotorRun(moteurs.M4, speed);
+        ActiveMoteur(moteurs.M1, speed);
+        ActiveMoteur(moteurs.M2, speed);
+        ActiveMoteur(moteurs.M3, speed);
+        ActiveMoteur(moteurs.M4, speed);
     }
 
     function back(speed: number) {
-        MotorRun(moteurs.M1, -speed);
-        MotorRun(moteurs.M2, -speed);
-        MotorRun(moteurs.M3, -speed);
-        MotorRun(moteurs.M4, -speed);
+        ActiveMoteur(moteurs.M1, -speed);
+        ActiveMoteur(moteurs.M2, -speed);
+        ActiveMoteur(moteurs.M3, -speed);
+        ActiveMoteur(moteurs.M4, -speed);
     }
 
     function moveLeft(speed: number) {
-        MotorRun(moteurs.M1, -speed);
-        MotorRun(moteurs.M2, speed);
-        MotorRun(moteurs.M3, speed);
-        MotorRun(moteurs.M4, -speed);
+        ActiveMoteur(moteurs.M1, -speed);
+        ActiveMoteur(moteurs.M2, speed);
+        ActiveMoteur(moteurs.M3, speed);
+        ActiveMoteur(moteurs.M4, -speed);
     }
 
     function moveRight(speed: number) {
-        MotorRun(moteurs.M1, speed);
-        MotorRun(moteurs.M2, -speed);
-        MotorRun(moteurs.M3, -speed);
-        MotorRun(moteurs.M4, speed);
+        ActiveMoteur(moteurs.M1, speed);
+        ActiveMoteur(moteurs.M2, -speed);
+        ActiveMoteur(moteurs.M3, -speed);
+        ActiveMoteur(moteurs.M4, speed);
     }
 
     function left_Front(speed: number) {
-        MotorRun(moteurs.M1, 0);
-        MotorRun(moteurs.M2, speed);
-        MotorRun(moteurs.M3, speed);
-        MotorRun(moteurs.M4, 0);
+        ActiveMoteur(moteurs.M1, 0);
+        ActiveMoteur(moteurs.M2, speed);
+        ActiveMoteur(moteurs.M3, speed);
+        ActiveMoteur(moteurs.M4, 0);
     }
 
     function left_Back(speed: number) {
-        MotorRun(moteurs.M1, -speed);
-        MotorRun(moteurs.M2, 0);
-        MotorRun(moteurs.M3, 0);
-        MotorRun(moteurs.M4, -speed);
+        ActiveMoteur(moteurs.M1, -speed);
+        ActiveMoteur(moteurs.M2, 0);
+        ActiveMoteur(moteurs.M3, 0);
+        ActiveMoteur(moteurs.M4, -speed);
     }
 
     function right_Front(speed: number) {
-        MotorRun(moteurs.M1, speed);
-        MotorRun(moteurs.M2, 0);
-        MotorRun(moteurs.M3, 0);
-        MotorRun(moteurs.M4, speed);
+        ActiveMoteur(moteurs.M1, speed);
+        ActiveMoteur(moteurs.M2, 0);
+        ActiveMoteur(moteurs.M3, 0);
+        ActiveMoteur(moteurs.M4, speed);
     }
 
     function right_Back(speed: number) {
-        MotorRun(moteurs.M1, 0);
-        MotorRun(moteurs.M2, -speed);
-        MotorRun(moteurs.M3, -speed);
-        MotorRun(moteurs.M4, 0);
+        ActiveMoteur(moteurs.M1, 0);
+        ActiveMoteur(moteurs.M2, -speed);
+        ActiveMoteur(moteurs.M3, -speed);
+        ActiveMoteur(moteurs.M4, 0);
     }
 
     function spin_Left(speed: number) {
-        MotorRun(moteurs.M1, -speed);
-        MotorRun(moteurs.M2, -speed);
-        MotorRun(moteurs.M3, speed);
-        MotorRun(moteurs.M4, speed);
+        ActiveMoteur(moteurs.M1, -speed);
+        ActiveMoteur(moteurs.M2, -speed);
+        ActiveMoteur(moteurs.M3, speed);
+        ActiveMoteur(moteurs.M4, speed);
     }
 
     function spin_Right(speed: number) {
-        MotorRun(moteurs.M1, speed);
-        MotorRun(moteurs.M2, speed);
-        MotorRun(moteurs.M3, -speed);
-        MotorRun(moteurs.M4, -speed);
+        ActiveMoteur(moteurs.M1, speed);
+        ActiveMoteur(moteurs.M2, speed);
+        ActiveMoteur(moteurs.M3, -speed);
+        ActiveMoteur(moteurs.M4, -speed);
     }
 
     function carStop() {
@@ -290,10 +290,10 @@ namespace CooPilotes {
         let speedm3 = ySpeed - xSpeed + aSpeed;
         let speedm4 = ySpeed + xSpeed + aSpeed;
 
-        MotorRun(moteurs.M1, speedm1);
-        MotorRun(moteurs.M2, speedm2);
-        MotorRun(moteurs.M3, speedm3);
-        MotorRun(moteurs.M4, speedm4);
+        ActiveMoteur(moteurs.M1, speedm1);
+        ActiveMoteur(moteurs.M2, speedm2);
+        ActiveMoteur(moteurs.M3, speedm3);
+        ActiveMoteur(moteurs.M4, speedm4);
     }
 
     //% blockId=OmniBit_CarRun block="CarRun|%direction|speed %speed"
@@ -479,28 +479,28 @@ namespace CooPilotes {
         }
         switch (direction) {
             case drifts.ArriereGauche:
-                MotorRun(moteurs.M1, 0);
-                MotorRun(moteurs.M2, speed);
-                MotorRun(moteurs.M3, 0);
-                MotorRun(moteurs.M4, -speed);
+                ActiveMoteur(moteurs.M1, 0);
+                ActiveMoteur(moteurs.M2, speed);
+                ActiveMoteur(moteurs.M3, 0);
+                ActiveMoteur(moteurs.M4, -speed);
                 break;
             case drifts.ArriereDroite:
-                MotorRun(moteurs.M1, 0);
-                MotorRun(moteurs.M2, -speed);
-                MotorRun(moteurs.M3, 0);
-                MotorRun(moteurs.M4, speed);
+                ActiveMoteur(moteurs.M1, 0);
+                ActiveMoteur(moteurs.M2, -speed);
+                ActiveMoteur(moteurs.M3, 0);
+                ActiveMoteur(moteurs.M4, speed);
                 break;
             case drifts.AvantGauche:
-                MotorRun(moteurs.M1, -speed);
-                MotorRun(moteurs.M2, 0);
-                MotorRun(moteurs.M3, speed);
-                MotorRun(moteurs.M4, 0);
+                ActiveMoteur(moteurs.M1, -speed);
+                ActiveMoteur(moteurs.M2, 0);
+                ActiveMoteur(moteurs.M3, speed);
+                ActiveMoteur(moteurs.M4, 0);
                 break;
             case drifts.Head_To_Right:
-                MotorRun(moteurs.M1, speed);
-                MotorRun(moteurs.M2, 0);
-                MotorRun(moteurs.M3, -speed);
-                MotorRun(moteurs.M4, 0);
+                ActiveMoteur(moteurs.M1, speed);
+                ActiveMoteur(moteurs.M2, 0);
+                ActiveMoteur(moteurs.M3, -speed);
+                ActiveMoteur(moteurs.M4, 0);
                 break;
             default:
                 break;
@@ -527,16 +527,16 @@ namespace CooPilotes {
 
         switch (direction) {
             case enWideAngleDrift.Gauche:
-                MotorRun(moteurs.M1, -speed_front);
-                MotorRun(moteurs.M2, speed_back);
-                MotorRun(moteurs.M3, speed_front);
-                MotorRun(moteurs.M4, -speed_back);
+                ActiveMoteur(moteurs.M1, -speed_front);
+                ActiveMoteur(moteurs.M2, speed_back);
+                ActiveMoteur(moteurs.M3, speed_front);
+                ActiveMoteur(moteurs.M4, -speed_back);
                 break;
             case enWideAngleDrift.Droite:
-                MotorRun(moteurs.M1, speed_front);
-                MotorRun(moteurs.M2, -speed_back);
-                MotorRun(moteurs.M3, -speed_front);
-                MotorRun(moteurs.M4, speed_back);
+                ActiveMoteur(moteurs.M1, speed_front);
+                ActiveMoteur(moteurs.M2, -speed_back);
+                ActiveMoteur(moteurs.M3, -speed_front);
+                ActiveMoteur(moteurs.M4, speed_back);
                 break;
             default:
                 break;
@@ -584,28 +584,28 @@ namespace CooPilotes {
     //% blockGap=10
     //% group="BoardFuntion"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Musique(index: enMusic): void {
+    export function Musique(index: sons): void {
         switch (index) {
-            case enMusic.dadadum: music.beginMelody(music.builtInMelody(Melodies.Dadadadum), MelodyOptions.Once); break;
-            case enMusic.anniversaire: music.beginMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.Once); break;
-            case enMusic.entertainer: music.beginMelody(music.builtInMelody(Melodies.Entertainer), MelodyOptions.Once); break;
-            case enMusic.prelude: music.beginMelody(music.builtInMelody(Melodies.Prelude), MelodyOptions.Once); break;
-            case enMusic.ode: music.beginMelody(music.builtInMelody(Melodies.Ode), MelodyOptions.Once); break;
-            case enMusic.nyan: music.beginMelody(music.builtInMelody(Melodies.Nyan), MelodyOptions.Once); break;
-            case enMusic.ringtone: music.beginMelody(music.builtInMelody(Melodies.Ringtone), MelodyOptions.Once); break;
-            case enMusic.funk: music.beginMelody(music.builtInMelody(Melodies.Funk), MelodyOptions.Once); break;
-            case enMusic.blues: music.beginMelody(music.builtInMelody(Melodies.Blues), MelodyOptions.Once); break;
-            case enMusic.mariage: music.beginMelody(music.builtInMelody(Melodies.Wedding), MelodyOptions.Once); break;
-            case enMusic.funereal: music.beginMelody(music.builtInMelody(Melodies.Funeral), MelodyOptions.Once); break;
-            case enMusic.punchline: music.beginMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.Once); break;
-            case enMusic.baddy: music.beginMelody(music.builtInMelody(Melodies.Baddy), MelodyOptions.Once); break;
-            case enMusic.chase: music.beginMelody(music.builtInMelody(Melodies.Chase), MelodyOptions.Once); break;
-            case enMusic.ba_ding: music.beginMelody(music.builtInMelody(Melodies.BaDing), MelodyOptions.Once); break;
-            case enMusic.wawawawaa: music.beginMelody(music.builtInMelody(Melodies.Wawawawaa), MelodyOptions.Once); break;
-            case enMusic.jump_up: music.beginMelody(music.builtInMelody(Melodies.JumpUp), MelodyOptions.Once); break;
-            case enMusic.jump_down: music.beginMelody(music.builtInMelody(Melodies.JumpDown), MelodyOptions.Once); break;
-            case enMusic.power_up: music.beginMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once); break;
-            case enMusic.power_down: music.beginMelody(music.builtInMelody(Melodies.PowerDown), MelodyOptions.Once); break;
+            case sons.dadadum: music.beginMelody(music.builtInMelody(Melodies.Dadadadum), MelodyOptions.Once); break;
+            case sons.anniversaire: music.beginMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.Once); break;
+            case sons.entertainer: music.beginMelody(music.builtInMelody(Melodies.Entertainer), MelodyOptions.Once); break;
+            case sons.prelude: music.beginMelody(music.builtInMelody(Melodies.Prelude), MelodyOptions.Once); break;
+            case sons.ode: music.beginMelody(music.builtInMelody(Melodies.Ode), MelodyOptions.Once); break;
+            case sons.nyan: music.beginMelody(music.builtInMelody(Melodies.Nyan), MelodyOptions.Once); break;
+            case sons.ringtone: music.beginMelody(music.builtInMelody(Melodies.Ringtone), MelodyOptions.Once); break;
+            case sons.funk: music.beginMelody(music.builtInMelody(Melodies.Funk), MelodyOptions.Once); break;
+            case sons.blues: music.beginMelody(music.builtInMelody(Melodies.Blues), MelodyOptions.Once); break;
+            case sons.mariage: music.beginMelody(music.builtInMelody(Melodies.Wedding), MelodyOptions.Once); break;
+            case sons.funereal: music.beginMelody(music.builtInMelody(Melodies.Funeral), MelodyOptions.Once); break;
+            case sons.punchline: music.beginMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.Once); break;
+            case sons.baddy: music.beginMelody(music.builtInMelody(Melodies.Baddy), MelodyOptions.Once); break;
+            case sons.chase: music.beginMelody(music.builtInMelody(Melodies.Chase), MelodyOptions.Once); break;
+            case sons.ba_ding: music.beginMelody(music.builtInMelody(Melodies.BaDing), MelodyOptions.Once); break;
+            case sons.wawawawaa: music.beginMelody(music.builtInMelody(Melodies.Wawawawaa), MelodyOptions.Once); break;
+            case sons.jump_up: music.beginMelody(music.builtInMelody(Melodies.JumpUp), MelodyOptions.Once); break;
+            case sons.jump_down: music.beginMelody(music.builtInMelody(Melodies.JumpDown), MelodyOptions.Once); break;
+            case sons.power_up: music.beginMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once); break;
+            case sons.power_down: music.beginMelody(music.builtInMelody(Melodies.PowerDown), MelodyOptions.Once); break;
         }
     }
 
@@ -667,7 +667,7 @@ namespace CooPilotes {
         }
     }
 
-    //% blockId=OmniBit_MotorRun block="Motor|%index|speed(-255~255) %speed"
+    //% blockId=OmniBit_ActiveMoteur block="Motor|%index|speed(-255~255) %speed"
     //% weight=92
     //% blockGap=10
     //% group="BoardFuntion"
