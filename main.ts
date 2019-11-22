@@ -56,7 +56,7 @@ namespace CooPilotes {
         power_down
     }
 
-    export enum enPos {
+    export enum positions {
         //% blockId="forward" block="forward"
         Avance = 1,
         //% blockId="reverse" block="reverse"
@@ -65,7 +65,7 @@ namespace CooPilotes {
         stop = 3
     }
 
-    export enum enServo {
+    export enum servos {
         S1 = 0,
         S2,
         S3,
@@ -76,14 +76,14 @@ namespace CooPilotes {
         S8
     }
 
-    export enum enMotors {
+    export enum moteurs {
         M1 = 8,
         M2 = 10,
         M3 = 12,
         M4 = 14
     }
 
-    export enum enCarRun {
+    export enum deplacements {
         //% blockId="Forward" block="Forward"
         Avance = 1,
         //% blockId="Back" block="Back"
@@ -108,7 +108,7 @@ namespace CooPilotes {
         Arret
     }
 
-    export enum enCarDrift {
+    export enum drifts {
         //% blockId="Head_To_Left" block="Head_To_Left"
         AvantGauche = 1,
         //% blockId="Head_To_Right" block="Head_To_Right"
@@ -126,11 +126,11 @@ namespace CooPilotes {
         Droite
     }
 
-    export enum enPolygon {
-        //% blockId="Square" block="Square"
-        Square = 1,
-        //% blockId="Parallelogram" block="Parallelogram"
-        Parallelogram,
+    export enum formes {
+        //% blockId="Carre" block="Carre"
+        Carre = 1,
+        //% blockId="Parallelogramme" block="Parallelogramme"
+        Parallelogramme,
         //% blockId="Rhombus" block="Rhombus"
         Rhombus,
         //% blockId="Flash1" block="Flash1"
@@ -202,73 +202,73 @@ namespace CooPilotes {
 
 
     function forward(speed: number) {
-        MotorRun(enMotors.M1, speed);
-        MotorRun(enMotors.M2, speed);
-        MotorRun(enMotors.M3, speed);
-        MotorRun(enMotors.M4, speed);
+        MotorRun(moteurs.M1, speed);
+        MotorRun(moteurs.M2, speed);
+        MotorRun(moteurs.M3, speed);
+        MotorRun(moteurs.M4, speed);
     }
 
     function back(speed: number) {
-        MotorRun(enMotors.M1, -speed);
-        MotorRun(enMotors.M2, -speed);
-        MotorRun(enMotors.M3, -speed);
-        MotorRun(enMotors.M4, -speed);
+        MotorRun(moteurs.M1, -speed);
+        MotorRun(moteurs.M2, -speed);
+        MotorRun(moteurs.M3, -speed);
+        MotorRun(moteurs.M4, -speed);
     }
 
     function moveLeft(speed: number) {
-        MotorRun(enMotors.M1, -speed);
-        MotorRun(enMotors.M2, speed);
-        MotorRun(enMotors.M3, speed);
-        MotorRun(enMotors.M4, -speed);
+        MotorRun(moteurs.M1, -speed);
+        MotorRun(moteurs.M2, speed);
+        MotorRun(moteurs.M3, speed);
+        MotorRun(moteurs.M4, -speed);
     }
 
     function moveRight(speed: number) {
-        MotorRun(enMotors.M1, speed);
-        MotorRun(enMotors.M2, -speed);
-        MotorRun(enMotors.M3, -speed);
-        MotorRun(enMotors.M4, speed);
+        MotorRun(moteurs.M1, speed);
+        MotorRun(moteurs.M2, -speed);
+        MotorRun(moteurs.M3, -speed);
+        MotorRun(moteurs.M4, speed);
     }
 
     function left_Front(speed: number) {
-        MotorRun(enMotors.M1, 0);
-        MotorRun(enMotors.M2, speed);
-        MotorRun(enMotors.M3, speed);
-        MotorRun(enMotors.M4, 0);
+        MotorRun(moteurs.M1, 0);
+        MotorRun(moteurs.M2, speed);
+        MotorRun(moteurs.M3, speed);
+        MotorRun(moteurs.M4, 0);
     }
 
     function left_Back(speed: number) {
-        MotorRun(enMotors.M1, -speed);
-        MotorRun(enMotors.M2, 0);
-        MotorRun(enMotors.M3, 0);
-        MotorRun(enMotors.M4, -speed);
+        MotorRun(moteurs.M1, -speed);
+        MotorRun(moteurs.M2, 0);
+        MotorRun(moteurs.M3, 0);
+        MotorRun(moteurs.M4, -speed);
     }
 
     function right_Front(speed: number) {
-        MotorRun(enMotors.M1, speed);
-        MotorRun(enMotors.M2, 0);
-        MotorRun(enMotors.M3, 0);
-        MotorRun(enMotors.M4, speed);
+        MotorRun(moteurs.M1, speed);
+        MotorRun(moteurs.M2, 0);
+        MotorRun(moteurs.M3, 0);
+        MotorRun(moteurs.M4, speed);
     }
 
     function right_Back(speed: number) {
-        MotorRun(enMotors.M1, 0);
-        MotorRun(enMotors.M2, -speed);
-        MotorRun(enMotors.M3, -speed);
-        MotorRun(enMotors.M4, 0);
+        MotorRun(moteurs.M1, 0);
+        MotorRun(moteurs.M2, -speed);
+        MotorRun(moteurs.M3, -speed);
+        MotorRun(moteurs.M4, 0);
     }
 
     function spin_Left(speed: number) {
-        MotorRun(enMotors.M1, -speed);
-        MotorRun(enMotors.M2, -speed);
-        MotorRun(enMotors.M3, speed);
-        MotorRun(enMotors.M4, speed);
+        MotorRun(moteurs.M1, -speed);
+        MotorRun(moteurs.M2, -speed);
+        MotorRun(moteurs.M3, speed);
+        MotorRun(moteurs.M4, speed);
     }
 
     function spin_Right(speed: number) {
-        MotorRun(enMotors.M1, speed);
-        MotorRun(enMotors.M2, speed);
-        MotorRun(enMotors.M3, -speed);
-        MotorRun(enMotors.M4, -speed);
+        MotorRun(moteurs.M1, speed);
+        MotorRun(moteurs.M2, speed);
+        MotorRun(moteurs.M3, -speed);
+        MotorRun(moteurs.M4, -speed);
     }
 
     function carStop() {
@@ -292,10 +292,10 @@ namespace CooPilotes {
         let speedm3 = ySpeed - xSpeed + aSpeed;
         let speedm4 = ySpeed + xSpeed + aSpeed;
 
-        MotorRun(enMotors.M1, speedm1);
-        MotorRun(enMotors.M2, speedm2);
-        MotorRun(enMotors.M3, speedm3);
-        MotorRun(enMotors.M4, speedm4);
+        MotorRun(moteurs.M1, speedm1);
+        MotorRun(moteurs.M2, speedm2);
+        MotorRun(moteurs.M3, speedm3);
+        MotorRun(moteurs.M4, speedm4);
     }
 
     //% blockId=OmniBit_CarRun block="CarRun|%direction|speed %speed"
@@ -304,7 +304,7 @@ namespace CooPilotes {
     //% group="CarControl"
     //% speed.min=0 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Roule(direction: enCarRun, speed: number): void {
+    export function Roule(direction: deplacements, speed: number): void {
         if (!initialized) {
             initPCA9685();
         }
@@ -312,37 +312,37 @@ namespace CooPilotes {
             speed = 0;
         }
         switch (direction) {
-            case enCarRun.Avance:
+            case deplacements.Avance:
                 forward(speed);
                 break;
-            case enCarRun.Recule:
+            case deplacements.Recule:
                 back(speed);
                 break;
-            case enCarRun.BougeGauche:
+            case deplacements.BougeGauche:
                 moveLeft(speed);
                 break;
-            case enCarRun.BougeDroite:
+            case deplacements.BougeDroite:
                 moveRight(speed);
                 break;
-            case enCarRun.RotationGauche:
+            case deplacements.RotationGauche:
                 spin_Left(speed);
                 break;
-            case enCarRun.RotationDroite:
+            case deplacements.RotationDroite:
                 spin_Right(speed);
                 break;
-            case enCarRun.AvantGauche:
+            case deplacements.AvantGauche:
                 left_Front(speed);
                 break;
-            case enCarRun.ArriereGauche:
+            case deplacements.ArriereGauche:
                 left_Back(speed);
                 break;
-            case enCarRun.AvantDroite:
+            case deplacements.AvantDroite:
                 right_Front(speed);
                 break;
-            case enCarRun.ArriereDroite:
+            case deplacements.ArriereDroite:
                 right_Back(speed);
                 break;
-            case enCarRun.Arret:
+            case deplacements.Arret:
                 carStop();
                 break;
             default:
@@ -356,7 +356,7 @@ namespace CooPilotes {
     //% group="CarControl"
     //% speed.min=0 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Polygon(polygon: enPolygon, speed: number): void {
+    export function Polygon(polygon: formes, speed: number): void {
         if (!initialized) {
             initPCA9685();
         }
@@ -365,7 +365,7 @@ namespace CooPilotes {
         }
 
         switch (polygon) {
-            case enPolygon.Square:
+            case formes.Carre:
                 back(speed);
                 basic.pause(1000);
                 carStop();
@@ -386,7 +386,7 @@ namespace CooPilotes {
                 carStop();
                 basic.pause(10);
                 break;
-            case enPolygon.Parallelogram:
+            case formes.Parallelogramme:
                 right_Front(speed);
                 basic.pause(1000);
                 carStop();
@@ -407,7 +407,7 @@ namespace CooPilotes {
                 carStop();
                 basic.pause(10);
                 break;
-            case enPolygon.Rhombus:
+            case formes.Rhombus:
                 right_Front(speed);
                 basic.pause(1000);
                 carStop();
@@ -428,7 +428,7 @@ namespace CooPilotes {
                 carStop();
                 basic.pause(10);
                 break;
-            case enPolygon.Flash1:
+            case formes.Flash1:
                 right_Front(speed);
                 basic.pause(1500);
                 carStop();
@@ -444,7 +444,7 @@ namespace CooPilotes {
                 carStop();
                 basic.pause(10);
                 break;
-            case enPolygon.Flash2:
+            case formes.Flash2:
                 left_Back(speed);
                 basic.pause(1500);
                 carStop();
@@ -472,7 +472,7 @@ namespace CooPilotes {
     //% group="CarControl"
     //% speed.min=0 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Drift(direction: enCarDrift, speed: number): void {
+    export function Drift(direction: drifts, speed: number): void {
         if (!initialized) {
             initPCA9685();
         }
@@ -480,29 +480,29 @@ namespace CooPilotes {
             speed = 0;
         }
         switch (direction) {
-            case enCarDrift.ArriereGauche:
-                MotorRun(enMotors.M1, 0);
-                MotorRun(enMotors.M2, speed);
-                MotorRun(enMotors.M3, 0);
-                MotorRun(enMotors.M4, -speed);
+            case drifts.ArriereGauche:
+                MotorRun(moteurs.M1, 0);
+                MotorRun(moteurs.M2, speed);
+                MotorRun(moteurs.M3, 0);
+                MotorRun(moteurs.M4, -speed);
                 break;
-            case enCarDrift.ArriereDroite:
-                MotorRun(enMotors.M1, 0);
-                MotorRun(enMotors.M2, -speed);
-                MotorRun(enMotors.M3, 0);
-                MotorRun(enMotors.M4, speed);
+            case drifts.ArriereDroite:
+                MotorRun(moteurs.M1, 0);
+                MotorRun(moteurs.M2, -speed);
+                MotorRun(moteurs.M3, 0);
+                MotorRun(moteurs.M4, speed);
                 break;
-            case enCarDrift.AvantGauche:
-                MotorRun(enMotors.M1, -speed);
-                MotorRun(enMotors.M2, 0);
-                MotorRun(enMotors.M3, speed);
-                MotorRun(enMotors.M4, 0);
+            case drifts.AvantGauche:
+                MotorRun(moteurs.M1, -speed);
+                MotorRun(moteurs.M2, 0);
+                MotorRun(moteurs.M3, speed);
+                MotorRun(moteurs.M4, 0);
                 break;
-            case enCarDrift.Head_To_Right:
-                MotorRun(enMotors.M1, speed);
-                MotorRun(enMotors.M2, 0);
-                MotorRun(enMotors.M3, -speed);
-                MotorRun(enMotors.M4, 0);
+            case drifts.Head_To_Right:
+                MotorRun(moteurs.M1, speed);
+                MotorRun(moteurs.M2, 0);
+                MotorRun(moteurs.M3, -speed);
+                MotorRun(moteurs.M4, 0);
                 break;
             default:
                 break;
@@ -529,16 +529,16 @@ namespace CooPilotes {
 
         switch (direction) {
             case enWideAngleDrift.Gauche:
-                MotorRun(enMotors.M1, -speed_front);
-                MotorRun(enMotors.M2, speed_back);
-                MotorRun(enMotors.M3, speed_front);
-                MotorRun(enMotors.M4, -speed_back);
+                MotorRun(moteurs.M1, -speed_front);
+                MotorRun(moteurs.M2, speed_back);
+                MotorRun(moteurs.M3, speed_front);
+                MotorRun(moteurs.M4, -speed_back);
                 break;
             case enWideAngleDrift.Droite:
-                MotorRun(enMotors.M1, speed_front);
-                MotorRun(enMotors.M2, -speed_back);
-                MotorRun(enMotors.M3, -speed_front);
-                MotorRun(enMotors.M4, speed_back);
+                MotorRun(moteurs.M1, speed_front);
+                MotorRun(moteurs.M2, -speed_back);
+                MotorRun(moteurs.M3, -speed_front);
+                MotorRun(moteurs.M4, speed_back);
                 break;
             default:
                 break;
@@ -617,7 +617,7 @@ namespace CooPilotes {
     //% advanced=true
     //% num.min=1 num.max=4 value.min=0 value.max=180
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
-    export function Servo(num: enServo, value: number): void {
+    export function Servo(num: servos, value: number): void {
 
         // 50hz: 20,000 us
         let us = (value * 1800 / 180 + 600); // 0.6 ~ 2.4
@@ -632,7 +632,7 @@ namespace CooPilotes {
     //% advanced=true
     //% num.min=1 num.max=4 value.min=0 value.max=270
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
-    export function Servo2(num: enServo, value: number): void {
+    export function Servo2(num: servos, value: number): void {
 
         // 50hz: 20,000 us
         let newvalue = Math.map(value, 0, 270, 0, 180);
@@ -648,21 +648,21 @@ namespace CooPilotes {
     //% advanced=true
     //% num.min=1 num.max=4 value.min=0 value.max=90
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
-    export function Servo3(num: enServo, pos: enPos, value: number): void {
+    export function Servo3(num: servos, pos: positions, value: number): void {
 
         // 50hz: 20,000 us
 
-        if (pos == enPos.stop) {
+        if (pos == positions.stop) {
             let us = (86 * 1800 / 180 + 600); // 0.6 ~ 2.4
             let pwm = us * 4096 / 20000;
             setPwm(num, 0, pwm);
         }
-        else if (pos == enPos.forward) { //0-90 -> 90 - 0
+        else if (pos == positions.forward) { //0-90 -> 90 - 0
             let us = ((90 - value) * 1800 / 180 + 600); // 0.6 ~ 2.4
             let pwm = us * 4096 / 20000;
             setPwm(num, 0, pwm);
         }
-        else if (pos == enPos.reverse) { //0-90 -> 90 -180
+        else if (pos == positions.reverse) { //0-90 -> 90 -180
             let us = ((90 + value) * 1800 / 180 + 600); // 0.6 ~ 2.4
             let pwm = us * 4096 / 20000;
             setPwm(num, 0, pwm);
@@ -675,7 +675,7 @@ namespace CooPilotes {
     //% group="BoardFuntion"
     //% speed.min=-255 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function ActiveMoteur(index: enMotors, speed: number): void {
+    export function ActiveMoteur(index: moteurs, speed: number): void {
         if (!initialized) {
             initPCA9685();
         }
@@ -719,10 +719,10 @@ namespace CooPilotes {
         if (!initialized) {
             initPCA9685();
         }
-        stopMotor(enMotors.M1);
-        stopMotor(enMotors.M2);
-        stopMotor(enMotors.M3);
-        stopMotor(enMotors.M4);
+        stopMotor(moteurs.M1);
+        stopMotor(moteurs.M2);
+        stopMotor(moteurs.M3);
+        stopMotor(moteurs.M4);
     }
 
 }
