@@ -6,7 +6,7 @@ load dependency
 */
 
 //% color="#ECA40D" weight=20 icon="\uf047"
-namespace OmniBit {
+namespace CooPilotes {
 
     const PCA9685_ADD = 0x40
     const MODE1 = 0x00
