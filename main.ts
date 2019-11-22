@@ -121,9 +121,9 @@ namespace CooPilotes {
 
     export enum enWideAngleDrift {
         //% blockId="Left" block="Left"
-        Left,
+        Gauche,
         //% blockId="Right" block="Right"
-        Right
+        Droite
     }
 
     export enum enPolygon {
@@ -498,7 +498,7 @@ namespace CooPilotes {
                 MotorRun(enMotors.M3, speed);
                 MotorRun(enMotors.M4, 0);
                 break;
-            case enCarDrift.AvantDroite:
+            case enCarDrift.Head_To_Right:
                 MotorRun(enMotors.M1, speed);
                 MotorRun(enMotors.M2, 0);
                 MotorRun(enMotors.M3, -speed);
@@ -528,13 +528,13 @@ namespace CooPilotes {
         }
 
         switch (direction) {
-            case enWideAngleDrift.Left:
+            case enWideAngleDrift.Gauche:
                 MotorRun(enMotors.M1, -speed_front);
                 MotorRun(enMotors.M2, speed_back);
                 MotorRun(enMotors.M3, speed_front);
                 MotorRun(enMotors.M4, -speed_back);
                 break;
-            case enWideAngleDrift.Right:
+            case enWideAngleDrift.Droite:
                 MotorRun(enMotors.M1, speed_front);
                 MotorRun(enMotors.M2, -speed_back);
                 MotorRun(enMotors.M3, -speed_front);
