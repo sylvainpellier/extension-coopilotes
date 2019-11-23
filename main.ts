@@ -1,12 +1,10 @@
 /*
 load dependency
-"OmniBit": "file:../CooPilotes"
+"CooPilotes": "file:../CooPilotes"
 */
 
 //% color="#ECA40D" weight=20 icon="\uf1b9"
 namespace CooPilotes {
-
-    export var cp = CooPilotes;
 
 
     const PCA9685_ADD = 0x40
@@ -93,13 +91,9 @@ namespace CooPilotes {
         //% blockId="Recule" block="Recule"
         Recule,
         //% blockId="MoveLeft" block="MoveLeft"
-        BougeGauche,
+        Gauche,
         //% blockId="MoveRight" block="MoveRight"
-        BougeDroite,
-        //% blockId="Spin_Left" block="Spin_Left"
-        RotationDroite,
-        //% blockId="Spin_Right" block="Spin_Right"
-        RotationGauche,
+        Droite,
         //% blockId="Left_Front" block="Left_Front"
         AvantGauche,
         //% blockId="Right_Front" block="Right_Front"
@@ -108,10 +102,15 @@ namespace CooPilotes {
         ArriereGauche,
         //% blockId="Right_Back" block="Right_Back"
         ArriereDroite,
-        //% blockId="CarStop" block="CarStop"
-        Arret
+
     }
 
+    export enum sens {
+        //% blockId="Droite" block="Droite"
+        Droite = 1,
+        //% blockId="Gauche" block="Gauche"
+        Gauche
+    }
 
     export enum drifts {
         //% blockId="Head_To_Left" block="Head_To_Left"
@@ -303,10 +302,37 @@ namespace CooPilotes {
         ActiveMoteur(moteurs.M4, speedm4);
     }
 
+    //% blockId=Tourne block="Tourne|%rotation|speed %speed"
+    //% weight=102
+    //% blockGap=10
+    //% group="Contrôle de la voiture"
+    //% speed.min=0 speed.max=255
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function Tourne(rotation: sens, speed: number): void {
+        if (!initialized) {
+            initPCA9685();
+        }
+        if (speed <= 0) {
+            speed = 0;
+        }
+        switch (rotation) {
+
+            case sens.Gauche:
+                spin_Left(speed);
+                break;
+            case sens.Droite:
+                spin_Right(speed);
+                break;
+            default:
+                break;
+        }
+    }
+
+
     //% blockId=Déplace block="Déplace|%direction|speed %speed"
     //% weight=102
     //% blockGap=10
-    //% group="CarControl"
+    //% group="Contrôle de la voiture"
     //% speed.min=0 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function Deplace(direction: deplacements, speed: number): void {
@@ -323,18 +349,13 @@ namespace CooPilotes {
             case deplacements.Recule:
                 back(speed);
                 break;
-            case deplacements.BougeGauche:
+            case deplacements.Gauche:
                 moveLeft(speed);
                 break;
-            case deplacements.BougeDroite:
+            case deplacements.Droite:
                 moveRight(speed);
                 break;
-            case deplacements.RotationGauche:
-                spin_Left(speed);
-                break;
-            case deplacements.RotationDroite:
-                spin_Right(speed);
-                break;
+
             case deplacements.AvantGauche:
                 left_Front(speed);
                 break;
@@ -347,18 +368,16 @@ namespace CooPilotes {
             case deplacements.ArriereDroite:
                 right_Back(speed);
                 break;
-            case deplacements.Arret:
-                carStop();
-                break;
+
             default:
                 break;
         }
     }
 
-    //% blockId=OmniBit_Polygon block="Polygon|%polygon|speed %speed"
+    //% blockId=Polygon block="Polygon|%polygon|speed %speed"
     //% weight=101
     //% blockGap=10
-    //% group="CarControl"
+    //% group="Contrôle de la voiture"
     //% speed.min=0 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function Polygon(polygon: formes, speed: number): void {
@@ -474,7 +493,7 @@ namespace CooPilotes {
     //% blockId=Drift block="Drift|%direction|speed %speed"
     //% weight=100
     //% blockGap=10
-    //% group="CarControl"
+    //% group="Contrôle de la voiture"
     //% speed.min=0 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function Drift(direction: drifts, speed: number): void {
@@ -514,10 +533,10 @@ namespace CooPilotes {
         }
     }
 
-    //% blockId=OmniBit_WideAngleDrift block="WideAngleDrift|%direction|speed_front %speed_front|speed_back %speed_back"
+    //% blockId=WideAngleDrift block="WideAngleDrift|%direction|speed_front %speed_front|speed_back %speed_back"
     //% weight=99
     //% blockGap=10
-    //% group="CarControl"
+    //% group="Contrôle de la voiture"
     //% speed_front.min=0 speed_front.max=255 
     //% speed_back.min=0 speed_back.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
@@ -550,10 +569,10 @@ namespace CooPilotes {
         }
     }
 
-    //% blockId=OmniBit_Handle block="Handle|x %x|y %y|rotation %leftOrRight"
+    //% blockId=Handle block="Handle|x %x|y %y|rotation %leftOrRight"
     //% weight=98
     //% blockGap=10
-    //% group="CarControl"
+    //% group="Contrôle de la voiture"
     //% leftOrRight.min=-1 leftOrRight.max=1
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function Handle(x: number, y: number, leftOrRight: number): void {
@@ -574,10 +593,11 @@ namespace CooPilotes {
         MecanumRun(x * linearSpeed, y * linearSpeed, -leftOrRight * angularSpeed);
     }
 
-    //% blockId=OmniBit_RGB_Program block="RGB_Program"
+    //% blockId=RGB_Programme block="RGB_Programme"
     //% weight=97
     //% blockGap=10
-    //% group="BoardFuntion"
+    //% group="Fonctionnalités de la voiture"
+    //% advanced=true
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function RGB_Programme(): neopixel.Strip {
         if (!yahStrip) {
@@ -586,10 +606,10 @@ namespace CooPilotes {
         return yahStrip;
     }
 
-    //% blockId=Musique block="Music|%index"
+    //% blockId=Musique block="Musique|%index"
     //% weight=96
     //% blockGap=10
-    //% group="BoardFuntion"
+    //% group="Fonctionnalités de la voiture"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function Musique(index: sons): void {
         switch (index) {
@@ -631,7 +651,7 @@ namespace CooPilotes {
 
     }
 
-    //% blockId=OmniBit_Servo2 block="Servo(270°)|num %num|value %value"
+    //% blockId=Servo2 block="Servo(270°)|num %num|value %value"
     //% weight=94
     //% blockGap=20
     //% advanced=true
@@ -647,7 +667,7 @@ namespace CooPilotes {
 
     }
 
-    //% blockId=OmniBit_Servo3 block="Servo(360°)|num %num|pos %pos|value %value"
+    //% blockId=Servo3 block="Servo(360°)|num %num|pos %pos|value %value"
     //% weight=93
     //% blockGap=20
     //% advanced=true
@@ -677,7 +697,7 @@ namespace CooPilotes {
     //% blockId=ActiveMoteur block="ActiveMoteur|%index|speed(-255~255) %speed"
     //% weight=92
     //% blockGap=10
-    //% group="BoardFuntion"
+    //% group="Fonctionnalités de la voiture"
     //% speed.min=-255 speed.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, speed: number): void {
@@ -718,7 +738,7 @@ namespace CooPilotes {
     //% blockId=ArretMoteurs block="Motor Stop All"
     //% weight=91
     //% blockGap=10
-    //% group="BoardFuntion"
+    //% group="Fonctionnalités de la voiture"
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ArretMoteurs(): void {
         if (!initialized) {
