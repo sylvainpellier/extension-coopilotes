@@ -205,74 +205,74 @@ namespace CooPilotes {
     }
 
 
-    function forward(speed: number) {
-        ActiveMoteur(moteurs.M1, speed);
-        ActiveMoteur(moteurs.M2, speed);
-        ActiveMoteur(moteurs.M3, speed);
-        ActiveMoteur(moteurs.M4, speed);
+    function forward(vitesse: number) {
+        ActiveMoteur(moteurs.M1, vitesse);
+        ActiveMoteur(moteurs.M2, vitesse);
+        ActiveMoteur(moteurs.M3, vitesse);
+        ActiveMoteur(moteurs.M4, vitesse);
     }
 
-    function back(speed: number) {
-        ActiveMoteur(moteurs.M1, -speed);
-        ActiveMoteur(moteurs.M2, -speed);
-        ActiveMoteur(moteurs.M3, -speed);
-        ActiveMoteur(moteurs.M4, -speed);
+    function back(vitesse: number) {
+        ActiveMoteur(moteurs.M1, -vitesse);
+        ActiveMoteur(moteurs.M2, -vitesse);
+        ActiveMoteur(moteurs.M3, -vitesse);
+        ActiveMoteur(moteurs.M4, -vitesse);
     }
 
-    function moveLeft(speed: number) {
-        ActiveMoteur(moteurs.M1, -speed);
-        ActiveMoteur(moteurs.M2, speed);
-        ActiveMoteur(moteurs.M3, speed);
-        ActiveMoteur(moteurs.M4, -speed);
+    function moveLeft(vitesse: number) {
+        ActiveMoteur(moteurs.M1, -vitesse);
+        ActiveMoteur(moteurs.M2, vitesse);
+        ActiveMoteur(moteurs.M3, vitesse);
+        ActiveMoteur(moteurs.M4, -vitesse);
     }
 
-    function moveRight(speed: number) {
-        ActiveMoteur(moteurs.M1, speed);
-        ActiveMoteur(moteurs.M2, -speed);
-        ActiveMoteur(moteurs.M3, -speed);
-        ActiveMoteur(moteurs.M4, speed);
+    function moveRight(vitesse: number) {
+        ActiveMoteur(moteurs.M1, vitesse);
+        ActiveMoteur(moteurs.M2, -vitesse);
+        ActiveMoteur(moteurs.M3, -vitesse);
+        ActiveMoteur(moteurs.M4, vitesse);
     }
 
-    function left_Front(speed: number) {
+    function left_Front(vitesse: number) {
         ActiveMoteur(moteurs.M1, 0);
-        ActiveMoteur(moteurs.M2, speed);
-        ActiveMoteur(moteurs.M3, speed);
+        ActiveMoteur(moteurs.M2, vitesse);
+        ActiveMoteur(moteurs.M3, vitesse);
         ActiveMoteur(moteurs.M4, 0);
     }
 
-    function left_Back(speed: number) {
-        ActiveMoteur(moteurs.M1, -speed);
+    function left_Back(vitesse: number) {
+        ActiveMoteur(moteurs.M1, -vitesse);
         ActiveMoteur(moteurs.M2, 0);
         ActiveMoteur(moteurs.M3, 0);
-        ActiveMoteur(moteurs.M4, -speed);
+        ActiveMoteur(moteurs.M4, -vitesse);
     }
 
-    function right_Front(speed: number) {
-        ActiveMoteur(moteurs.M1, speed);
+    function right_Front(vitesse: number) {
+        ActiveMoteur(moteurs.M1, vitesse);
         ActiveMoteur(moteurs.M2, 0);
         ActiveMoteur(moteurs.M3, 0);
-        ActiveMoteur(moteurs.M4, speed);
+        ActiveMoteur(moteurs.M4, vitesse);
     }
 
-    function right_Back(speed: number) {
+    function right_Back(vitesse: number) {
         ActiveMoteur(moteurs.M1, 0);
-        ActiveMoteur(moteurs.M2, -speed);
-        ActiveMoteur(moteurs.M3, -speed);
+        ActiveMoteur(moteurs.M2, -vitesse);
+        ActiveMoteur(moteurs.M3, -vitesse);
         ActiveMoteur(moteurs.M4, 0);
     }
 
-    function spin_Left(speed: number) {
-        ActiveMoteur(moteurs.M1, -speed);
-        ActiveMoteur(moteurs.M2, -speed);
-        ActiveMoteur(moteurs.M3, speed);
-        ActiveMoteur(moteurs.M4, speed);
+    function spin_Left(vitesse: number) {
+        ActiveMoteur(moteurs.M1, -vitesse);
+        ActiveMoteur(moteurs.M2, -vitesse);
+        ActiveMoteur(moteurs.M3, vitesse);
+        ActiveMoteur(moteurs.M4, vitesse);
     }
 
-    function spin_Right(speed: number) {
-        ActiveMoteur(moteurs.M1, speed);
-        ActiveMoteur(moteurs.M2, speed);
-        ActiveMoteur(moteurs.M3, -speed);
-        ActiveMoteur(moteurs.M4, -speed);
+    function spin_Right(vitesse: number) {
+        ActiveMoteur(moteurs.M1, vitesse);
+        ActiveMoteur(moteurs.M2, vitesse);
+        ActiveMoteur(moteurs.M3, -vitesse);
+        ActiveMoteur(moteurs.M4, -vitesse);
     }
 
     function carStop() {
@@ -290,38 +290,38 @@ namespace CooPilotes {
         setPwm(15, 0, 0);
     }
 
-    function MecanumRun(xSpeed: number, ySpeed: number, aSpeed: number) {
-        let speedm1 = ySpeed + xSpeed - aSpeed;
-        let speedm2 = ySpeed - xSpeed - aSpeed;
-        let speedm3 = ySpeed - xSpeed + aSpeed;
-        let speedm4 = ySpeed + xSpeed + aSpeed;
+    function MecanumRun(xvitesse: number, yvitesse: number, avitesse: number) {
+        let vitessem1 = yvitesse + xvitesse - avitesse;
+        let vitessem2 = yvitesse - xvitesse - avitesse;
+        let vitessem3 = yvitesse - xvitesse + avitesse;
+        let vitessem4 = yvitesse + xvitesse + avitesse;
 
-        ActiveMoteur(moteurs.M1, speedm1);
-        ActiveMoteur(moteurs.M2, speedm2);
-        ActiveMoteur(moteurs.M3, speedm3);
-        ActiveMoteur(moteurs.M4, speedm4);
+        ActiveMoteur(moteurs.M1, vitessem1);
+        ActiveMoteur(moteurs.M2, vitessem2);
+        ActiveMoteur(moteurs.M3, vitessem3);
+        ActiveMoteur(moteurs.M4, vitessem4);
     }
 
-    //% blockId=Tourne block="Tourne|%rotation|speed %speed"
+    //% blockId=Tourne block="Tourne|%rotation|vitesse %vitesse"
     //% weight=102
     //% blockGap=10
     //% group="Contrôle de la voiture"
-    //% speed.min=0 speed.max=255
+    //% vitesse.min=0 vitesse.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Tourne(rotation: sens, speed: number): void {
+    export function Tourne(rotation: sens, vitesse: number): void {
         if (!initialized) {
             initPCA9685();
         }
-        if (speed <= 0) {
-            speed = 0;
+        if (vitesse <= 0) {
+            vitesse = 0;
         }
         switch (rotation) {
 
             case sens.Gauche:
-                spin_Left(speed);
+                spin_Left(vitesse);
                 break;
             case sens.Droite:
-                spin_Right(speed);
+                spin_Right(vitesse);
                 break;
             default:
                 break;
@@ -329,44 +329,44 @@ namespace CooPilotes {
     }
 
 
-    //% blockId=Déplace block="Déplace|%direction|speed %speed"
+    //% blockId=Déplace block="Déplace|%direction|vitesse %vitesse"
     //% weight=102
     //% blockGap=10
     //% group="Contrôle de la voiture"
-    //% speed.min=0 speed.max=255
+    //% vitesse.min=0 vitesse.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Deplace(direction: deplacements, speed: number): void {
+    export function Deplace(direction: deplacements, vitesse: number): void {
         if (!initialized) {
             initPCA9685();
         }
-        if (speed <= 0) {
-            speed = 0;
+        if (vitesse <= 0) {
+            vitesse = 0;
         }
         switch (direction) {
             case deplacements.Avance:
-                forward(speed);
+                forward(vitesse);
                 break;
             case deplacements.Recule:
-                back(speed);
+                back(vitesse);
                 break;
             case deplacements.Gauche:
-                moveLeft(speed);
+                moveLeft(vitesse);
                 break;
             case deplacements.Droite:
-                moveRight(speed);
+                moveRight(vitesse);
                 break;
 
             case deplacements.AvantGauche:
-                left_Front(speed);
+                left_Front(vitesse);
                 break;
             case deplacements.ArriereGauche:
-                left_Back(speed);
+                left_Back(vitesse);
                 break;
             case deplacements.AvantDroite:
-                right_Front(speed);
+                right_Front(vitesse);
                 break;
             case deplacements.ArriereDroite:
-                right_Back(speed);
+                right_Back(vitesse);
                 break;
 
             default:
@@ -374,112 +374,112 @@ namespace CooPilotes {
         }
     }
 
-    //% blockId=Polygon block="Polygon|%polygon|speed %speed"
+    //% blockId=Polygon block="Polygon|%polygon|vitesse %vitesse"
     //% weight=101
     //% blockGap=10
     //% group="Contrôle de la voiture"
-    //% speed.min=0 speed.max=255
+    //% vitesse.min=0 vitesse.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Polygon(polygon: formes, speed: number): void {
+    export function Polygon(polygon: formes, vitesse: number): void {
         if (!initialized) {
             initPCA9685();
         }
-        if (speed < 0) {
-            speed = 0;
+        if (vitesse < 0) {
+            vitesse = 0;
         }
 
         switch (polygon) {
             case formes.Carre:
-                back(speed);
+                back(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                moveRight(speed);
+                moveRight(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                forward(speed);
+                forward(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                moveLeft(speed);
+                moveLeft(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
                 break;
             case formes.Parallelogramme:
-                right_Front(speed);
+                right_Front(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                moveRight(speed);
+                moveRight(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                left_Back(speed);
+                left_Back(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                moveLeft(speed);
+                moveLeft(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
                 break;
             case formes.Rhombus:
-                right_Front(speed);
+                right_Front(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                right_Back(speed);
+                right_Back(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                left_Back(speed);
+                left_Back(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                left_Front(speed);
+                left_Front(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
                 break;
             case formes.Flash1:
-                right_Front(speed);
+                right_Front(vitesse);
                 basic.pause(1500);
                 carStop();
                 basic.pause(10);
 
-                moveLeft(speed);
+                moveLeft(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                right_Front(speed);
+                right_Front(vitesse);
                 basic.pause(1500);
                 carStop();
                 basic.pause(10);
                 break;
             case formes.Flash2:
-                left_Back(speed);
+                left_Back(vitesse);
                 basic.pause(1500);
                 carStop();
                 basic.pause(10);
 
-                moveRight(speed);
+                moveRight(vitesse);
                 basic.pause(1000);
                 carStop();
                 basic.pause(10);
 
-                left_Back(speed);
+                left_Back(vitesse);
                 basic.pause(1500);
                 carStop();
                 basic.pause(10);
@@ -490,42 +490,42 @@ namespace CooPilotes {
     }
 
 
-    //% blockId=Drift block="Drift|%direction|speed %speed"
+    //% blockId=Drift block="Drift|%direction|vitesse %vitesse"
     //% weight=100
     //% blockGap=10
     //% group="Contrôle de la voiture"
-    //% speed.min=0 speed.max=255
+    //% vitesse.min=0 vitesse.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Drift(direction: drifts, speed: number): void {
+    export function Drift(direction: drifts, vitesse: number): void {
         if (!initialized) {
             initPCA9685();
         }
-        if (speed <= 0) {
-            speed = 0;
+        if (vitesse <= 0) {
+            vitesse = 0;
         }
         switch (direction) {
             case drifts.ArriereGauche:
                 ActiveMoteur(moteurs.M1, 0);
-                ActiveMoteur(moteurs.M2, speed);
+                ActiveMoteur(moteurs.M2, vitesse);
                 ActiveMoteur(moteurs.M3, 0);
-                ActiveMoteur(moteurs.M4, -speed);
+                ActiveMoteur(moteurs.M4, -vitesse);
                 break;
             case drifts.ArriereDroite:
                 ActiveMoteur(moteurs.M1, 0);
-                ActiveMoteur(moteurs.M2, -speed);
+                ActiveMoteur(moteurs.M2, -vitesse);
                 ActiveMoteur(moteurs.M3, 0);
-                ActiveMoteur(moteurs.M4, speed);
+                ActiveMoteur(moteurs.M4, vitesse);
                 break;
             case drifts.AvantGauche:
-                ActiveMoteur(moteurs.M1, -speed);
+                ActiveMoteur(moteurs.M1, -vitesse);
                 ActiveMoteur(moteurs.M2, 0);
-                ActiveMoteur(moteurs.M3, speed);
+                ActiveMoteur(moteurs.M3, vitesse);
                 ActiveMoteur(moteurs.M4, 0);
                 break;
             case drifts.AvantDroite:
-                ActiveMoteur(moteurs.M1, speed);
+                ActiveMoteur(moteurs.M1, vitesse);
                 ActiveMoteur(moteurs.M2, 0);
-                ActiveMoteur(moteurs.M3, -speed);
+                ActiveMoteur(moteurs.M3, -vitesse);
                 ActiveMoteur(moteurs.M4, 0);
                 break;
             default:
@@ -533,49 +533,49 @@ namespace CooPilotes {
         }
     }
 
-    //% blockId=WideAngleDrift block="WideAngleDrift|%direction|speed_front %speed_front|speed_back %speed_back"
+    //% blockId=WideAngleDrift block="WideAngleDrift|%direction|vitesse_avant %vitesse_avant|vitesse_arriere %vitesse_arriere"
     //% weight=99
     //% blockGap=10
     //% group="Contrôle de la voiture"
-    //% speed_front.min=0 speed_front.max=255 
-    //% speed_back.min=0 speed_back.max=255
+    //% vitesse_avant.min=0 vitesse_avant.max=255 
+    //% vitesse_arriere.min=0 vitesse_arriere.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function WideAngleDrift(direction: enWideAngleDrift, speed_front: number, speed_back: number): void {
+    export function WideAngleDrift(direction: enWideAngleDrift, vitesse_avant: number, vitesse_arriere: number): void {
         if (!initialized) {
             initPCA9685();
         }
-        if (speed_front <= 0) {
-            speed_front = 0;
+        if (vitesse_avant <= 0) {
+            vitesse_avant = 0;
         }
-        if (speed_back <= 0) {
-            speed_back = 0;
+        if (vitesse_arriere <= 0) {
+            vitesse_arriere = 0;
         }
 
         switch (direction) {
             case enWideAngleDrift.Gauche:
-                ActiveMoteur(moteurs.M1, -speed_front);
-                ActiveMoteur(moteurs.M2, speed_back);
-                ActiveMoteur(moteurs.M3, speed_front);
-                ActiveMoteur(moteurs.M4, -speed_back);
+                ActiveMoteur(moteurs.M1, -vitesse_avant);
+                ActiveMoteur(moteurs.M2, vitesse_arriere);
+                ActiveMoteur(moteurs.M3, vitesse_avant);
+                ActiveMoteur(moteurs.M4, -vitesse_arriere);
                 break;
             case enWideAngleDrift.Droite:
-                ActiveMoteur(moteurs.M1, speed_front);
-                ActiveMoteur(moteurs.M2, -speed_back);
-                ActiveMoteur(moteurs.M3, -speed_front);
-                ActiveMoteur(moteurs.M4, speed_back);
+                ActiveMoteur(moteurs.M1, vitesse_avant);
+                ActiveMoteur(moteurs.M2, -vitesse_arriere);
+                ActiveMoteur(moteurs.M3, -vitesse_avant);
+                ActiveMoteur(moteurs.M4, vitesse_arriere);
                 break;
             default:
                 break;
         }
     }
 
-    //% blockId=Handle block="Handle|x %x|y %y|rotation %leftOrRight"
+    //% blockId=Manipuler block="Manipuler|x %x|y %y|rotation %leftOrRight"
     //% weight=98
     //% blockGap=10
     //% group="Contrôle de la voiture"
     //% leftOrRight.min=-1 leftOrRight.max=1
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function Handle(x: number, y: number, leftOrRight: number): void {
+    export function Manipuler(x: number, y: number, leftOrRight: number): void {
         if (!initialized) {
             initPCA9685();
         }
@@ -586,20 +586,20 @@ namespace CooPilotes {
         if (leftOrRight != 0 && leftOrRight != 1 && leftOrRight != -1) {
             leftOrRight = 0;
         }
-        let linearSpeed = 255;
-        let angularSpeed = 255;
+        let linearvitesse = 255;
+        let angularvitesse = 255;
         x = x / 512;
         y = y / 512;
-        MecanumRun(x * linearSpeed, y * linearSpeed, -leftOrRight * angularSpeed);
+        MecanumRun(x * linearvitesse, y * linearvitesse, -leftOrRight * angularvitesse);
     }
 
-    //% blockId=RGB_Programme block="RGB_Programme"
+    //% blockId=LED block="LEC"
     //% weight=97
     //% blockGap=10
     //% group="Fonctionnalités de la voiture"
     //% advanced=true
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function RGB_Programme(): neopixel.Strip {
+    export function LED(): neopixel.Strip {
         if (!yahStrip) {
             yahStrip = neopixel.create(DigitalPin.P12, 4, NeoPixelMode.RGB);
         }
@@ -636,7 +636,7 @@ namespace CooPilotes {
         }
     }
 
-    //% blockId=Servo block="Servo(180°)|num %num|value %value"
+    //% blockId=Servo block="Servo(180°)|num %num|valeur %value"
     //% weight=95
     //% blockGap=20
     //% advanced=true
@@ -651,7 +651,7 @@ namespace CooPilotes {
 
     }
 
-    //% blockId=Servo2 block="Servo(270°)|num %num|value %value"
+    //% blockId=Servo2 block="Servo(270°)|num %num|valeur %value"
     //% weight=94
     //% blockGap=20
     //% advanced=true
@@ -667,7 +667,7 @@ namespace CooPilotes {
 
     }
 
-    //% blockId=Servo3 block="Servo(360°)|num %num|pos %pos|value %value"
+    //% blockId=Servo3 block="Servo(360°)|num %num|pos %pos|valeur %value"
     //% weight=93
     //% blockGap=20
     //% advanced=true
@@ -694,48 +694,48 @@ namespace CooPilotes {
         }
     }
 
-    //% blockId=ActiveMoteur block="ActiveMoteur|%index|speed(-255~255) %speed"
+    //% blockId=ActiveMoteur block="ActiveMoteur|%index|vitesse(-255~255) %vitesse"
     //% weight=92
     //% blockGap=10
     //% group="Fonctionnalités de la voiture"
-    //% speed.min=-255 speed.max=255
+    //% vitesse.min=-255 vitesse.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function ActiveMoteur(index: moteurs, speed: number): void {
+    export function ActiveMoteur(index: moteurs, vitesse: number): void {
         if (!initialized) {
             initPCA9685();
         }
-        speed = Math.map(speed, 0, 255, 0, 4095); // map 255 to 4095
-        if (speed >= 4095) {
-            speed = 4095;
+        vitesse = Math.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
+        if (vitesse >= 4095) {
+            vitesse = 4095;
         }
-        if (speed <= -4095) {
-            speed = -4095;
+        if (vitesse <= -4095) {
+            vitesse = -4095;
         }
 
         let a = index;
         let b = index + 1;
 
         if (a > 10) {
-            if (speed >= 0) {
-                setPwm(a, 0, speed);
+            if (vitesse >= 0) {
+                setPwm(a, 0, vitesse);
                 setPwm(b, 0, 0);
             } else {
                 setPwm(a, 0, 0);
-                setPwm(b, 0, -speed);
+                setPwm(b, 0, -vitesse);
             }
         }
         else {
-            if (speed >= 0) {
-                setPwm(b, 0, speed);
+            if (vitesse >= 0) {
+                setPwm(b, 0, vitesse);
                 setPwm(a, 0, 0);
             } else {
                 setPwm(b, 0, 0);
-                setPwm(a, 0, -speed);
+                setPwm(a, 0, -vitesse);
             }
         }
     }
 
-    //% blockId=ArretMoteurs block="Motor Stop All"
+    //% blockId=ArretMoteurs block="Arret des moteurs"
     //% weight=91
     //% blockGap=10
     //% group="Fonctionnalités de la voiture"
@@ -748,6 +748,10 @@ namespace CooPilotes {
         stopMotor(moteurs.M2);
         stopMotor(moteurs.M3);
         stopMotor(moteurs.M4);
+    }
+
+    export function map(value: number, fromLow: number, fromHigh: number, toLow: number, toHigh: number): number {
+        return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
     }
 
 }
