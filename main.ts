@@ -83,7 +83,8 @@ namespace CooPilotes {
         M2 = 10,
         M3 = 12,
         M4 = 14,
-        M5 = 2
+        M5 = 2,
+        M6 = 13
     }
 
     export enum deplacements {
