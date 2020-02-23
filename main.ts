@@ -18,7 +18,6 @@ namespace CooPilotes {
 
     //% color="#ECA40D" weight=20 icon="\uf1b9"
 
-
     export enum TypeAction {
         action = 1,
         chaqueMoteurs = 2,
