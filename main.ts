@@ -184,7 +184,7 @@ namespace CooPilotes {
     }
 
     export function getVitesses(): Array<number> {
-        return this.vitesses;
+        return vitesses;
     }
 
     function setFreq(freq: number): void {
