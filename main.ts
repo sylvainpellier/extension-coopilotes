@@ -750,7 +750,7 @@ export function decode(texte: string): objectData {
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, vitesse: number): void {
         
-        vitesses[index] = vitesse;
+        vitesses[parseInt(index)] = vitesse;
         if (!initialized) {
             initPCA9685();
         }
