@@ -37,11 +37,10 @@ namespace CooPilotes {
         return dataS;
     }
 
-    let vitesses:Array<number>;
-    vitesses[0] = 0;
-    vitesses[1] = 0;
-    vitesses[2] = 0;
-    vitesses[3] = 0;
+    let v1 = 5;
+    let v2 = 5;
+    let v3 = 5;
+    let v4 = 5;
 
 
 
@@ -210,8 +209,8 @@ namespace CooPilotes {
         initialized = true
     }
 
-    export function getVitesses(): Array<number> {
-        return vitesses;
+    export function getVitesses(): string {
+        return v1.toString()+v2.toString()+v3.toString()+v4.toString();
     }
 
     function setFreq(freq: number): void {
@@ -583,7 +582,7 @@ namespace CooPilotes {
     //% weight=99
     //% blockGap=10
     //% group="Contrôle de la voiture"
-    //% vitesse_avant.min=0 vitesse_avant.max=255 
+    //% vitesse_avant.min=0 vitesse_avant.max=255
     //% vitesse_arriere.min=0 vitesse_arriere.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function WideAngleDrift(direction: enWideAngleDrift, vitesse_avant: number, vitesse_arriere: number): void {
@@ -748,10 +747,10 @@ namespace CooPilotes {
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, vitesse: number): void {
 
-        if(index === moteurs.M1) vitesses[0] = vitesse;
-        if(index === moteurs.M2) vitesses[1] = vitesse;
-        if(index === moteurs.M3) vitesses[2] = vitesse;
-        if(index === moteurs.M4) vitesses[3] = vitesse;
+        if (index === moteurs.M1) v1 = vitesse;
+        if (index === moteurs.M2) v2 = vitesse;
+        if (index === moteurs.M3) v3 = vitesse;
+        if (index === moteurs.M4) v4 = vitesse;
 
         if (!initialized) {
             initPCA9685();
