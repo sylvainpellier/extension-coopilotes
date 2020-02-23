@@ -795,6 +795,12 @@ namespace CooPilotes {
         if (!initialized) {
             initPCA9685();
         }
+
+        v1 = 5;
+        v2 = 5;
+        v3 = 5;
+        v4 = 5;
+
         stopMotor(moteurs.M1);
         stopMotor(moteurs.M2);
         stopMotor(moteurs.M3);
