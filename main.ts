@@ -5,10 +5,37 @@ load dependency
 
 //% color="#ECA40D" weight=20 icon="\uf1b9"
 
+interface objectData {
+    from: string;
+    type: string;
+    data: Array<string>;
+    dataString: string;
+    initial: string;
+
+}
 
 
 namespace CooPilotes {
 
+
+    export enum TypeAction {
+        action = 1,
+        chaqueMoteurs = 2,
+        unMoteur = 3,
+        tousMoteurs = 4
+    }
+
+    export function decode(texte: string): objectData {
+        let dataS = {
+            from: ((texte.split("|"))[0]),
+            type: ((texte.split("|"))[1]),
+            data: ((texte.split("|"))[2]).split(""),
+            dataString: ((texte.split("|"))[2]),
+            initial: texte
+        };
+
+        return dataS;
+    }
 
     let vitesses:Array<number>;
     vitesses[0] = 0;
