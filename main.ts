@@ -210,6 +210,17 @@ namespace CooPilotes {
     }
 
     export function getVitesses(): string {
+
+        if(v1<1) v1 = 1;
+        if(v1<2) v2 = 1;
+        if(v1<3) v3 = 1;
+        if(v1<4) v4 = 1;
+
+        if(v1>9) v1 = 9;
+        if(v1>9) v2 = 9;
+        if(v1>9) v3 = 9;
+        if(v1>9) v4 = 9;
+
         return v1.toString()+v2.toString()+v3.toString()+v4.toString();
     }
 
