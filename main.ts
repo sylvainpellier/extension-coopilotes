@@ -7,10 +7,10 @@ load dependency
 namespace CooPilotes {
 
     let vitesses:Array<number>;
-    vitesses[0] = false;
-    vitesses[1] = false;
-    vitesses[2] = false;
-    vitesses[3] = false;
+    vitesses[0] = 0;
+    vitesses[1] = 0;
+    vitesses[2] = 0;
+    vitesses[3] = 0;
 
     const PCA9685_ADD = 0x40
     const MODE1 = 0x00
