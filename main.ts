@@ -6,7 +6,11 @@ load dependency
 //% color="#ECA40D" weight=20 icon="\uf1b9"
 namespace CooPilotes {
 
-    let vitesses:Array<number> = [0,0,0,0];
+    let vitesses:Array<number>;
+    vitesses[0] = false;
+    vitesses[1] = false;
+    vitesses[2] = false;
+    vitesses[3] = false;
 
     const PCA9685_ADD = 0x40
     const MODE1 = 0x00
