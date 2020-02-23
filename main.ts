@@ -747,10 +747,10 @@ namespace CooPilotes {
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, vitesse: number): void {
 
-        if (index === moteurs.M1) v1 = Math.map(vitesse, 0, 255, 1, 9);
-        if (index === moteurs.M2) v2 = Math.map(vitesse, 0, 255, 1, 9);
-        if (index === moteurs.M3) v3 = Math.map(vitesse, 0, 255, 1, 9);
-        if (index === moteurs.M4) v4 = Math.map(vitesse, 0, 255, 1, 9);
+        if (index === moteurs.M1) v1 = Math.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M2) v2 = Math.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M3) v3 = Math.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M4) v4 = Math.map(vitesse, -255, 255, 1, 9);
 
         if (!initialized) {
             initPCA9685();
