@@ -14,29 +14,29 @@ interface objectData {
 
 //% color="#ECA40D" weight=20 icon="\uf1b9"
 namespace CooPilotes {
-    
-    
-    
 
 
-export enum TypeAction {
-    action = 1,
-    chaqueMoteurs = 2,
-    unMoteur = 3,
-    tousMoteurs = 4
-}
 
-export function decode(texte: string): objectData {
-    let d = {
-        from: ((texte.split("|"))[0]),
-        type: ((texte.split("|"))[1]),
-        data: ((texte.split("|"))[2]).split(""),
-        dataString: ((texte.split("|"))[2]),
-        initial: texte
+
+
+    export enum TypeAction {
+        action = 1,
+        chaqueMoteurs = 2,
+        unMoteur = 3,
+        tousMoteurs = 4
     }
 
-    return d;
-}
+    export function decode(texte: string): objectData {
+        let d = {
+            from: ((texte.split("|"))[0]),
+            type: ((texte.split("|"))[1]),
+            data: ((texte.split("|"))[2]).split(""),
+            dataString: ((texte.split("|"))[2]),
+            initial: texte
+        }
+
+        return d;
+    }
 
 
     let vitesses:Array<number>;
@@ -67,7 +67,7 @@ export function decode(texte: string): objectData {
     const PRESCALE = 0xFE
 
     let initialized = false
-    let yahStrip: neopixel.Strip
+    //let yahStrip: neopixel.Strip
 
 
 
@@ -126,8 +126,8 @@ export function decode(texte: string): objectData {
         M5 = 2,
         M6 = 13
     }
-    
-    
+
+
 
     export enum deplacements {
         //% blockId="Avance" block="Avance"
@@ -211,7 +211,7 @@ export function decode(texte: string): objectData {
         setFreq(50);
         initialized = true
     }
-    
+
     export function getVitesses(): Array<number> {
         return this.vitesses;
     }
@@ -647,12 +647,12 @@ export function decode(texte: string): objectData {
     //% group="Fonctionnalités de la voiture"
     //% advanced=true
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function LED(): neopixel.Strip {
-        if (!yahStrip) {
-            yahStrip = neopixel.create(DigitalPin.P12, 4, NeoPixelMode.RGB);
-        }
-        return yahStrip;
-    }
+    // export function LED(): neopixel.Strip {
+    //     if (!yahStrip) {
+    //         yahStrip = neopixel.create(DigitalPin.P12, 4, NeoPixelMode.RGB);
+    //     }
+    //     return yahStrip;
+    // }
 
     //% blockId=Musique block="Musique|%index"
     //% weight=96
@@ -749,8 +749,8 @@ export function decode(texte: string): objectData {
     //% vitesse.min=-255 vitesse.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, vitesse: number): void {
-        
-        vitesses[parseInt(index)] = vitesse;
+
+        vitesses[index] = vitesse;
         if (!initialized) {
             initPCA9685();
         }
