@@ -3,6 +3,9 @@ load dependency
 "CooPilotes": "file:../CooPilotes"
 */
 
+//% color="#ECA40D" weight=20 icon="\uf1b9"
+
+
 interface objectData {
     from: string;
     type: string;
@@ -12,7 +15,6 @@ interface objectData {
 
 }
 
-//% color="#ECA40D" weight=20 icon="\uf1b9"
 namespace CooPilotes {
 
 
