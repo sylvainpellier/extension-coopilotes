@@ -19,8 +19,6 @@ namespace CooPilotes {
 
 
 
-
-
     export enum TypeAction {
         action = 1,
         chaqueMoteurs = 2,
@@ -29,15 +27,15 @@ namespace CooPilotes {
     }
 
     export function decode(texte: string): objectData {
-        let d = {
+        let dataS = {
             from: ((texte.split("|"))[0]),
             type: ((texte.split("|"))[1]),
             data: ((texte.split("|"))[2]).split(""),
             dataString: ((texte.split("|"))[2]),
             initial: texte
-        }
+        };
 
-        return d;
+        return dataS;
     }
 
 
@@ -752,7 +750,11 @@ namespace CooPilotes {
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, vitesse: number): void {
 
-        vitesses[index] = vitesse;
+        if(index === moteurs.M1) vitesses[0] = vitesse;
+        if(index === moteurs.M2) vitesses[1] = vitesse;
+        if(index === moteurs.M3) vitesses[2] = vitesse;
+        if(index === moteurs.M4) vitesses[3] = vitesse;
+
         if (!initialized) {
             initPCA9685();
         }
