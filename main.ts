@@ -6,17 +6,17 @@ load dependency
 //% color="#ECA40D" weight=20 icon="\uf1b9"
 
 
-interface objectData {
-    from: string;
-    type: string;
-    data: Array<string>;
-    dataString: string;
-    initial: string;
-
-}
 
 namespace CooPilotes {
 
+    interface objectData {
+        from: string;
+        type: string;
+        data: Array<string>;
+        dataString: string;
+        initial: string;
+
+    }
 
 
     export enum TypeAction {
