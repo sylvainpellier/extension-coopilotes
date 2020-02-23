@@ -6,6 +6,7 @@ load dependency
 //% color="#ECA40D" weight=20 icon="\uf1b9"
 namespace CooPilotes {
 
+    export vitesses:Array<number> = [;
 
     const PCA9685_ADD = 0x40
     const MODE1 = 0x00
@@ -86,6 +87,8 @@ namespace CooPilotes {
         M5 = 2,
         M6 = 13
     }
+    
+    
 
     export enum deplacements {
         //% blockId="Avance" block="Avance"
@@ -703,6 +706,8 @@ namespace CooPilotes {
     //% vitesse.min=-255 vitesse.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, vitesse: number): void {
+        
+        vitesses[index] = vitesse;
         if (!initialized) {
             initPCA9685();
         }
