@@ -6,7 +6,7 @@ load dependency
 //% color="#ECA40D" weight=20 icon="\uf1b9"
 namespace CooPilotes {
 
-    export vitesses:Array<number> = [;
+    let vitesses:Array<number> = [0,0,0,0];
 
     const PCA9685_ADD = 0x40
     const MODE1 = 0x00
@@ -171,6 +171,10 @@ namespace CooPilotes {
         i2cwrite(PCA9685_ADD, MODE1, 0x00)
         setFreq(50);
         initialized = true
+    }
+    
+    export function getVitesses(): Array<number> {
+        return this.vitesses;
     }
 
     function setFreq(freq: number): void {
