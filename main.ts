@@ -3,7 +3,6 @@ load dependency
 "CooPilotes": "file:../CooPilotes"
 */
 
-//% color="#ECA40D" weight=20 icon="\uf1b9"
 
 interface objectData {
     from: string;
@@ -16,6 +15,8 @@ interface objectData {
 
 
 namespace CooPilotes {
+
+    //% color="#ECA40D" weight=20 icon="\uf1b9"
 
 
     export enum TypeAction {
