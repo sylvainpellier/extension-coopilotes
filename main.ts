@@ -140,8 +140,9 @@ class dataAPI {
     vitesses: Array<number>;
     buffer: Buffer;
 
-    constructor(data: Buffer) {
-        this.buffer = data;
+    constructor(data: Buffer | boolean) {
+
+        this.buffer = (data) ? data : pins.createBuffer(8);
     }
 
 
