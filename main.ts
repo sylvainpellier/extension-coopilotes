@@ -7,6 +7,10 @@ load dependency
 enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3 }
 enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
 enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4 }
+enum TypesRemote { Car, Remote }
+enum Materiel { Wukong, Yahboom }
+
+const Vitesse = new Vitesses();
 
 
 class Roue {
@@ -75,7 +79,7 @@ function wheelspeed(wheel: any, speed: any) {
     if (wheel === CooPilotes.moteurs.M1 || wheel === CooPilotes.moteurs.M2) {
         speed = speed * -1;
     }
-    let buf = pins.createBuffer(4)
+    let buf = pins.createBuffer(4);
 
     if (wheel < 2) {
         if (speed == 0) {
