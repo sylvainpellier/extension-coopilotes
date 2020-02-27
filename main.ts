@@ -3,12 +3,13 @@ load dependency
 "CooPilotes": "file:../CooPilotes"
 */
 
-enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
-enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
-enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4 }
-enum remotes { Un = 0, Deux = 1, Trois = 2, Quatre = 3, Cinq = 4, Six=5 }
 
-class DataAPI {
+export enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
+export enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
+export enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4 }
+export enum remotes { Un = 0, Deux = 1, Trois = 2, Quatre = 3, Cinq = 4, Six = 5 }
+
+export class DataAPI {
     from: froms;
     type: types;
     action: actions;
@@ -16,9 +17,9 @@ class DataAPI {
     vitesses: Array<number>;
     buffer: Buffer;
 
-    constructor(data: Buffer | boolean) {
+    constructor(data: Buffer) {
 
-        this.buffer = (data) ? data : pins.createBuffer(8);
+        this.buffer = data;
     }
 
 
@@ -80,38 +81,35 @@ class DataAPI {
 
 }
 
-namespace CooPilotes {
+export namespace CooPilotes {
 
     //% color="#ECA40D" weight=20 icon="\uf1b9"
-
 
     let v1 = 5;
     let v2 = 5;
     let v3 = 5;
     let v4 = 5;
 
+    const PCA9685_ADD = 0x40;
+    const MODE1 = 0x00;
+    const MODE2 = 0x01;
+    const SUBADR1 = 0x02;
+    const SUBADR2 = 0x03;
+    const SUBADR3 = 0x04;
 
+    const LED0_ON_L = 0x06;
+    const LED0_ON_H = 0x07;
+    const LED0_OFF_L = 0x08;
+    const LED0_OFF_H = 0x09;
 
-    const PCA9685_ADD = 0x40
-    const MODE1 = 0x00
-    const MODE2 = 0x01
-    const SUBADR1 = 0x02
-    const SUBADR2 = 0x03
-    const SUBADR3 = 0x04
+    const ALL_LED_ON_L = 0xFA;
+    const ALL_LED_ON_H = 0xFB;
+    const ALL_LED_OFF_L = 0xFC;
+    const ALL_LED_OFF_H = 0xFD;
 
-    const LED0_ON_L = 0x06
-    const LED0_ON_H = 0x07
-    const LED0_OFF_L = 0x08
-    const LED0_OFF_H = 0x09
+    const PRESCALE = 0xFE;
 
-    const ALL_LED_ON_L = 0xFA
-    const ALL_LED_ON_H = 0xFB
-    const ALL_LED_OFF_L = 0xFC
-    const ALL_LED_OFF_H = 0xFD
-
-    const PRESCALE = 0xFE
-
-    let initialized = false
+    let initialized = false;
     //let yahStrip: neopixel.Strip
 
 
@@ -231,26 +229,25 @@ namespace CooPilotes {
     }
 
     function i2cwrite(addr: number, reg: number, value: number) {
-        let buf = pins.createBuffer(2)
-        buf[0] = reg
-        buf[1] = value
-        pins.i2cWriteBuffer(addr, buf)
+        let buf = pins.createBuffer(2);
+        buf[0] = reg;
+        buf[1] = value;
+        pins.i2cWriteBuffer(addr, buf);
     }
 
     function i2ccmd(addr: number, value: number) {
         let buf = pins.createBuffer(1);
         buf[0] = value;
-        pins.i2cWriteBuffer(addr, buf)
+        pins.i2cWriteBuffer(addr, buf);
     }
 
     function i2cread(addr: number, reg: number) {
         pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
-        let val = pins.i2cReadNumber(addr, NumberFormat.UInt8BE);
-        return val;
+        return pins.i2cReadNumber(addr, NumberFormat.UInt8BE);
     }
 
     function initPCA9685(): void {
-        i2cwrite(PCA9685_ADD, MODE1, 0x00)
+        i2cwrite(PCA9685_ADD, MODE1, 0x00);
         setFreq(50);
         initialized = true
     }
@@ -777,7 +774,7 @@ namespace CooPilotes {
     export function Servo2(num: servos, value: number): void {
 
         // 50hz: 20,000 us
-        let newvalue = Math.map(value, 0, 270, 0, 180);
+        let newvalue = this.map(value, 0, 270, 0, 180);
         let us = (newvalue * 1800 / 180 + 600); // 0.6 ~ 2.4
         let pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
@@ -819,15 +816,15 @@ namespace CooPilotes {
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, vitesse: number): void {
 
-        if (index === moteurs.M1) v1 = Math.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M2) v2 = Math.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M3) v3 = Math.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M4) v4 = Math.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M1) v1 = this.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M2) v2 = this.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M3) v3 = this.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M4) v4 = this.map(vitesse, -255, 255, 1, 9);
 
         if (!initialized) {
             initPCA9685();
         }
-        vitesse = Math.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
+        vitesse = this.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
         if (vitesse >= 4095) {
             vitesse = 4095;
         }

@@ -1,7 +1,20 @@
+"use strict";
 /*
 load dependency
 "CooPilotes": "file:../CooPilotes"
 */
+exports.__esModule = true;
+/// <reference path="../extensions/enum.ts"/>
+/// <reference path="../extensions/basic.ts"/>
+/// <reference path="../extensions/radio.ts"/>
+/// <reference path="../extensions/music.ts"/>
+/// <reference path="../extensions/input.ts"/>
+/// <reference path="../extensions/icons.ts"/>
+/// <reference path="../extensions/shims.ts"/>
+/// <reference path="../extensions/melodies.ts"/>
+/// <reference path="../extensions/math.ts"/>
+/// <reference path="../extensions/radio.ts"/>
+/// <reference path="../extensions/pins.ts"/>
 var froms;
 (function (froms) {
     froms[froms["Raspberry"] = 1] = "Raspberry";
@@ -9,7 +22,7 @@ var froms;
     froms[froms["Voiture"] = 3] = "Voiture";
     froms[froms["Remote"] = 4] = "Remote";
     froms[froms["Joystick"] = 5] = "Joystick";
-})(froms || (froms = {}));
+})(froms = exports.froms || (exports.froms = {}));
 var actions;
 (function (actions) {
     actions[actions["Avance"] = 1] = "Avance";
@@ -17,14 +30,14 @@ var actions;
     actions[actions["Gauche"] = 3] = "Gauche";
     actions[actions["Droite"] = 4] = "Droite";
     actions[actions["Stop"] = 5] = "Stop";
-})(actions || (actions = {}));
+})(actions = exports.actions || (exports.actions = {}));
 var types;
 (function (types) {
     types[types["Welcome"] = 1] = "Welcome";
     types[types["ChaqueMoteur"] = 2] = "ChaqueMoteur";
     types[types["Action"] = 3] = "Action";
     types[types["MoteurSpecifique"] = 4] = "MoteurSpecifique";
-})(types || (types = {}));
+})(types = exports.types || (exports.types = {}));
 var remotes;
 (function (remotes) {
     remotes[remotes["Un"] = 0] = "Un";
@@ -33,10 +46,10 @@ var remotes;
     remotes[remotes["Quatre"] = 3] = "Quatre";
     remotes[remotes["Cinq"] = 4] = "Cinq";
     remotes[remotes["Six"] = 5] = "Six";
-})(remotes || (remotes = {}));
+})(remotes = exports.remotes || (exports.remotes = {}));
 var DataAPI = /** @class */ (function () {
     function DataAPI(data) {
-        this.buffer = (data) ? data : pins.createBuffer(8);
+        this.buffer = data;
     }
     DataAPI.prototype.getFrom = function () {
         return this.buffer[0];
@@ -79,6 +92,7 @@ var DataAPI = /** @class */ (function () {
     };
     return DataAPI;
 }());
+exports.DataAPI = DataAPI;
 var CooPilotes;
 (function (CooPilotes) {
     //% color="#ECA40D" weight=20 icon="\uf1b9"
@@ -225,8 +239,7 @@ var CooPilotes;
     }
     function i2cread(addr, reg) {
         pins.i2cWriteNumber(addr, reg, 7 /* UInt8BE */);
-        var val = pins.i2cReadNumber(addr, 7 /* UInt8BE */);
-        return val;
+        return pins.i2cReadNumber(addr, 7 /* UInt8BE */);
     }
     function initPCA9685() {
         i2cwrite(PCA9685_ADD, MODE1, 0x00);
@@ -763,7 +776,7 @@ var CooPilotes;
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
     function Servo2(num, value) {
         // 50hz: 20,000 us
-        var newvalue = Math.map(value, 0, 270, 0, 180);
+        var newvalue = this.map(value, 0, 270, 0, 180);
         var us = (newvalue * 1800 / 180 + 600); // 0.6 ~ 2.4
         var pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
@@ -802,17 +815,17 @@ var CooPilotes;
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function ActiveMoteur(index, vitesse) {
         if (index === moteurs.M1)
-            v1 = Math.map(vitesse, -255, 255, 1, 9);
+            v1 = this.map(vitesse, -255, 255, 1, 9);
         if (index === moteurs.M2)
-            v2 = Math.map(vitesse, -255, 255, 1, 9);
+            v2 = this.map(vitesse, -255, 255, 1, 9);
         if (index === moteurs.M3)
-            v3 = Math.map(vitesse, -255, 255, 1, 9);
+            v3 = this.map(vitesse, -255, 255, 1, 9);
         if (index === moteurs.M4)
-            v4 = Math.map(vitesse, -255, 255, 1, 9);
+            v4 = this.map(vitesse, -255, 255, 1, 9);
         if (!initialized) {
             initPCA9685();
         }
-        vitesse = Math.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
+        vitesse = this.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
         if (vitesse >= 4095) {
             vitesse = 4095;
         }
@@ -866,4 +879,4 @@ var CooPilotes;
         return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
     }
     CooPilotes.map = map;
-})(CooPilotes || (CooPilotes = {}));
+})(CooPilotes = exports.CooPilotes || (exports.CooPilotes = {}));
