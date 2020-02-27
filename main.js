@@ -1,9 +1,7 @@
-"use strict";
 /*
 load dependency
 "CooPilotes": "file:../CooPilotes"
 */
-Object.defineProperty(exports, "__esModule", { value: true });
 var froms;
 (function (froms) {
     froms[froms["Raspberry"] = 1] = "Raspberry";
@@ -11,7 +9,7 @@ var froms;
     froms[froms["Voiture"] = 3] = "Voiture";
     froms[froms["Remote"] = 4] = "Remote";
     froms[froms["Joystick"] = 5] = "Joystick";
-})(froms = exports.froms || (exports.froms = {}));
+})(froms || (froms = {}));
 var actions;
 (function (actions) {
     actions[actions["Avance"] = 1] = "Avance";
@@ -19,7 +17,7 @@ var actions;
     actions[actions["Gauche"] = 3] = "Gauche";
     actions[actions["Droite"] = 4] = "Droite";
     actions[actions["Stop"] = 5] = "Stop";
-})(actions = exports.actions || (exports.actions = {}));
+})(actions || (actions = {}));
 var types;
 (function (types) {
     types[types["Welcome"] = 1] = "Welcome";
@@ -27,20 +25,11 @@ var types;
     types[types["Action"] = 3] = "Action";
     types[types["MoteurSpecifique"] = 4] = "MoteurSpecifique";
     types[types["Update"] = 5] = "Update";
-})(types = exports.types || (exports.types = {}));
-var remotes;
-(function (remotes) {
-    remotes[remotes["Un"] = 0] = "Un";
-    remotes[remotes["Deux"] = 1] = "Deux";
-    remotes[remotes["Trois"] = 2] = "Trois";
-    remotes[remotes["Quatre"] = 3] = "Quatre";
-    remotes[remotes["Cinq"] = 4] = "Cinq";
-    remotes[remotes["Six"] = 5] = "Six";
-})(remotes = exports.remotes || (exports.remotes = {}));
-exports.sizeBuffer = 9;
+})(types || (types = {}));
+var sizeBuffer = 9;
 var DataAPI = /** @class */ (function () {
     function DataAPI(data) {
-        if (data === void 0) { data = pins.createBuffer(exports.sizeBuffer); }
+        if (data === void 0) { data = pins.createBuffer(sizeBuffer); }
         this.buffer = data;
     }
     DataAPI.prototype.getFrom = function () {
@@ -93,7 +82,6 @@ var DataAPI = /** @class */ (function () {
     };
     return DataAPI;
 }());
-exports.DataAPI = DataAPI;
 var CooPilotes;
 (function (CooPilotes) {
     //% color="#ECA40D" weight=20 icon="\uf1b9"
@@ -777,7 +765,7 @@ var CooPilotes;
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
     function Servo2(num, value) {
         // 50hz: 20,000 us
-        var newvalue = this.map(value, 0, 270, 0, 180);
+        var newvalue = CooPilotes.map(value, 0, 270, 0, 180);
         var us = (newvalue * 1800 / 180 + 600); // 0.6 ~ 2.4
         var pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
@@ -816,17 +804,17 @@ var CooPilotes;
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function ActiveMoteur(index, vitesse) {
         if (index === moteurs.M1)
-            v1 = this.map(vitesse, -255, 255, 1, 9);
+            v1 = CooPilotes.map(vitesse, -255, 255, 1, 9);
         if (index === moteurs.M2)
-            v2 = this.map(vitesse, -255, 255, 1, 9);
+            v2 = CooPilotes.map(vitesse, -255, 255, 1, 9);
         if (index === moteurs.M3)
-            v3 = this.map(vitesse, -255, 255, 1, 9);
+            v3 = CooPilotes.map(vitesse, -255, 255, 1, 9);
         if (index === moteurs.M4)
-            v4 = this.map(vitesse, -255, 255, 1, 9);
+            v4 = CooPilotes.map(vitesse, -255, 255, 1, 9);
         if (!initialized) {
             initPCA9685();
         }
-        vitesse = this.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
+        vitesse = CooPilotes.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
         if (vitesse >= 4095) {
             vitesse = 4095;
         }
@@ -880,4 +868,4 @@ var CooPilotes;
         return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
     }
     CooPilotes.map = map;
-})(CooPilotes = exports.CooPilotes || (exports.CooPilotes = {}));
+})(CooPilotes || (CooPilotes = {}));
