@@ -3,27 +3,24 @@ load dependency
 "CooPilotes": "file:../CooPilotes"
 */
 
-    //
-    // fromSring(data: string):Buffer
-    // {
-    //     return this.fromBuffer( Buffer.from(data, 'utf8') );
-    // }
+
+enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3 }
+enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
+enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4 }
+
 class dataAPI {
     from: froms;
     type: types;
     action: actions;
+    param: number;
     vitesses: Array<number>;
     buffer: Buffer;
 
-
     constructor(data: Buffer) {
-
         this.buffer = data;
     }
 
-
-
-    getFrom(): number {
+    get getFrom(): number {
         return this.buffer[0];
     }
 
@@ -32,7 +29,7 @@ class dataAPI {
     }
 
 
-    getType(): number {
+    get getType(): number {
         return this.buffer[1];
     }
 
@@ -40,7 +37,7 @@ class dataAPI {
         this.buffer[1] = value;
     }
 
-    getAction(): number {
+    get getAction(): number {
         return this.buffer[2];
     }
 
@@ -48,7 +45,7 @@ class dataAPI {
         this.buffer[2] = value;
     }
 
-    getParam(): number {
+    get getParam(): number {
         return this.buffer[3];
     }
 
@@ -56,11 +53,8 @@ class dataAPI {
         this.buffer[3] = value;
     }
 
-    getVitesse(rang:number ): number {
-        return this.buffer[rang + 4];
-    }
 
-    getVitesses(): Array<number> {
+    get getVitesses(): Array<number> {
         return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
     }
 
@@ -79,40 +73,13 @@ class dataAPI {
 }
 
 
-interface objectData {
-    from: number;
-    type: number;
-    action: number;
-    param : number
-    data: Array<string>;
-    dataString: string;
-    initial: string;
 
-}
 
 
 namespace CooPilotes {
 
     //% color="#ECA40D" weight=20 icon="\uf1b9"
 
-    export enum TypeAction {
-        action = 1,
-        chaqueMoteurs = 2,
-        unMoteur = 3,
-        tousMoteurs = 4
-    }
-
-    export function decode(texte: string): objectData {
-        let dataS = {
-            from: ((texte.split("|"))[0]),
-            type: ((texte.split("|"))[1]),
-            data: ((texte.split("|"))[2]).split(""),
-            dataString: ((texte.split("|"))[2]),
-            initial: texte
-        };
-
-        return dataS;
-    }
 
     let v1 = 5;
     let v2 = 5;
