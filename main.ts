@@ -4,7 +4,7 @@ load dependency
 */
 
 
-enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4 }
+enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
 enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
 enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4 }
 enum TypesRemote { Car, Remote }
