@@ -33,7 +33,7 @@ class DataAPI {
     }
 
 
-    setFrom(value: number): void {
+    setFrom(value: number) {
         this.buffer[0] = value;
     }
 
