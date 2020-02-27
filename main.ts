@@ -4,13 +4,12 @@ load dependency
 */
 
 
-export enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
-export enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
-export enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4, Update = 5 }
-export enum remotes { Un = 0, Deux = 1, Trois = 2, Quatre = 3, Cinq = 4, Six = 5 }
-export const sizeBuffer: number = 9;
+enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
+enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
+enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4, Update = 5 }
+const sizeBuffer: number = 9;
 
-export class DataAPI {
+class DataAPI {
     from: froms;
     type: types;
     action: actions;
@@ -29,7 +28,7 @@ export class DataAPI {
         return this.buffer[0];
     }
 
-    isFrom(data: froms): boolean{
+    isFrom(data: froms): boolean {
         return (this.buffer[0] === data);
     }
 
@@ -43,7 +42,7 @@ export class DataAPI {
         return this.buffer[8];
     }
 
-    isTo(data: froms): boolean{
+    isTo(data: froms): boolean {
         return (this.buffer[8] === data);
     }
 
@@ -61,7 +60,7 @@ export class DataAPI {
         this.buffer[1] = value;
     }
 
-    isType(data: types): boolean{
+    isType(data: types): boolean {
         return (this.buffer[1] === data);
     }
 
@@ -75,7 +74,7 @@ export class DataAPI {
     }
 
 
-    getVitesse(value:number ):number {
+    getVitesse(value: number): number {
         return this.buffer[value];
     }
 
@@ -97,7 +96,7 @@ export class DataAPI {
 
 }
 
-export namespace CooPilotes {
+namespace CooPilotes {
 
     //% color="#ECA40D" weight=20 icon="\uf1b9"
 
@@ -270,32 +269,32 @@ export namespace CooPilotes {
 
     export function getVitesses(): string {
 
-        if(v1<1) v1 = 1;
-        if(v1<2) v2 = 1;
-        if(v1<3) v3 = 1;
-        if(v1<4) v4 = 1;
+        if (v1 < 1) v1 = 1;
+        if (v1 < 2) v2 = 1;
+        if (v1 < 3) v3 = 1;
+        if (v1 < 4) v4 = 1;
 
-        if(v1>9) v1 = 9;
-        if(v1>9) v2 = 9;
-        if(v1>9) v3 = 9;
-        if(v1>9) v4 = 9;
+        if (v1 > 9) v1 = 9;
+        if (v1 > 9) v2 = 9;
+        if (v1 > 9) v3 = 9;
+        if (v1 > 9) v4 = 9;
 
-        return v1.toString()+v2.toString()+v3.toString()+v4.toString();
+        return v1.toString() + v2.toString() + v3.toString() + v4.toString();
     }
 
     export function getVitessesArray(): Array<number> {
 
-        if(v1<1) v1 = 1;
-        if(v1<2) v2 = 1;
-        if(v1<3) v3 = 1;
-        if(v1<4) v4 = 1;
+        if (v1 < 1) v1 = 1;
+        if (v1 < 2) v2 = 1;
+        if (v1 < 3) v3 = 1;
+        if (v1 < 4) v4 = 1;
 
-        if(v1>9) v1 = 9;
-        if(v1>9) v2 = 9;
-        if(v1>9) v3 = 9;
-        if(v1>9) v4 = 9;
+        if (v1 > 9) v1 = 9;
+        if (v1 > 9) v2 = 9;
+        if (v1 > 9) v3 = 9;
+        if (v1 > 9) v4 = 9;
 
-        return [v1,v2,v3,v4];
+        return [v1, v2, v3, v4];
     }
 
     function setFreq(freq: number): void {
@@ -790,7 +789,7 @@ export namespace CooPilotes {
     export function Servo2(num: servos, value: number): void {
 
         // 50hz: 20,000 us
-        let newvalue = this.map(value, 0, 270, 0, 180);
+        let newvalue = CooPilotes.map(value, 0, 270, 0, 180);
         let us = (newvalue * 1800 / 180 + 600); // 0.6 ~ 2.4
         let pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
@@ -832,15 +831,15 @@ export namespace CooPilotes {
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, vitesse: number): void {
 
-        if (index === moteurs.M1) v1 = this.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M2) v2 = this.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M3) v3 = this.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M4) v4 = this.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M1) v1 = CooPilotes.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M2) v2 = CooPilotes.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M3) v3 = CooPilotes.map(vitesse, -255, 255, 1, 9);
+        if (index === moteurs.M4) v4 = CooPilotes.map(vitesse, -255, 255, 1, 9);
 
         if (!initialized) {
             initPCA9685();
         }
-        vitesse = this.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
+        vitesse = CooPilotes.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
         if (vitesse >= 4095) {
             vitesse = 4095;
         }
