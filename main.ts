@@ -177,6 +177,10 @@ class dataAPI {
     }
 
 
+    get getVitesse(value:number ):number {
+        return this.buffer[value];
+    }
+
     get getVitesses(): Array<number> {
         return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
     }
