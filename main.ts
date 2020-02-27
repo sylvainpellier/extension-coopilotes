@@ -3,10 +3,87 @@ load dependency
 "CooPilotes": "file:../CooPilotes"
 */
 
+    //
+    // fromSring(data: string):Buffer
+    // {
+    //     return this.fromBuffer( Buffer.from(data, 'utf8') );
+    // }
+class dataAPI {
+    from: froms;
+    type: types;
+    action: actions;
+    vitesses: Array<number>;
+    buffer: Buffer;
+
+
+    constructor(data: Buffer) {
+
+        this.buffer = data;
+    }
+
+
+
+    getFrom(): number {
+        return this.buffer[0];
+    }
+
+    setFrom(value: number): void {
+        this.buffer[0] = value;
+    }
+
+
+    getType(): number {
+        return this.buffer[1];
+    }
+
+    setType(value: number): void {
+        this.buffer[1] = value;
+    }
+
+    getAction(): number {
+        return this.buffer[2];
+    }
+
+    setAction(value: number): void {
+        this.buffer[2] = value;
+    }
+
+    getParam(): number {
+        return this.buffer[3];
+    }
+
+    setParam(value: number): void {
+        this.buffer[3] = value;
+    }
+
+    getVitesse(rang:number ): number {
+        return this.buffer[rang + 4];
+    }
+
+    getVitesses(): Array<number> {
+        return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
+    }
+
+    setVitesse(rang: number, value: number): void {
+        this.buffer[rang + 4] = value;
+    }
+
+    setVitesses(values: Array<number>): void {
+        this.buffer[4] = values[0];
+        this.buffer[5] = values[1];
+        this.buffer[6] = values[2];
+        this.buffer[7] = values[3];
+    }
+
+
+}
+
 
 interface objectData {
-    from: string;
-    type: string;
+    from: number;
+    type: number;
+    action: number;
+    param : number
     data: Array<string>;
     dataString: string;
     initial: string;
@@ -222,6 +299,21 @@ namespace CooPilotes {
         if(v1>9) v4 = 9;
 
         return v1.toString()+v2.toString()+v3.toString()+v4.toString();
+    }
+
+    export function getVitessesArray(): Array<number> {
+
+        if(v1<1) v1 = 1;
+        if(v1<2) v2 = 1;
+        if(v1<3) v3 = 1;
+        if(v1<4) v4 = 1;
+
+        if(v1>9) v1 = 9;
+        if(v1>9) v2 = 9;
+        if(v1>9) v3 = 9;
+        if(v1>9) v4 = 9;
+
+        return [v1,v2,v3,v4];
     }
 
     function setFreq(freq: number): void {
