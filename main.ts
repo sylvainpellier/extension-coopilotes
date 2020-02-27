@@ -6,18 +6,20 @@ load dependency
 
 export enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
 export enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
-export enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4 }
+export enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4, Update = 5 }
 export enum remotes { Un = 0, Deux = 1, Trois = 2, Quatre = 3, Cinq = 4, Six = 5 }
+export const sizeBuffer: number = 9;
 
 export class DataAPI {
     from: froms;
     type: types;
     action: actions;
+    to: froms;
     param: number;
     vitesses: Array<number>;
     buffer: Buffer;
 
-    constructor(data: Buffer) {
+    constructor(data: Buffer = pins.createBuffer(sizeBuffer)) {
 
         this.buffer = data;
     }
@@ -34,6 +36,20 @@ export class DataAPI {
 
     setFrom(value: number): void {
         this.buffer[0] = value;
+    }
+
+
+    getTo(): number {
+        return this.buffer[8];
+    }
+
+    isTo(data: froms): boolean{
+        return (this.buffer[8] === data);
+    }
+
+
+    setTo(value: number): void {
+        this.buffer[8] = value;
     }
 
 
@@ -64,18 +80,18 @@ export class DataAPI {
     }
 
     getVitesses(): Array<number> {
-        return [this.buffer[3], this.buffer[4], this.buffer[5], this.buffer[6]];
+        return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
     }
 
     setVitesse(rang: number, value: number): void {
-        this.buffer[rang + 3] = value;
+        this.buffer[rang + 4] = value;
     }
 
     setVitesses(values: Array<number>): void {
-        this.buffer[3] = values[0];
-        this.buffer[4] = values[1];
-        this.buffer[5] = values[2];
-        this.buffer[6] = values[3];
+        this.buffer[4] = values[0];
+        this.buffer[5] = values[1];
+        this.buffer[6] = values[2];
+        this.buffer[7] = values[3];
     }
 
 

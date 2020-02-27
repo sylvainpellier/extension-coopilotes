@@ -3,18 +3,7 @@
 load dependency
 "CooPilotes": "file:../CooPilotes"
 */
-exports.__esModule = true;
-/// <reference path="../extensions/enum.ts"/>
-/// <reference path="../extensions/basic.ts"/>
-/// <reference path="../extensions/radio.ts"/>
-/// <reference path="../extensions/music.ts"/>
-/// <reference path="../extensions/input.ts"/>
-/// <reference path="../extensions/icons.ts"/>
-/// <reference path="../extensions/shims.ts"/>
-/// <reference path="../extensions/melodies.ts"/>
-/// <reference path="../extensions/math.ts"/>
-/// <reference path="../extensions/radio.ts"/>
-/// <reference path="../extensions/pins.ts"/>
+Object.defineProperty(exports, "__esModule", { value: true });
 var froms;
 (function (froms) {
     froms[froms["Raspberry"] = 1] = "Raspberry";
@@ -37,6 +26,7 @@ var types;
     types[types["ChaqueMoteur"] = 2] = "ChaqueMoteur";
     types[types["Action"] = 3] = "Action";
     types[types["MoteurSpecifique"] = 4] = "MoteurSpecifique";
+    types[types["Update"] = 5] = "Update";
 })(types = exports.types || (exports.types = {}));
 var remotes;
 (function (remotes) {
@@ -47,8 +37,10 @@ var remotes;
     remotes[remotes["Cinq"] = 4] = "Cinq";
     remotes[remotes["Six"] = 5] = "Six";
 })(remotes = exports.remotes || (exports.remotes = {}));
+exports.sizeBuffer = 9;
 var DataAPI = /** @class */ (function () {
     function DataAPI(data) {
+        if (data === void 0) { data = pins.createBuffer(exports.sizeBuffer); }
         this.buffer = data;
     }
     DataAPI.prototype.getFrom = function () {
@@ -59,6 +51,15 @@ var DataAPI = /** @class */ (function () {
     };
     DataAPI.prototype.setFrom = function (value) {
         this.buffer[0] = value;
+    };
+    DataAPI.prototype.getTo = function () {
+        return this.buffer[8];
+    };
+    DataAPI.prototype.isTo = function (data) {
+        return (this.buffer[8] === data);
+    };
+    DataAPI.prototype.setTo = function (value) {
+        this.buffer[8] = value;
     };
     DataAPI.prototype.getType = function () {
         return this.buffer[1];
@@ -79,16 +80,16 @@ var DataAPI = /** @class */ (function () {
         return this.buffer[value];
     };
     DataAPI.prototype.getVitesses = function () {
-        return [this.buffer[3], this.buffer[4], this.buffer[5], this.buffer[6]];
+        return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
     };
     DataAPI.prototype.setVitesse = function (rang, value) {
-        this.buffer[rang + 3] = value;
+        this.buffer[rang + 4] = value;
     };
     DataAPI.prototype.setVitesses = function (values) {
-        this.buffer[3] = values[0];
-        this.buffer[4] = values[1];
-        this.buffer[5] = values[2];
-        this.buffer[6] = values[3];
+        this.buffer[4] = values[0];
+        this.buffer[5] = values[1];
+        this.buffer[6] = values[2];
+        this.buffer[7] = values[3];
     };
     return DataAPI;
 }());
