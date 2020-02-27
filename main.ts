@@ -3,136 +3,12 @@ load dependency
 "CooPilotes": "file:../CooPilotes"
 */
 
-
 enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
 enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
 enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4 }
-enum TypesRemote { Car, Remote }
-enum Materiel { Wukong, Yahboom }
 enum remotes { Un = 0, Deux = 1, Trois = 2, Quatre = 3, Cinq = 4, Six=5 }
 
-
-
-class Vitesses {
-
-    data: number[] = [5, 5, 5, 5];
-
-    constructor() { }
-
-    change(type: string, nouvelleValeur: number): void {
-        let place = parseInt(type) - 1;
-        if (type == "5") {
-            this.data[0] = nouvelleValeur;
-            this.data[1] = nouvelleValeur;
-        } else if (type == "6") {
-            this.data[2] = nouvelleValeur;
-            this.data[3] = nouvelleValeur;
-        } else {
-            this.data[place] = nouvelleValeur;
-        }
-
-    }
-
-    get(type: string): number {
-        let place = parseInt(type) - 1;
-        return this.data[place];
-    }
-
-    getFormatValue(): number {
-        return this.get("1") * 1000 + this.get("2") * 100 + this.get("3") * 10 + this.get("4");
-    }
-
-}
-const Vitesse = new Vitesses();
-
-class Roue {
-    moteur: CooPilotes.moteurs;
-    led: neopixel.Strip;
-    codeVitesse: string;
-    constructor(moteur: CooPilotes.moteurs, led: neopixel.Strip, code: string) {
-        this.moteur = moteur;
-        this.led = led;
-        this.codeVitesse = code;
-    }
-
-    active(): void {
-
-        let vitesse = Vitesse.get(this.codeVitesse);
-        let c = (vitesse == 5) ? NeoPixelColors.Yellow : (vitesse > 5) ? NeoPixelColors.Blue : NeoPixelColors.Red;
-
-        if (typeMateriel === Materiel.Wukong) {
-            wheelspeed(this.moteur, CooPilotes.map(vitesse, minPowerMotor, maxPowerMotor, -100, 100))
-        } else if (typeMateriel === Materiel.Yahboom) {
-            CooPilotes.ActiveMoteur(this.moteur, CooPilotes.map(vitesse, minPowerMotor, maxPowerMotor, 255, -255));
-            this.led.showColor(c);
-
-        }
-
-
-    }
-
-}
-
-
-
-function wheelspeed(wheel: any, speed: any) {
-
-
-    if (wheel === CooPilotes.moteurs.M1 || wheel === CooPilotes.moteurs.M2) {
-        speed = speed * -1;
-    }
-    let buf = pins.createBuffer(4);
-
-    if (wheel < 2) {
-        if (speed == 0) {
-            speed = 89
-        }
-        else {
-            if (speed > 0) {
-                speed = Math.map(speed, 1, 100, 90, 180)
-            }
-            if (speed < 0) {
-                speed = speed * -1
-                speed = Math.map(speed, 1, 100, 90, 0)
-            }
-        }
-    }
-    else {
-        if (speed == 0) {
-            speed = 89
-        }
-        else {
-            if (speed > 0) {
-                speed = Math.map(speed, 1, 100, 90, 0)
-            }
-            if (speed < 0) {
-                speed = speed * -1
-                speed = Math.map(speed, 1, 100, 90, 180)
-            }
-        }
-    }
-
-
-    if (wheel === CooPilotes.moteurs.M1) {
-        buf[0] = 0x04; //ok
-    } else if (wheel === CooPilotes.moteurs.M4) {
-        buf[0] = 0x05; //ok
-    } else if (wheel === CooPilotes.moteurs.M2) {
-        buf[0] = 0x06; //ok
-    }
-    else if (wheel === CooPilotes.moteurs.M3) {
-        buf[0] = 0x3;
-    }
-
-    buf[1] = speed;
-    buf[2] = 0;
-    buf[3] = 0;
-    pins.i2cWriteBuffer(board_address, buf);
-
-}
-
-
-class dataAPI {
+class DataAPI {
     from: froms;
     type: types;
     action: actions;
@@ -146,8 +22,12 @@ class dataAPI {
     }
 
 
-    get getFrom(): number {
+    getFrom(): number {
         return this.buffer[0];
+    }
+
+    isFrom(data: froms): boolean{
+        return (this.buffer[0] === data);
     }
 
 
@@ -156,7 +36,7 @@ class dataAPI {
     }
 
 
-    get getType(): number {
+    getType(): number {
         return this.buffer[1];
     }
 
@@ -164,45 +44,41 @@ class dataAPI {
         this.buffer[1] = value;
     }
 
-    get getAction(): number {
+    isType(data: types): boolean{
+        return (this.buffer[1] === data);
+    }
+
+
+    getParam(): number {
         return this.buffer[2];
     }
 
-    setAction(value: number): void {
+    setParam(value: number): void {
         this.buffer[2] = value;
     }
 
-    get getParam(): number {
-        return this.buffer[3];
-    }
 
-    setParam(value: number): void {
-        this.buffer[3] = value;
-    }
-
-
-    get getVitesse(value:number ):number {
+    getVitesse(value:number ):number {
         return this.buffer[value];
     }
 
-    get getVitesses(): Array<number> {
-        return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
+    getVitesses(): Array<number> {
+        return [this.buffer[3], this.buffer[4], this.buffer[5], this.buffer[6]];
     }
 
     setVitesse(rang: number, value: number): void {
-        this.buffer[rang + 4] = value;
+        this.buffer[rang + 3] = value;
     }
 
     setVitesses(values: Array<number>): void {
-        this.buffer[4] = values[0];
-        this.buffer[5] = values[1];
-        this.buffer[6] = values[2];
-        this.buffer[7] = values[3];
+        this.buffer[3] = values[0];
+        this.buffer[4] = values[1];
+        this.buffer[5] = values[2];
+        this.buffer[6] = values[3];
     }
 
 
 }
-
 
 namespace CooPilotes {
 
@@ -237,8 +113,6 @@ namespace CooPilotes {
 
     let initialized = false
     //let yahStrip: neopixel.Strip
-
-
 
 
 
