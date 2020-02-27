@@ -8,6 +8,124 @@ enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3 }
 enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
 enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4 }
 
+
+class Roue {
+    moteur: CooPilotes.moteurs;
+    led: neopixel.Strip;
+    codeVitesse: string;
+    constructor(moteur: CooPilotes.moteurs, led: neopixel.Strip, code: string) {
+        this.moteur = moteur;
+        this.led = led;
+        this.codeVitesse = code;
+    }
+
+    active(): void {
+
+        let vitesse = Vitesse.get(this.codeVitesse);
+        let c = (vitesse == 5) ? NeoPixelColors.Yellow : (vitesse > 5) ? NeoPixelColors.Blue : NeoPixelColors.Red;
+
+        if (typeMateriel === Materiel.Wukong) {
+            wheelspeed(this.moteur, CooPilotes.map(vitesse, minPowerMotor, maxPowerMotor, -100, 100))
+        } else if (typeMateriel === Materiel.Yahboom) {
+            CooPilotes.ActiveMoteur(this.moteur, CooPilotes.map(vitesse, minPowerMotor, maxPowerMotor, 255, -255));
+            this.led.showColor(c);
+
+        }
+
+
+    }
+
+}
+
+class Vitesses {
+
+    data: number[] = [5, 5, 5, 5];
+
+    constructor() { }
+
+    change(type: string, nouvelleValeur: number): void {
+        let place = parseInt(type) - 1;
+        if (type == "5") {
+            this.data[0] = nouvelleValeur;
+            this.data[1] = nouvelleValeur;
+        } else if (type == "6") {
+            this.data[2] = nouvelleValeur;
+            this.data[3] = nouvelleValeur;
+        } else {
+            this.data[place] = nouvelleValeur;
+        }
+
+    }
+
+    get(type: string): number {
+        let place = parseInt(type) - 1;
+        return this.data[place];
+    }
+
+    getFormatValue(): number {
+        return this.get("1") * 1000 + this.get("2") * 100 + this.get("3") * 10 + this.get("4");
+    }
+
+}
+
+
+function wheelspeed(wheel: any, speed: any) {
+
+
+    if (wheel === CooPilotes.moteurs.M1 || wheel === CooPilotes.moteurs.M2) {
+        speed = speed * -1;
+    }
+    let buf = pins.createBuffer(4)
+
+    if (wheel < 2) {
+        if (speed == 0) {
+            speed = 89
+        }
+        else {
+            if (speed > 0) {
+                speed = Math.map(speed, 1, 100, 90, 180)
+            }
+            if (speed < 0) {
+                speed = speed * -1
+                speed = Math.map(speed, 1, 100, 90, 0)
+            }
+        }
+    }
+    else {
+        if (speed == 0) {
+            speed = 89
+        }
+        else {
+            if (speed > 0) {
+                speed = Math.map(speed, 1, 100, 90, 0)
+            }
+            if (speed < 0) {
+                speed = speed * -1
+                speed = Math.map(speed, 1, 100, 90, 180)
+            }
+        }
+    }
+
+
+    if (wheel === CooPilotes.moteurs.M1) {
+        buf[0] = 0x04; //ok
+    } else if (wheel === CooPilotes.moteurs.M4) {
+        buf[0] = 0x05; //ok
+    } else if (wheel === CooPilotes.moteurs.M2) {
+        buf[0] = 0x06; //ok
+    }
+    else if (wheel === CooPilotes.moteurs.M3) {
+        buf[0] = 0x3;
+    }
+
+    buf[1] = speed;
+    buf[2] = 0;
+    buf[3] = 0;
+    pins.i2cWriteBuffer(board_address, buf);
+
+}
+
+
 class dataAPI {
     from: froms;
     type: types;
