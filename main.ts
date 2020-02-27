@@ -9,6 +9,7 @@ enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
 enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4 }
 enum TypesRemote { Car, Remote }
 enum Materiel { Wukong, Yahboom }
+enum remotes { Un = 0, Deux = 1, Trois = 2, Quatre = 3, Cinq = 4, Six=5 }
 
 
 
@@ -143,9 +144,11 @@ class dataAPI {
         this.buffer = data;
     }
 
+
     get getFrom(): number {
         return this.buffer[0];
     }
+
 
     setFrom(value: number): void {
         this.buffer[0] = value;
