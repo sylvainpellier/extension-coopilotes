@@ -10,36 +10,7 @@ enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4 }
 enum TypesRemote { Car, Remote }
 enum Materiel { Wukong, Yahboom }
 
-const Vitesse = new Vitesses();
 
-
-class Roue {
-    moteur: CooPilotes.moteurs;
-    led: neopixel.Strip;
-    codeVitesse: string;
-    constructor(moteur: CooPilotes.moteurs, led: neopixel.Strip, code: string) {
-        this.moteur = moteur;
-        this.led = led;
-        this.codeVitesse = code;
-    }
-
-    active(): void {
-
-        let vitesse = Vitesse.get(this.codeVitesse);
-        let c = (vitesse == 5) ? NeoPixelColors.Yellow : (vitesse > 5) ? NeoPixelColors.Blue : NeoPixelColors.Red;
-
-        if (typeMateriel === Materiel.Wukong) {
-            wheelspeed(this.moteur, CooPilotes.map(vitesse, minPowerMotor, maxPowerMotor, -100, 100))
-        } else if (typeMateriel === Materiel.Yahboom) {
-            CooPilotes.ActiveMoteur(this.moteur, CooPilotes.map(vitesse, minPowerMotor, maxPowerMotor, 255, -255));
-            this.led.showColor(c);
-
-        }
-
-
-    }
-
-}
 
 class Vitesses {
 
@@ -71,6 +42,36 @@ class Vitesses {
     }
 
 }
+const Vitesse = new Vitesses();
+
+class Roue {
+    moteur: CooPilotes.moteurs;
+    led: neopixel.Strip;
+    codeVitesse: string;
+    constructor(moteur: CooPilotes.moteurs, led: neopixel.Strip, code: string) {
+        this.moteur = moteur;
+        this.led = led;
+        this.codeVitesse = code;
+    }
+
+    active(): void {
+
+        let vitesse = Vitesse.get(this.codeVitesse);
+        let c = (vitesse == 5) ? NeoPixelColors.Yellow : (vitesse > 5) ? NeoPixelColors.Blue : NeoPixelColors.Red;
+
+        if (typeMateriel === Materiel.Wukong) {
+            wheelspeed(this.moteur, CooPilotes.map(vitesse, minPowerMotor, maxPowerMotor, -100, 100))
+        } else if (typeMateriel === Materiel.Yahboom) {
+            CooPilotes.ActiveMoteur(this.moteur, CooPilotes.map(vitesse, minPowerMotor, maxPowerMotor, 255, -255));
+            this.led.showColor(c);
+
+        }
+
+
+    }
+
+}
+
 
 
 function wheelspeed(wheel: any, speed: any) {
@@ -193,9 +194,6 @@ class dataAPI {
 
 
 }
-
-
-
 
 
 namespace CooPilotes {
@@ -358,8 +356,8 @@ namespace CooPilotes {
     }
 
     function i2ccmd(addr: number, value: number) {
-        let buf = pins.createBuffer(1)
-        buf[0] = value
+        let buf = pins.createBuffer(1);
+        buf[0] = value;
         pins.i2cWriteBuffer(addr, buf)
     }
 
