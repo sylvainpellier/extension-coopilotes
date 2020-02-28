@@ -1,108 +1,122 @@
+/// <reference path="../extensions/enum.ts"/>
+/// <reference path="../extensions/basic.ts"/>
+/// <reference path="../extensions/radio.ts"/>
+/// <reference path="../extensions/music.ts"/>
+/// <reference path="../extensions/input.ts"/>
+/// <reference path="../extensions/icons.ts"/>
+/// <reference path="../extensions/shims.ts"/>
+/// <reference path="../extensions/melodies.ts"/>
+/// <reference path="../extensions/math.ts"/>
+/// <reference path="../extensions/radio.ts"/>
+/// <reference path="../extensions/pins.ts"/>
+
 /*
 load dependency
 "CooPilotes": "file:../CooPilotes"
 */
 
+export namespace CP {
 
-enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
-enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
-enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4, Update = 5 }
-enum remotes { Jaune = 0, Orange = 1, Bleu = 2, Transparent = 3, Mode4Gauche = 4, Mode4Droite = 5}
 
-const sizeBuffer: number = 9;
+    export enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
+    export enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
+    export enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4, Update = 5 }
+    export enum remotes { Jaune = 0, Orange = 1, Bleu = 2, Transparent = 3, Mode4Gauche = 4, Mode4Droite = 5 }
 
-class DataAPI {
-    from: froms;
-    type: types;
-    action: actions;
-    to: froms;
-    param: number;
-    vitesses: Array<number>;
-    buffer: Buffer;
+    export const sizeBuffer: number = 9;
 
-    constructor(data: Buffer = pins.createBuffer(sizeBuffer)) {
+    export class Data {
+        from: froms;
+        type: types;
+        action: actions;
+        to: froms;
+        param: number;
+        vitesses: Array<number>;
+        buffer: Buffer;
 
-        this.buffer = data;
+        constructor(data: Buffer = pins.createBuffer(sizeBuffer)) {
+
+            this.buffer = data;
+        }
+
+
+        getFrom(): number {
+            return this.buffer[0];
+        }
+
+        isFrom(data: froms): boolean {
+            return (this.buffer[0] === data);
+        }
+
+
+        setFrom(value: number) {
+            this.buffer[0] = value;
+        }
+
+
+        getTo(): number {
+            return this.buffer[8];
+        }
+
+        isTo(data: froms): boolean {
+            return (this.buffer[8] === data);
+        }
+
+
+        setTo(value: number): void {
+            this.buffer[8] = value;
+        }
+
+
+        getType(): number {
+            return this.buffer[1];
+        }
+
+        setType(value: number): void {
+            this.buffer[1] = value;
+        }
+
+        isType(data: types): boolean {
+            return (this.buffer[1] === data);
+        }
+
+
+        getParam(): number {
+            return this.buffer[2];
+        }
+
+        setParam(value: number): void {
+            this.buffer[2] = value;
+        }
+
+
+        getVitesse(value: number): number {
+            return this.buffer[value + 4];
+        }
+
+        getVitesses(): Array<number> {
+            return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
+        }
+
+        setVitesse(rang: number, value: number): void {
+            this.buffer[rang + 4] = value;
+        }
+
+        setVitesses(values: Array<number>): void {
+            this.buffer[4] = values[0];
+            this.buffer[5] = values[1];
+            this.buffer[6] = values[2];
+            this.buffer[7] = values[3];
+        }
+
     }
 
 
-    getFrom(): number {
-        return this.buffer[0];
-    }
 
-    isFrom(data: froms): boolean {
-        return (this.buffer[0] === data);
-    }
-
-
-    setFrom(value: number) {
-        this.buffer[0] = value;
-    }
-
-
-    getTo(): number {
-        return this.buffer[8];
-    }
-
-    isTo(data: froms): boolean {
-        return (this.buffer[8] === data);
-    }
-
-
-    setTo(value: number): void {
-        this.buffer[8] = value;
-    }
-
-
-    getType(): number {
-        return this.buffer[1];
-    }
-
-    setType(value: number): void {
-        this.buffer[1] = value;
-    }
-
-    isType(data: types): boolean {
-        return (this.buffer[1] === data);
-    }
-
-
-    getParam(): number {
-        return this.buffer[2];
-    }
-
-    setParam(value: number): void {
-        this.buffer[2] = value;
-    }
-
-
-    getVitesse(value: number): number {
-        return this.buffer[value];
-    }
-
-    getVitesses(): Array<number> {
-        return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
-    }
-
-    setVitesse(rang: number, value: number): void {
-        this.buffer[rang + 4] = value;
-    }
-
-    setVitesses(values: Array<number>): void {
-        this.buffer[4] = values[0];
-        this.buffer[5] = values[1];
-        this.buffer[6] = values[2];
-        this.buffer[7] = values[3];
-    }
-
-
-}
-
-namespace CooPilotes {
 
     //% color="#ECA40D" weight=20 icon="\uf1b9"
 
-    let vitesses: Array<number> = [5,5,5,5];
+    let vitesses: Array<number> = [5, 5, 5, 5];
 
     const PCA9685_ADD = 0x40;
     const MODE1 = 0x00;
@@ -294,7 +308,8 @@ namespace CooPilotes {
 
     function setPwm(channel: number, on: number, off: number): void {
 
-        vitesses[channel] = CooPilotes.map(off, -4095, 4095, 1, 9);
+
+
 
         if (channel < 0 || channel > 15)
             return;
@@ -311,6 +326,10 @@ namespace CooPilotes {
     }
 
     function stopMotor(index: number) {
+        vitesses[0] = 5;
+        vitesses[1] = 5;
+        vitesses[2] = 5;
+        vitesses[3] = 5;
         setPwm(index, 0, 0);
         setPwm(index + 1, 0, 0);
     }
@@ -771,7 +790,7 @@ namespace CooPilotes {
     export function Servo2(num: servos, value: number): void {
 
         // 50hz: 20,000 us
-        let newvalue = CooPilotes.map(value, 0, 270, 0, 180);
+        let newvalue = CP.map(value, 0, 270, 0, 180);
         let us = (newvalue * 1800 / 180 + 600); // 0.6 ~ 2.4
         let pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
@@ -813,13 +832,27 @@ namespace CooPilotes {
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, vitesse: number): void {
 
-        vitesses[index] = CooPilotes.map(vitesse, -255, 255, 1, 9);
 
+
+        if (vitesse >= 255) {
+            vitesse = 255;
+        }
+        if (vitesse <= -255) {
+            vitesse = -255;
+        }
+
+        switch (index) {
+            case CP.moteurs.M1: vitesses[0] = CP.map(vitesse, -255, 255, 9, 1); break;
+            case CP.moteurs.M2: vitesses[1] = CP.map(vitesse, -255, 255, 9, 1); break;
+            case CP.moteurs.M3: vitesses[2] = CP.map(vitesse, -255, 255, 9, 1); break;
+            case CP.moteurs.M4: vitesses[3] = CP.map(vitesse, -255, 255, 9, 1); break;
+
+        }
 
         if (!initialized) {
             initPCA9685();
         }
-        vitesse = CooPilotes.map(vitesse, -255, 255, -4095, 4095); // map 255 to 4095
+        vitesse = CP.map(vitesse, -255, 255, -4095, 4095); // map 255 to 4095
         if (vitesse >= 4095) {
             vitesse = 4095;
         }
@@ -827,7 +860,7 @@ namespace CooPilotes {
             vitesse = -4095;
         }
 
-        vitesse = vitesse * -1;
+        //vitesse = vitesse * -1;
 
         let a = index;
         let b = index + 1;

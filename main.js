@@ -1,103 +1,114 @@
+"use strict";
+/// <reference path="../extensions/enum.ts"/>
+/// <reference path="../extensions/basic.ts"/>
+/// <reference path="../extensions/radio.ts"/>
+/// <reference path="../extensions/music.ts"/>
+/// <reference path="../extensions/input.ts"/>
+/// <reference path="../extensions/icons.ts"/>
+/// <reference path="../extensions/shims.ts"/>
+/// <reference path="../extensions/melodies.ts"/>
+/// <reference path="../extensions/math.ts"/>
+/// <reference path="../extensions/radio.ts"/>
+/// <reference path="../extensions/pins.ts"/>
+Object.defineProperty(exports, "__esModule", { value: true });
 /*
 load dependency
 "CooPilotes": "file:../CooPilotes"
 */
-var froms;
-(function (froms) {
-    froms[froms["Raspberry"] = 1] = "Raspberry";
-    froms[froms["Intermediaire"] = 2] = "Intermediaire";
-    froms[froms["Voiture"] = 3] = "Voiture";
-    froms[froms["Remote"] = 4] = "Remote";
-    froms[froms["Joystick"] = 5] = "Joystick";
-})(froms || (froms = {}));
-var actions;
-(function (actions) {
-    actions[actions["Avance"] = 1] = "Avance";
-    actions[actions["Recule"] = 2] = "Recule";
-    actions[actions["Gauche"] = 3] = "Gauche";
-    actions[actions["Droite"] = 4] = "Droite";
-    actions[actions["Stop"] = 5] = "Stop";
-})(actions || (actions = {}));
-var types;
-(function (types) {
-    types[types["Welcome"] = 1] = "Welcome";
-    types[types["ChaqueMoteur"] = 2] = "ChaqueMoteur";
-    types[types["Action"] = 3] = "Action";
-    types[types["MoteurSpecifique"] = 4] = "MoteurSpecifique";
-    types[types["Update"] = 5] = "Update";
-})(types || (types = {}));
-var remotes;
-(function (remotes) {
-    remotes[remotes["Jaune"] = 0] = "Jaune";
-    remotes[remotes["Orange"] = 1] = "Orange";
-    remotes[remotes["Bleu"] = 2] = "Bleu";
-    remotes[remotes["Transparent"] = 3] = "Transparent";
-    remotes[remotes["Mode4Gauche"] = 4] = "Mode4Gauche";
-    remotes[remotes["Mode4Droite"] = 5] = "Mode4Droite";
-})(remotes || (remotes = {}));
-var sizeBuffer = 9;
-var DataAPI = /** @class */ (function () {
-    function DataAPI(data) {
-        if (data === void 0) { data = pins.createBuffer(sizeBuffer); }
-        this.buffer = data;
-    }
-    DataAPI.prototype.getFrom = function () {
-        return this.buffer[0];
-    };
-    DataAPI.prototype.isFrom = function (data) {
-        return (this.buffer[0] === data);
-    };
-    DataAPI.prototype.setFrom = function (value) {
-        this.buffer[0] = value;
-    };
-    DataAPI.prototype.getTo = function () {
-        return this.buffer[8];
-    };
-    DataAPI.prototype.isTo = function (data) {
-        return (this.buffer[8] === data);
-    };
-    DataAPI.prototype.setTo = function (value) {
-        this.buffer[8] = value;
-    };
-    DataAPI.prototype.getType = function () {
-        return this.buffer[1];
-    };
-    DataAPI.prototype.setType = function (value) {
-        this.buffer[1] = value;
-    };
-    DataAPI.prototype.isType = function (data) {
-        return (this.buffer[1] === data);
-    };
-    DataAPI.prototype.getParam = function () {
-        return this.buffer[2];
-    };
-    DataAPI.prototype.setParam = function (value) {
-        this.buffer[2] = value;
-    };
-    DataAPI.prototype.getVitesse = function (value) {
-        return this.buffer[value];
-    };
-    DataAPI.prototype.getVitesses = function () {
-        return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
-    };
-    DataAPI.prototype.setVitesse = function (rang, value) {
-        this.buffer[rang + 4] = value;
-    };
-    DataAPI.prototype.setVitesses = function (values) {
-        this.buffer[4] = values[0];
-        this.buffer[5] = values[1];
-        this.buffer[6] = values[2];
-        this.buffer[7] = values[3];
-    };
-    return DataAPI;
-}());
-var CooPilotes;
-(function (CooPilotes) {
+var CP;
+(function (CP) {
+    var froms;
+    (function (froms) {
+        froms[froms["Raspberry"] = 1] = "Raspberry";
+        froms[froms["Intermediaire"] = 2] = "Intermediaire";
+        froms[froms["Voiture"] = 3] = "Voiture";
+        froms[froms["Remote"] = 4] = "Remote";
+        froms[froms["Joystick"] = 5] = "Joystick";
+    })(froms = CP.froms || (CP.froms = {}));
+    var actions;
+    (function (actions) {
+        actions[actions["Avance"] = 1] = "Avance";
+        actions[actions["Recule"] = 2] = "Recule";
+        actions[actions["Gauche"] = 3] = "Gauche";
+        actions[actions["Droite"] = 4] = "Droite";
+        actions[actions["Stop"] = 5] = "Stop";
+    })(actions = CP.actions || (CP.actions = {}));
+    var types;
+    (function (types) {
+        types[types["Welcome"] = 1] = "Welcome";
+        types[types["ChaqueMoteur"] = 2] = "ChaqueMoteur";
+        types[types["Action"] = 3] = "Action";
+        types[types["MoteurSpecifique"] = 4] = "MoteurSpecifique";
+        types[types["Update"] = 5] = "Update";
+    })(types = CP.types || (CP.types = {}));
+    var remotes;
+    (function (remotes) {
+        remotes[remotes["Jaune"] = 0] = "Jaune";
+        remotes[remotes["Orange"] = 1] = "Orange";
+        remotes[remotes["Bleu"] = 2] = "Bleu";
+        remotes[remotes["Transparent"] = 3] = "Transparent";
+        remotes[remotes["Mode4Gauche"] = 4] = "Mode4Gauche";
+        remotes[remotes["Mode4Droite"] = 5] = "Mode4Droite";
+    })(remotes = CP.remotes || (CP.remotes = {}));
+    CP.sizeBuffer = 9;
+    var Data = /** @class */ (function () {
+        function Data(data) {
+            if (data === void 0) { data = pins.createBuffer(CP.sizeBuffer); }
+            this.buffer = data;
+        }
+        Data.prototype.getFrom = function () {
+            return this.buffer[0];
+        };
+        Data.prototype.isFrom = function (data) {
+            return (this.buffer[0] === data);
+        };
+        Data.prototype.setFrom = function (value) {
+            this.buffer[0] = value;
+        };
+        Data.prototype.getTo = function () {
+            return this.buffer[8];
+        };
+        Data.prototype.isTo = function (data) {
+            return (this.buffer[8] === data);
+        };
+        Data.prototype.setTo = function (value) {
+            this.buffer[8] = value;
+        };
+        Data.prototype.getType = function () {
+            return this.buffer[1];
+        };
+        Data.prototype.setType = function (value) {
+            this.buffer[1] = value;
+        };
+        Data.prototype.isType = function (data) {
+            return (this.buffer[1] === data);
+        };
+        Data.prototype.getParam = function () {
+            return this.buffer[2];
+        };
+        Data.prototype.setParam = function (value) {
+            this.buffer[2] = value;
+        };
+        Data.prototype.getVitesse = function (value) {
+            return this.buffer[value + 4];
+        };
+        Data.prototype.getVitesses = function () {
+            return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
+        };
+        Data.prototype.setVitesse = function (rang, value) {
+            this.buffer[rang + 4] = value;
+        };
+        Data.prototype.setVitesses = function (values) {
+            this.buffer[4] = values[0];
+            this.buffer[5] = values[1];
+            this.buffer[6] = values[2];
+            this.buffer[7] = values[3];
+        };
+        return Data;
+    }());
+    CP.Data = Data;
     //% color="#ECA40D" weight=20 icon="\uf1b9"
-    var v1 = 5;
-    var v2 = 5;
-    var v3 = 5;
-    var v4 = 5;
+    var vitesses = [5, 5, 5, 5];
     var PCA9685_ADD = 0x40;
     var MODE1 = 0x00;
     var MODE2 = 0x01;
@@ -137,7 +148,7 @@ var CooPilotes;
         sons[sons["jump_down"] = 17] = "jump_down";
         sons[sons["power_up"] = 18] = "power_up";
         sons[sons["power_down"] = 19] = "power_down";
-    })(sons = CooPilotes.sons || (CooPilotes.sons = {}));
+    })(sons = CP.sons || (CP.sons = {}));
     var positions;
     (function (positions) {
         //% blockId="avance" block="avance"
@@ -146,7 +157,7 @@ var CooPilotes;
         positions[positions["Recule"] = 2] = "Recule";
         //% blockId="arret" block="arret"
         positions[positions["Stop"] = 3] = "Stop";
-    })(positions = CooPilotes.positions || (CooPilotes.positions = {}));
+    })(positions = CP.positions || (CP.positions = {}));
     var servos;
     (function (servos) {
         servos[servos["S1"] = 0] = "S1";
@@ -157,7 +168,7 @@ var CooPilotes;
         servos[servos["S6"] = 5] = "S6";
         servos[servos["S7"] = 6] = "S7";
         servos[servos["S8"] = 7] = "S8";
-    })(servos = CooPilotes.servos || (CooPilotes.servos = {}));
+    })(servos = CP.servos || (CP.servos = {}));
     var moteurs;
     (function (moteurs) {
         moteurs[moteurs["M1"] = 8] = "M1";
@@ -166,7 +177,7 @@ var CooPilotes;
         moteurs[moteurs["M4"] = 14] = "M4";
         moteurs[moteurs["M5"] = 2] = "M5";
         moteurs[moteurs["M6"] = 13] = "M6";
-    })(moteurs = CooPilotes.moteurs || (CooPilotes.moteurs = {}));
+    })(moteurs = CP.moteurs || (CP.moteurs = {}));
     var deplacements;
     (function (deplacements) {
         //% blockId="Avance" block="Avance"
@@ -185,14 +196,14 @@ var CooPilotes;
         deplacements[deplacements["ArriereGauche"] = 7] = "ArriereGauche";
         //% blockId="Right_Back" block="Right_Back"
         deplacements[deplacements["ArriereDroite"] = 8] = "ArriereDroite";
-    })(deplacements = CooPilotes.deplacements || (CooPilotes.deplacements = {}));
+    })(deplacements = CP.deplacements || (CP.deplacements = {}));
     var sens;
     (function (sens) {
         //% blockId="Droite" block="Droite"
         sens[sens["Droite"] = 1] = "Droite";
         //% blockId="Gauche" block="Gauche"
         sens[sens["Gauche"] = 2] = "Gauche";
-    })(sens = CooPilotes.sens || (CooPilotes.sens = {}));
+    })(sens = CP.sens || (CP.sens = {}));
     var drifts;
     (function (drifts) {
         //% blockId="Head_To_Left" block="Head_To_Left"
@@ -203,14 +214,14 @@ var CooPilotes;
         drifts[drifts["ArriereGauche"] = 3] = "ArriereGauche";
         //% blockId="Rear_To_Right" block="Rear_To_Right"
         drifts[drifts["ArriereDroite"] = 4] = "ArriereDroite";
-    })(drifts = CooPilotes.drifts || (CooPilotes.drifts = {}));
+    })(drifts = CP.drifts || (CP.drifts = {}));
     var enWideAngleDrift;
     (function (enWideAngleDrift) {
         //% blockId="Left" block="Left"
         enWideAngleDrift[enWideAngleDrift["Gauche"] = 0] = "Gauche";
         //% blockId="Right" block="Right"
         enWideAngleDrift[enWideAngleDrift["Droite"] = 1] = "Droite";
-    })(enWideAngleDrift = CooPilotes.enWideAngleDrift || (CooPilotes.enWideAngleDrift = {}));
+    })(enWideAngleDrift = CP.enWideAngleDrift || (CP.enWideAngleDrift = {}));
     var formes;
     (function (formes) {
         //% blockId="Carre" block="Carre"
@@ -223,7 +234,7 @@ var CooPilotes;
         formes[formes["Flash1"] = 4] = "Flash1";
         //% blockId="Flash2" block="Flash2"
         formes[formes["Flash2"] = 5] = "Flash2";
-    })(formes = CooPilotes.formes || (CooPilotes.formes = {}));
+    })(formes = CP.formes || (CP.formes = {}));
     function i2cwrite(addr, reg, value) {
         var buf = pins.createBuffer(2);
         buf[0] = reg;
@@ -245,45 +256,13 @@ var CooPilotes;
         initialized = true;
     }
     function getVitesses() {
-        if (v1 < 1)
-            v1 = 1;
-        if (v1 < 2)
-            v2 = 1;
-        if (v1 < 3)
-            v3 = 1;
-        if (v1 < 4)
-            v4 = 1;
-        if (v1 > 9)
-            v1 = 9;
-        if (v1 > 9)
-            v2 = 9;
-        if (v1 > 9)
-            v3 = 9;
-        if (v1 > 9)
-            v4 = 9;
-        return v1.toString() + v2.toString() + v3.toString() + v4.toString();
+        return vitesses[0].toString() + vitesses[1].toString() + vitesses[2].toString() + vitesses[3].toString();
     }
-    CooPilotes.getVitesses = getVitesses;
+    CP.getVitesses = getVitesses;
     function getVitessesArray() {
-        if (v1 < 1)
-            v1 = 1;
-        if (v1 < 2)
-            v2 = 1;
-        if (v1 < 3)
-            v3 = 1;
-        if (v1 < 4)
-            v4 = 1;
-        if (v1 > 9)
-            v1 = 9;
-        if (v1 > 9)
-            v2 = 9;
-        if (v1 > 9)
-            v3 = 9;
-        if (v1 > 9)
-            v4 = 9;
-        return [v1, v2, v3, v4];
+        return vitesses;
     }
-    CooPilotes.getVitessesArray = getVitessesArray;
+    CP.getVitessesArray = getVitessesArray;
     function setFreq(freq) {
         // Constrain the frequency
         var prescaleval = 25000000;
@@ -314,6 +293,10 @@ var CooPilotes;
         pins.i2cWriteBuffer(PCA9685_ADD, buf);
     }
     function stopMotor(index) {
+        vitesses[0] = 5;
+        vitesses[1] = 5;
+        vitesses[2] = 5;
+        vitesses[3] = 5;
         setPwm(index, 0, 0);
         setPwm(index + 1, 0, 0);
     }
@@ -424,7 +407,7 @@ var CooPilotes;
                 break;
         }
     }
-    CooPilotes.Tourne = Tourne;
+    CP.Tourne = Tourne;
     //% blockId=Déplace block="Déplace|%direction|vitesse %vitesse"
     //% weight=102
     //% blockGap=10
@@ -467,7 +450,7 @@ var CooPilotes;
                 break;
         }
     }
-    CooPilotes.Deplace = Deplace;
+    CP.Deplace = Deplace;
     //% blockId=Polygon block="Polygon|%polygon|vitesse %vitesse"
     //% weight=101
     //% blockGap=10
@@ -568,7 +551,7 @@ var CooPilotes;
                 break;
         }
     }
-    CooPilotes.Polygon = Polygon;
+    CP.Polygon = Polygon;
     //% blockId=Drift block="Drift|%direction|vitesse %vitesse"
     //% weight=100
     //% blockGap=10
@@ -611,7 +594,7 @@ var CooPilotes;
                 break;
         }
     }
-    CooPilotes.Drift = Drift;
+    CP.Drift = Drift;
     //% blockId=WideAngleDrift block="WideAngleDrift|%direction|vitesse_avant %vitesse_avant|vitesse_arriere %vitesse_arriere"
     //% weight=99
     //% blockGap=10
@@ -646,7 +629,7 @@ var CooPilotes;
                 break;
         }
     }
-    CooPilotes.WideAngleDrift = WideAngleDrift;
+    CP.WideAngleDrift = WideAngleDrift;
     //% blockId=Manipuler block="Manipuler|x %x|y %y|rotation %leftOrRight"
     //% weight=98
     //% blockGap=10
@@ -670,7 +653,7 @@ var CooPilotes;
         y = y / 512;
         MecanumRun(x * linearvitesse, y * linearvitesse, -leftOrRight * angularvitesse);
     }
-    CooPilotes.Manipuler = Manipuler;
+    CP.Manipuler = Manipuler;
     //% blockId=LED block="LEC"
     //% weight=97
     //% blockGap=10
@@ -752,7 +735,7 @@ var CooPilotes;
                 break;
         }
     }
-    CooPilotes.Musique = Musique;
+    CP.Musique = Musique;
     //% blockId=Servo block="Servo(180°)|num %num|valeur %value"
     //% weight=95
     //% blockGap=20
@@ -765,7 +748,7 @@ var CooPilotes;
         var pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
     }
-    CooPilotes.Servo = Servo;
+    CP.Servo = Servo;
     //% blockId=Servo2 block="Servo(270°)|num %num|valeur %value"
     //% weight=94
     //% blockGap=20
@@ -774,12 +757,12 @@ var CooPilotes;
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
     function Servo2(num, value) {
         // 50hz: 20,000 us
-        var newvalue = CooPilotes.map(value, 0, 270, 0, 180);
+        var newvalue = CP.map(value, 0, 270, 0, 180);
         var us = (newvalue * 1800 / 180 + 600); // 0.6 ~ 2.4
         var pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
     }
-    CooPilotes.Servo2 = Servo2;
+    CP.Servo2 = Servo2;
     //% blockId=Servo3 block="Servo(360°)|num %num|pos %pos|valeur %value"
     //% weight=93
     //% blockGap=20
@@ -804,7 +787,7 @@ var CooPilotes;
             setPwm(num, 0, pwm);
         }
     }
-    CooPilotes.Servo3 = Servo3;
+    CP.Servo3 = Servo3;
     //% blockId=ActiveMoteur block="ActiveMoteur|%index|vitesse(-255~255) %vitesse"
     //% weight=92
     //% blockGap=10
@@ -812,24 +795,37 @@ var CooPilotes;
     //% vitesse.min=-255 vitesse.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function ActiveMoteur(index, vitesse) {
-        if (index === moteurs.M1)
-            v1 = CooPilotes.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M2)
-            v2 = CooPilotes.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M3)
-            v3 = CooPilotes.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M4)
-            v4 = CooPilotes.map(vitesse, -255, 255, 1, 9);
+        if (vitesse >= 255) {
+            vitesse = 255;
+        }
+        if (vitesse <= -255) {
+            vitesse = -255;
+        }
+        switch (index) {
+            case CP.moteurs.M1:
+                vitesses[0] = CP.map(vitesse, -255, 255, 9, 1);
+                break;
+            case CP.moteurs.M2:
+                vitesses[1] = CP.map(vitesse, -255, 255, 9, 1);
+                break;
+            case CP.moteurs.M3:
+                vitesses[2] = CP.map(vitesse, -255, 255, 9, 1);
+                break;
+            case CP.moteurs.M4:
+                vitesses[3] = CP.map(vitesse, -255, 255, 9, 1);
+                break;
+        }
         if (!initialized) {
             initPCA9685();
         }
-        vitesse = CooPilotes.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
+        vitesse = CP.map(vitesse, -255, 255, -4095, 4095); // map 255 to 4095
         if (vitesse >= 4095) {
             vitesse = 4095;
         }
         if (vitesse <= -4095) {
             vitesse = -4095;
         }
+        //vitesse = vitesse * -1;
         var a = index;
         var b = index + 1;
         if (a > 10) {
@@ -853,7 +849,7 @@ var CooPilotes;
             }
         }
     }
-    CooPilotes.ActiveMoteur = ActiveMoteur;
+    CP.ActiveMoteur = ActiveMoteur;
     //% blockId=ArretMoteurs block="Arret des moteurs"
     //% weight=91
     //% blockGap=10
@@ -863,18 +859,14 @@ var CooPilotes;
         if (!initialized) {
             initPCA9685();
         }
-        v1 = 5;
-        v2 = 5;
-        v3 = 5;
-        v4 = 5;
         stopMotor(moteurs.M1);
         stopMotor(moteurs.M2);
         stopMotor(moteurs.M3);
         stopMotor(moteurs.M4);
     }
-    CooPilotes.ArretMoteurs = ArretMoteurs;
+    CP.ArretMoteurs = ArretMoteurs;
     function map(value, fromLow, fromHigh, toLow, toHigh) {
         return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
     }
-    CooPilotes.map = map;
-})(CooPilotes || (CooPilotes = {}));
+    CP.map = map;
+})(CP = exports.CP || (exports.CP = {}));
