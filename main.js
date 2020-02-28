@@ -38,6 +38,7 @@ var CP;
         types[types["Action"] = 3] = "Action";
         types[types["MoteurSpecifique"] = 4] = "MoteurSpecifique";
         types[types["Update"] = 5] = "Update";
+        types[types["MoteursSpecifiques"] = 6] = "MoteursSpecifiques";
     })(types = CP.types || (CP.types = {}));
     var remotes;
     (function (remotes) {
@@ -823,7 +824,7 @@ var CP;
         if (vitesse <= -4095) {
             vitesse = -4095;
         }
-        //vitesse = vitesse * -1;
+        vitesse = vitesse * -1;
         var a = index;
         var b = index + 1;
         if (a > 10) {

@@ -1,9 +1,16 @@
-/*
-load dependency
-"CooPilotes": "file:../CooPilotes"
-*/
+/// <reference path="../extensions/enum.ts"/>
+/// <reference path="../extensions/basic.ts"/>
+/// <reference path="../extensions/radio.ts"/>
+/// <reference path="../extensions/music.ts"/>
+/// <reference path="../extensions/input.ts"/>
+/// <reference path="../extensions/icons.ts"/>
+/// <reference path="../extensions/shims.ts"/>
+/// <reference path="../extensions/melodies.ts"/>
+/// <reference path="../extensions/math.ts"/>
+/// <reference path="../extensions/radio.ts"/>
+/// <reference path="../extensions/pins.ts"/>
 
-namespace CP {
+export namespace CP {
 
 
     export enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
@@ -894,3 +901,5 @@ namespace CP {
     export function map(value: number, fromLow: number, fromHigh: number, toLow: number, toHigh: number): number {
         return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
     }
+
+}
