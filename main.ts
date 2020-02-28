@@ -7,7 +7,7 @@ load dependency
 enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
 enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
 enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4, Update = 5 }
-enum remotes { Jaune = 1, Orange = 2, Bleu = 3, Transparent = 4, Mode4Gauche = 5, Mode4Droite = 6}
+enum remotes { Jaune = 0, Orange = 1, Bleu = 2, Transparent = 3, Mode4Gauche = 4, Mode4Droite = 5}
 
 const sizeBuffer: number = 9;
 

@@ -28,12 +28,12 @@ var types;
 })(types || (types = {}));
 var remotes;
 (function (remotes) {
-    remotes[remotes["Jaune"] = 1] = "Jaune";
-    remotes[remotes["Orange"] = 2] = "Orange";
-    remotes[remotes["Bleu"] = 3] = "Bleu";
-    remotes[remotes["Transparent"] = 4] = "Transparent";
-    remotes[remotes["Mode4Gauche"] = 5] = "Mode4Gauche";
-    remotes[remotes["Mode4Droite"] = 6] = "Mode4Droite";
+    remotes[remotes["Jaune"] = 0] = "Jaune";
+    remotes[remotes["Orange"] = 1] = "Orange";
+    remotes[remotes["Bleu"] = 2] = "Bleu";
+    remotes[remotes["Transparent"] = 3] = "Transparent";
+    remotes[remotes["Mode4Gauche"] = 4] = "Mode4Gauche";
+    remotes[remotes["Mode4Droite"] = 5] = "Mode4Droite";
 })(remotes || (remotes = {}));
 var sizeBuffer = 9;
 var DataAPI = /** @class */ (function () {
