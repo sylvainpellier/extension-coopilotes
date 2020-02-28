@@ -40,7 +40,6 @@ var DataAPI = /** @class */ (function () {
     };
     DataAPI.prototype.setFrom = function (value) {
         this.buffer[0] = value;
-        return this;
     };
     DataAPI.prototype.getTo = function () {
         return this.buffer[8];
