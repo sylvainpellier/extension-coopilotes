@@ -15,7 +15,7 @@ load dependency
 "CooPilotes": "file:../CooPilotes"
 */
 
-export namespace CP {
+namespace CP {
 
 
     export enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }

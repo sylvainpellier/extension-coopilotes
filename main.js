@@ -1,4 +1,3 @@
-"use strict";
 /// <reference path="../extensions/enum.ts"/>
 /// <reference path="../extensions/basic.ts"/>
 /// <reference path="../extensions/radio.ts"/>
@@ -10,7 +9,6 @@
 /// <reference path="../extensions/math.ts"/>
 /// <reference path="../extensions/radio.ts"/>
 /// <reference path="../extensions/pins.ts"/>
-Object.defineProperty(exports, "__esModule", { value: true });
 /*
 load dependency
 "CooPilotes": "file:../CooPilotes"
@@ -869,4 +867,4 @@ var CP;
         return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
     }
     CP.map = map;
-})(CP = exports.CP || (exports.CP = {}));
+})(CP || (CP = {}));
