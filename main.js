@@ -32,6 +32,8 @@ var remotes;
     remotes[remotes["Orange"] = 2] = "Orange";
     remotes[remotes["Bleu"] = 3] = "Bleu";
     remotes[remotes["Transparent"] = 4] = "Transparent";
+    remotes[remotes["Mode4Gauche"] = 5] = "Mode4Gauche";
+    remotes[remotes["Mode4Droite"] = 6] = "Mode4Droite";
 })(remotes || (remotes = {}));
 var sizeBuffer = 9;
 var DataAPI = /** @class */ (function () {
@@ -234,8 +236,8 @@ var CooPilotes;
         pins.i2cWriteBuffer(addr, buf);
     }
     function i2cread(addr, reg) {
-        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
-        return pins.i2cReadNumber(addr, NumberFormat.UInt8BE);
+        pins.i2cWriteNumber(addr, reg, 7 /* UInt8BE */);
+        return pins.i2cReadNumber(addr, 7 /* UInt8BE */);
     }
     function initPCA9685() {
         i2cwrite(PCA9685_ADD, MODE1, 0x00);
