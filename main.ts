@@ -102,10 +102,7 @@ namespace CooPilotes {
 
     //% color="#ECA40D" weight=20 icon="\uf1b9"
 
-    let v1 = 5;
-    let v2 = 5;
-    let v3 = 5;
-    let v4 = 5;
+    let vitesses: Array<number> = [5,5,5,5];
 
     const PCA9685_ADD = 0x40;
     const MODE1 = 0x00;
@@ -271,32 +268,12 @@ namespace CooPilotes {
 
     export function getVitesses(): string {
 
-        if (v1 < 1) v1 = 1;
-        if (v1 < 2) v2 = 1;
-        if (v1 < 3) v3 = 1;
-        if (v1 < 4) v4 = 1;
-
-        if (v1 > 9) v1 = 9;
-        if (v1 > 9) v2 = 9;
-        if (v1 > 9) v3 = 9;
-        if (v1 > 9) v4 = 9;
-
-        return v1.toString() + v2.toString() + v3.toString() + v4.toString();
+        return vitesses[0].toString() + vitesses[1].toString() + vitesses[2].toString() + vitesses[3].toString();
     }
 
     export function getVitessesArray(): Array<number> {
 
-        if (v1 < 1) v1 = 1;
-        if (v1 < 2) v2 = 1;
-        if (v1 < 3) v3 = 1;
-        if (v1 < 4) v4 = 1;
-
-        if (v1 > 9) v1 = 9;
-        if (v1 > 9) v2 = 9;
-        if (v1 > 9) v3 = 9;
-        if (v1 > 9) v4 = 9;
-
-        return [v1, v2, v3, v4];
+        return vitesses;
     }
 
     function setFreq(freq: number): void {
@@ -316,6 +293,9 @@ namespace CooPilotes {
     }
 
     function setPwm(channel: number, on: number, off: number): void {
+
+        vitesses[channel] = CooPilotes.map(off, -4095, 4095, 1, 9);
+
         if (channel < 0 || channel > 15)
             return;
         if (!initialized) {
@@ -833,21 +813,21 @@ namespace CooPilotes {
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function ActiveMoteur(index: moteurs, vitesse: number): void {
 
-        if (index === moteurs.M1) v1 = CooPilotes.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M2) v2 = CooPilotes.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M3) v3 = CooPilotes.map(vitesse, -255, 255, 1, 9);
-        if (index === moteurs.M4) v4 = CooPilotes.map(vitesse, -255, 255, 1, 9);
+        vitesses[index] = CooPilotes.map(vitesse, -255, 255, 1, 9);
+
 
         if (!initialized) {
             initPCA9685();
         }
-        vitesse = CooPilotes.map(vitesse, 0, 255, 0, 4095); // map 255 to 4095
+        vitesse = CooPilotes.map(vitesse, -255, 255, -4095, 4095); // map 255 to 4095
         if (vitesse >= 4095) {
             vitesse = 4095;
         }
         if (vitesse <= -4095) {
             vitesse = -4095;
         }
+
+        vitesse = vitesse * -1;
 
         let a = index;
         let b = index + 1;
@@ -882,10 +862,7 @@ namespace CooPilotes {
             initPCA9685();
         }
 
-        v1 = 5;
-        v2 = 5;
-        v3 = 5;
-        v4 = 5;
+
 
         stopMotor(moteurs.M1);
         stopMotor(moteurs.M2);
