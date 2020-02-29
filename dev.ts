@@ -9,14 +9,22 @@
 /// <reference path="../extensions/math.ts"/>
 /// <reference path="../extensions/radio.ts"/>
 /// <reference path="../extensions/pins.ts"/>
+/// <reference path="../extensions/neopixel.ts"/>
 
+//% color="#ECA40D" weight=20 icon="\uf1b9"
 export namespace CP {
 
 
+
     export enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
+
     export enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
-    export enum types { Welcome = 1, ChaqueMoteur = 2, Action = 3, MoteurSpecifique = 4, Update = 5, MoteursSpecifiques = 6 }
+
+    export enum types { Welcome = 1, Moteurs = 2, Action = 3, Moteur = 4, Update = 5 }
+
     export enum remotes { Jaune = 0, Orange = 1, Bleu = 2, Transparent = 3, Mode4Gauche = 4, Mode4Droite = 5 }
+
+    export enum moteurs { M1 = 8, M2 = 10, M3 = 12, M4 = 14, M5 = 2, M6 = 13 }
 
     export const sizeBuffer: number = 9;
 
@@ -36,82 +44,132 @@ export namespace CP {
 
 
         getFrom(): number {
+            // @ts-ignore
             return this.buffer[0];
         }
 
         isFrom(data: froms): boolean {
+            // @ts-ignore
             return (this.buffer[0] === data);
         }
 
 
         setFrom(value: number) {
+            // @ts-ignore
             this.buffer[0] = value;
         }
 
 
         getTo(): number {
+            // @ts-ignore
             return this.buffer[8];
         }
 
         isTo(data: froms): boolean {
+            // @ts-ignore
             return (this.buffer[8] === data);
         }
 
 
         setTo(value: number): void {
+            // @ts-ignore
             this.buffer[8] = value;
         }
 
 
         getType(): number {
+            // @ts-ignore
             return this.buffer[1];
         }
 
         setType(value: number): void {
+            // @ts-ignore
             this.buffer[1] = value;
         }
 
         isType(data: types): boolean {
+            // @ts-ignore
             return (this.buffer[1] === data);
         }
 
 
         getParam(): number {
+            // @ts-ignore
             return this.buffer[2];
         }
 
         setParam(value: number): void {
+            // @ts-ignore
             this.buffer[2] = value;
         }
 
 
         getVitesse(value: number): number {
+            // @ts-ignore
             return this.buffer[value + 4];
         }
 
         getVitesses(): Array<number> {
+            // @ts-ignore
             return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
         }
 
         setVitesse(rang: number, value: number): void {
+            // @ts-ignore
             this.buffer[rang + 4] = value;
         }
 
         setVitesses(values: Array<number>): void {
+            // @ts-ignore
             this.buffer[4] = values[0];
+            // @ts-ignore
             this.buffer[5] = values[1];
+            // @ts-ignore
             this.buffer[6] = values[2];
+            // @ts-ignore
             this.buffer[7] = values[3];
         }
 
     }
 
 
+    export interface roues {
+        vitesse: number;
+        moteur: moteurs;
+        led: neopixel.Strip;
+    }
+
+    let strip = neopixel.create(DigitalPin.P0, 4, NeoPixelMode.RGB)
+
+    export const Roues: Array<CP.roues> = [
+        { vitesse: 5, moteur: CP.moteurs.M1, led: strip.range(0, 1) },
+        { vitesse: 5, moteur: CP.moteurs.M2, led: strip.range(0, 2) },
+        { vitesse: 5, moteur: CP.moteurs.M3, led: strip.range(0, 3) },
+        { vitesse: 5, moteur: CP.moteurs.M4, led: strip.range(0, 4) }
+    ];
 
 
-    //% color="#ECA40D" weight=20 icon="\uf1b9"
+    function RoueFromMoteur(moteur: CP.moteurs): number {
+        let find: number = 99;
+        Roues.forEach((r, index) => {
+            if (r.moteur === moteur) find = index;
+        });
 
-    let vitesses: Array<number> = [5, 5, 5, 5];
+        return find;
+    }
+
+    function RoueFromMoteurIndex(moteur: number): number {
+        let find: number = 99;
+        Roues.forEach((r, index) => {
+            if (r.moteur === moteur) find = index;
+        });
+
+        return find;
+    }
+
+    export function remap(value: number, fromLow: number, fromHigh: number, toLow: number, toHigh: number): number {
+        return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
+    }
 
     const PCA9685_ADD = 0x40;
     const MODE1 = 0x00;
@@ -133,9 +191,8 @@ export namespace CP {
     const PRESCALE = 0xFE;
 
     let initialized = false;
-    //let yahStrip: neopixel.Strip
 
-
+    let yahStrip: neopixel.Strip;
 
     export enum sons {
 
@@ -181,17 +238,6 @@ export namespace CP {
         S7,
         S8
     }
-
-    export enum moteurs {
-        M1 = 8,
-        M2 = 10,
-        M3 = 12,
-        M4 = 14,
-        M5 = 2,
-        M6 = 13
-    }
-
-
 
     export enum deplacements {
         //% blockId="Avance" block="Avance"
@@ -253,13 +299,16 @@ export namespace CP {
 
     function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2);
+        // @ts-ignore
         buf[0] = reg;
+        // @ts-ignore
         buf[1] = value;
         pins.i2cWriteBuffer(addr, buf);
     }
 
     function i2ccmd(addr: number, value: number) {
         let buf = pins.createBuffer(1);
+        // @ts-ignore
         buf[0] = value;
         pins.i2cWriteBuffer(addr, buf);
     }
@@ -275,14 +324,14 @@ export namespace CP {
         initialized = true
     }
 
-    export function getVitesses(): string {
+    export function getRoues(): Array<roues> {
 
-        return vitesses[0].toString() + vitesses[1].toString() + vitesses[2].toString() + vitesses[3].toString();
+        return Roues;
     }
 
-    export function getVitessesArray(): Array<number> {
+    export function getVitesses(): Array<number> {
 
-        return vitesses;
+        return [Roues[0].vitesse, Roues[1].vitesse, Roues[2].vitesse, Roues[3].vitesse];
     }
 
     function setFreq(freq: number): void {
@@ -304,100 +353,102 @@ export namespace CP {
     function setPwm(channel: number, on: number, off: number): void {
 
 
-
-
         if (channel < 0 || channel > 15)
             return;
         if (!initialized) {
             initPCA9685();
         }
         let buf = pins.createBuffer(5);
+        // @ts-ignore
         buf[0] = LED0_ON_L + 4 * channel;
+        // @ts-ignore
         buf[1] = on & 0xff;
+        // @ts-ignore
         buf[2] = (on >> 8) & 0xff;
+        // @ts-ignore
         buf[3] = off & 0xff;
+        // @ts-ignore
         buf[4] = (off >> 8) & 0xff;
         pins.i2cWriteBuffer(PCA9685_ADD, buf);
     }
 
     function stopMotor(index: number) {
-        vitesses[0] = 5;
-        vitesses[1] = 5;
-        vitesses[2] = 5;
-        vitesses[3] = 5;
+
+        Roues[RoueFromMoteurIndex(index)].vitesse = 5;
+        Roues[RoueFromMoteurIndex(index)].led.showColor(neopixel.colors( NeoPixelColors.Red ));
+
         setPwm(index, 0, 0);
         setPwm(index + 1, 0, 0);
     }
 
-
     function forward(vitesse: number) {
-        ActiveMoteur(moteurs.M1, vitesse);
-        ActiveMoteur(moteurs.M2, vitesse);
-        ActiveMoteur(moteurs.M3, vitesse);
-        ActiveMoteur(moteurs.M4, vitesse);
+        ActiveMoteur(CP.moteurs.M1, vitesse);
+        ActiveMoteur(CP.moteurs.M2, vitesse);
+        ActiveMoteur(CP.moteurs.M3, vitesse);
+        ActiveMoteur(CP.moteurs.M4, vitesse);
     }
 
     function back(vitesse: number) {
-        ActiveMoteur(moteurs.M1, -vitesse);
-        ActiveMoteur(moteurs.M2, -vitesse);
-        ActiveMoteur(moteurs.M3, -vitesse);
-        ActiveMoteur(moteurs.M4, -vitesse);
+        ActiveMoteur(CP.moteurs.M1, -vitesse);
+        ActiveMoteur(CP.moteurs.M2, -vitesse);
+        ActiveMoteur(CP.moteurs.M3, -vitesse);
+        ActiveMoteur(CP.moteurs.M4, -vitesse);
     }
 
     function moveLeft(vitesse: number) {
-        ActiveMoteur(moteurs.M1, -vitesse);
-        ActiveMoteur(moteurs.M2, vitesse);
-        ActiveMoteur(moteurs.M3, vitesse);
-        ActiveMoteur(moteurs.M4, -vitesse);
+        ActiveMoteur(CP.moteurs.M1, -vitesse);
+        ActiveMoteur(CP.moteurs.M2, vitesse);
+        ActiveMoteur(CP.moteurs.M3, vitesse);
+        ActiveMoteur(CP.moteurs.M4, -vitesse);
     }
 
     function moveRight(vitesse: number) {
-        ActiveMoteur(moteurs.M1, vitesse);
-        ActiveMoteur(moteurs.M2, -vitesse);
-        ActiveMoteur(moteurs.M3, -vitesse);
-        ActiveMoteur(moteurs.M4, vitesse);
+        ActiveMoteur(CP.moteurs.M1, vitesse);
+        ActiveMoteur(CP.moteurs.M2, -vitesse);
+        ActiveMoteur(CP.moteurs.M3, -vitesse);
+        ActiveMoteur(CP.moteurs.M4, vitesse);
     }
 
     function left_Front(vitesse: number) {
-        ActiveMoteur(moteurs.M1, 0);
-        ActiveMoteur(moteurs.M2, vitesse);
-        ActiveMoteur(moteurs.M3, vitesse);
-        ActiveMoteur(moteurs.M4, 0);
+        ActiveMoteur(CP.moteurs.M1, 0);
+        ActiveMoteur(CP.moteurs.M2, vitesse);
+        ActiveMoteur(CP.moteurs.M3, vitesse);
+        ActiveMoteur(CP.moteurs.M4, 0);
     }
 
     function left_Back(vitesse: number) {
-        ActiveMoteur(moteurs.M1, -vitesse);
-        ActiveMoteur(moteurs.M2, 0);
-        ActiveMoteur(moteurs.M3, 0);
-        ActiveMoteur(moteurs.M4, -vitesse);
+        ActiveMoteur(CP.moteurs.M1, -vitesse);
+        ActiveMoteur(CP.moteurs.M2, 0);
+        ActiveMoteur(CP.moteurs.M3, 0);
+        ActiveMoteur(CP.moteurs.M4, -vitesse);
     }
 
     function right_Front(vitesse: number) {
-        ActiveMoteur(moteurs.M1, vitesse);
-        ActiveMoteur(moteurs.M2, 0);
-        ActiveMoteur(moteurs.M3, 0);
-        ActiveMoteur(moteurs.M4, vitesse);
+        ActiveMoteur(CP.moteurs.M1, vitesse);
+        ActiveMoteur(CP.moteurs.M2, 0);
+        ActiveMoteur(CP.moteurs.M3, 0);
+        ActiveMoteur(CP.moteurs.M4, vitesse);
     }
 
     function right_Back(vitesse: number) {
-        ActiveMoteur(moteurs.M1, 0);
-        ActiveMoteur(moteurs.M2, -vitesse);
-        ActiveMoteur(moteurs.M3, -vitesse);
-        ActiveMoteur(moteurs.M4, 0);
+        ActiveMoteur(CP.moteurs.M1, 0);
+        ActiveMoteur(CP.moteurs.M2, -vitesse);
+        ActiveMoteur(CP.moteurs.M3, -vitesse);
+        ActiveMoteur(CP.moteurs.M4, 0);
     }
 
     function spin_Left(vitesse: number) {
-        ActiveMoteur(moteurs.M1, -vitesse);
-        ActiveMoteur(moteurs.M2, -vitesse);
-        ActiveMoteur(moteurs.M3, vitesse);
-        ActiveMoteur(moteurs.M4, vitesse);
+        ActiveMoteur(CP.moteurs.M1, -vitesse);
+        ActiveMoteur(CP.moteurs.M2, -vitesse);
+        ActiveMoteur(CP.moteurs.M3, vitesse);
+        ActiveMoteur(CP.moteurs.M4, vitesse);
     }
 
     function spin_Right(vitesse: number) {
-        ActiveMoteur(moteurs.M1, vitesse);
-        ActiveMoteur(moteurs.M2, vitesse);
-        ActiveMoteur(moteurs.M3, -vitesse);
-        ActiveMoteur(moteurs.M4, -vitesse);
+        ActiveMoteur(CP.moteurs.M1, vitesse);
+        ActiveMoteur(CP.moteurs.M2, vitesse);
+        ActiveMoteur(CP.moteurs.M3, -vitesse);
+        ActiveMoteur(CP.moteurs.M4, -vitesse);
     }
 
     function carStop() {
@@ -413,6 +464,11 @@ export namespace CP {
         setPwm(13, 0, 0);
         setPwm(14, 0, 0);
         setPwm(15, 0, 0);
+
+        Roues.forEach((r)=>{
+            r.vitesse = 5;
+            r.led.showColor(neopixel.colors( NeoPixelColors.Red ));
+        })
     }
 
     function MecanumRun(xvitesse: number, yvitesse: number, avitesse: number) {
@@ -421,10 +477,10 @@ export namespace CP {
         let vitessem3 = yvitesse - xvitesse + avitesse;
         let vitessem4 = yvitesse + xvitesse + avitesse;
 
-        ActiveMoteur(moteurs.M1, vitessem1);
-        ActiveMoteur(moteurs.M2, vitessem2);
-        ActiveMoteur(moteurs.M3, vitessem3);
-        ActiveMoteur(moteurs.M4, vitessem4);
+        ActiveMoteur(CP.moteurs.M1, vitessem1);
+        ActiveMoteur(CP.moteurs.M2, vitessem2);
+        ActiveMoteur(CP.moteurs.M3, vitessem3);
+        ActiveMoteur(CP.moteurs.M4, vitessem4);
     }
 
     //% blockId=Tourne block="Tourne|%rotation|vitesse %vitesse"
@@ -630,28 +686,28 @@ export namespace CP {
         }
         switch (direction) {
             case drifts.ArriereGauche:
-                ActiveMoteur(moteurs.M1, 0);
-                ActiveMoteur(moteurs.M2, vitesse);
-                ActiveMoteur(moteurs.M3, 0);
-                ActiveMoteur(moteurs.M4, -vitesse);
+                ActiveMoteur(CP.moteurs.M1, 0);
+                ActiveMoteur(CP.moteurs.M2, vitesse);
+                ActiveMoteur(CP.moteurs.M3, 0);
+                ActiveMoteur(CP.moteurs.M4, -vitesse);
                 break;
             case drifts.ArriereDroite:
-                ActiveMoteur(moteurs.M1, 0);
-                ActiveMoteur(moteurs.M2, -vitesse);
-                ActiveMoteur(moteurs.M3, 0);
-                ActiveMoteur(moteurs.M4, vitesse);
+                ActiveMoteur(CP.moteurs.M1, 0);
+                ActiveMoteur(CP.moteurs.M2, -vitesse);
+                ActiveMoteur(CP.moteurs.M3, 0);
+                ActiveMoteur(CP.moteurs.M4, vitesse);
                 break;
             case drifts.AvantGauche:
-                ActiveMoteur(moteurs.M1, -vitesse);
-                ActiveMoteur(moteurs.M2, 0);
-                ActiveMoteur(moteurs.M3, vitesse);
-                ActiveMoteur(moteurs.M4, 0);
+                ActiveMoteur(CP.moteurs.M1, -vitesse);
+                ActiveMoteur(CP.moteurs.M2, 0);
+                ActiveMoteur(CP.moteurs.M3, vitesse);
+                ActiveMoteur(CP.moteurs.M4, 0);
                 break;
             case drifts.AvantDroite:
-                ActiveMoteur(moteurs.M1, vitesse);
-                ActiveMoteur(moteurs.M2, 0);
-                ActiveMoteur(moteurs.M3, -vitesse);
-                ActiveMoteur(moteurs.M4, 0);
+                ActiveMoteur(CP.moteurs.M1, vitesse);
+                ActiveMoteur(CP.moteurs.M2, 0);
+                ActiveMoteur(CP.moteurs.M3, -vitesse);
+                ActiveMoteur(CP.moteurs.M4, 0);
                 break;
             default:
                 break;
@@ -678,16 +734,16 @@ export namespace CP {
 
         switch (direction) {
             case enWideAngleDrift.Gauche:
-                ActiveMoteur(moteurs.M1, -vitesse_avant);
-                ActiveMoteur(moteurs.M2, vitesse_arriere);
-                ActiveMoteur(moteurs.M3, vitesse_avant);
-                ActiveMoteur(moteurs.M4, -vitesse_arriere);
+                ActiveMoteur(CP.moteurs.M1, -vitesse_avant);
+                ActiveMoteur(CP.moteurs.M2, vitesse_arriere);
+                ActiveMoteur(CP.moteurs.M3, vitesse_avant);
+                ActiveMoteur(CP.moteurs.M4, -vitesse_arriere);
                 break;
             case enWideAngleDrift.Droite:
-                ActiveMoteur(moteurs.M1, vitesse_avant);
-                ActiveMoteur(moteurs.M2, -vitesse_arriere);
-                ActiveMoteur(moteurs.M3, -vitesse_avant);
-                ActiveMoteur(moteurs.M4, vitesse_arriere);
+                ActiveMoteur(CP.moteurs.M1, vitesse_avant);
+                ActiveMoteur(CP.moteurs.M2, -vitesse_arriere);
+                ActiveMoteur(CP.moteurs.M3, -vitesse_avant);
+                ActiveMoteur(CP.moteurs.M4, vitesse_arriere);
                 break;
             default:
                 break;
@@ -724,12 +780,12 @@ export namespace CP {
     //% group="Fonctionnalités de la voiture"
     //% advanced=true
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    // export function LED(): neopixel.Strip {
-    //     if (!yahStrip) {
-    //         yahStrip = neopixel.create(DigitalPin.P12, 4, NeoPixelMode.RGB);
-    //     }
-    //     return yahStrip;
-    // }
+    export function LED(): neopixel.Strip {
+        if (!yahStrip) {
+            yahStrip = neopixel.create(DigitalPin.P12, 4, NeoPixelMode.RGB);
+        }
+        return yahStrip;
+    }
 
     //% blockId=Musique block="Musique|%index"
     //% weight=96
@@ -738,26 +794,66 @@ export namespace CP {
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function Musique(index: sons): void {
         switch (index) {
-            case sons.dadadum: music.beginMelody(music.builtInMelody(Melodies.Dadadadum), MelodyOptions.Once); break;
-            case sons.anniversaire: music.beginMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.Once); break;
-            case sons.entertainer: music.beginMelody(music.builtInMelody(Melodies.Entertainer), MelodyOptions.Once); break;
-            case sons.prelude: music.beginMelody(music.builtInMelody(Melodies.Prelude), MelodyOptions.Once); break;
-            case sons.ode: music.beginMelody(music.builtInMelody(Melodies.Ode), MelodyOptions.Once); break;
-            case sons.nyan: music.beginMelody(music.builtInMelody(Melodies.Nyan), MelodyOptions.Once); break;
-            case sons.ringtone: music.beginMelody(music.builtInMelody(Melodies.Ringtone), MelodyOptions.Once); break;
-            case sons.funk: music.beginMelody(music.builtInMelody(Melodies.Funk), MelodyOptions.Once); break;
-            case sons.blues: music.beginMelody(music.builtInMelody(Melodies.Blues), MelodyOptions.Once); break;
-            case sons.mariage: music.beginMelody(music.builtInMelody(Melodies.Wedding), MelodyOptions.Once); break;
-            case sons.funereal: music.beginMelody(music.builtInMelody(Melodies.Funeral), MelodyOptions.Once); break;
-            case sons.punchline: music.beginMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.Once); break;
-            case sons.baddy: music.beginMelody(music.builtInMelody(Melodies.Baddy), MelodyOptions.Once); break;
-            case sons.chase: music.beginMelody(music.builtInMelody(Melodies.Chase), MelodyOptions.Once); break;
-            case sons.ba_ding: music.beginMelody(music.builtInMelody(Melodies.BaDing), MelodyOptions.Once); break;
-            case sons.wawawawaa: music.beginMelody(music.builtInMelody(Melodies.Wawawawaa), MelodyOptions.Once); break;
-            case sons.jump_up: music.beginMelody(music.builtInMelody(Melodies.JumpUp), MelodyOptions.Once); break;
-            case sons.jump_down: music.beginMelody(music.builtInMelody(Melodies.JumpDown), MelodyOptions.Once); break;
-            case sons.power_up: music.beginMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once); break;
-            case sons.power_down: music.beginMelody(music.builtInMelody(Melodies.PowerDown), MelodyOptions.Once); break;
+            case sons.dadadum:
+                music.beginMelody(music.builtInMelody(Melodies.Dadadadum), MelodyOptions.Once);
+                break;
+            case sons.anniversaire:
+                music.beginMelody(music.builtInMelody(Melodies.Birthday), MelodyOptions.Once);
+                break;
+            case sons.entertainer:
+                music.beginMelody(music.builtInMelody(Melodies.Entertainer), MelodyOptions.Once);
+                break;
+            case sons.prelude:
+                music.beginMelody(music.builtInMelody(Melodies.Prelude), MelodyOptions.Once);
+                break;
+            case sons.ode:
+                music.beginMelody(music.builtInMelody(Melodies.Ode), MelodyOptions.Once);
+                break;
+            case sons.nyan:
+                music.beginMelody(music.builtInMelody(Melodies.Nyan), MelodyOptions.Once);
+                break;
+            case sons.ringtone:
+                music.beginMelody(music.builtInMelody(Melodies.Ringtone), MelodyOptions.Once);
+                break;
+            case sons.funk:
+                music.beginMelody(music.builtInMelody(Melodies.Funk), MelodyOptions.Once);
+                break;
+            case sons.blues:
+                music.beginMelody(music.builtInMelody(Melodies.Blues), MelodyOptions.Once);
+                break;
+            case sons.mariage:
+                music.beginMelody(music.builtInMelody(Melodies.Wedding), MelodyOptions.Once);
+                break;
+            case sons.funereal:
+                music.beginMelody(music.builtInMelody(Melodies.Funeral), MelodyOptions.Once);
+                break;
+            case sons.punchline:
+                music.beginMelody(music.builtInMelody(Melodies.Punchline), MelodyOptions.Once);
+                break;
+            case sons.baddy:
+                music.beginMelody(music.builtInMelody(Melodies.Baddy), MelodyOptions.Once);
+                break;
+            case sons.chase:
+                music.beginMelody(music.builtInMelody(Melodies.Chase), MelodyOptions.Once);
+                break;
+            case sons.ba_ding:
+                music.beginMelody(music.builtInMelody(Melodies.BaDing), MelodyOptions.Once);
+                break;
+            case sons.wawawawaa:
+                music.beginMelody(music.builtInMelody(Melodies.Wawawawaa), MelodyOptions.Once);
+                break;
+            case sons.jump_up:
+                music.beginMelody(music.builtInMelody(Melodies.JumpUp), MelodyOptions.Once);
+                break;
+            case sons.jump_down:
+                music.beginMelody(music.builtInMelody(Melodies.JumpDown), MelodyOptions.Once);
+                break;
+            case sons.power_up:
+                music.beginMelody(music.builtInMelody(Melodies.PowerUp), MelodyOptions.Once);
+                break;
+            case sons.power_down:
+                music.beginMelody(music.builtInMelody(Melodies.PowerDown), MelodyOptions.Once);
+                break;
         }
     }
 
@@ -785,7 +881,7 @@ export namespace CP {
     export function Servo2(num: servos, value: number): void {
 
         // 50hz: 20,000 us
-        let newvalue = CP.map(value, 0, 270, 0, 180);
+        let newvalue = remap(value, 0, 270, 0, 180);
         let us = (newvalue * 1800 / 180 + 600); // 0.6 ~ 2.4
         let pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
@@ -825,8 +921,7 @@ export namespace CP {
     //% group="Fonctionnalités de la voiture"
     //% vitesse.min=-255 vitesse.max=255
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function ActiveMoteur(index: moteurs, vitesse: number): void {
-
+    export function ActiveMoteur(index: CP.moteurs, vitesse: number): void {
 
 
         if (vitesse >= 255) {
@@ -836,18 +931,26 @@ export namespace CP {
             vitesse = -255;
         }
 
-        switch (index) {
-            case CP.moteurs.M1: vitesses[0] = CP.map(vitesse, -255, 255, 9, 1); break;
-            case CP.moteurs.M2: vitesses[1] = CP.map(vitesse, -255, 255, 9, 1); break;
-            case CP.moteurs.M3: vitesses[2] = CP.map(vitesse, -255, 255, 9, 1); break;
-            case CP.moteurs.M4: vitesses[3] = CP.map(vitesse, -255, 255, 9, 1); break;
+        let RoueActuelle = Roues[RoueFromMoteur(index)];
+        RoueActuelle.vitesse = remap(vitesse, -255, 255, 9, 1);
 
+        if(RoueActuelle.vitesse > 5)
+        {
+            RoueActuelle.led.showColor(neopixel.colors(NeoPixelColors.Blue));
+        } else if(RoueActuelle.vitesse < 5)
+        {
+            RoueActuelle.led.showColor(neopixel.colors(NeoPixelColors.Yellow));
+
+        } else
+        {
+            RoueActuelle.led.showColor(neopixel.colors(NeoPixelColors.Red));
         }
+
 
         if (!initialized) {
             initPCA9685();
         }
-        vitesse = CP.map(vitesse, -255, 255, -4095, 4095); // map 255 to 4095
+        vitesse = remap(vitesse, -255, 255, -4095, 4095); // map 255 to 4095
         if (vitesse >= 4095) {
             vitesse = 4095;
         }
@@ -891,15 +994,10 @@ export namespace CP {
         }
 
 
+        stopMotor(CP.moteurs.M1);
+        stopMotor(CP.moteurs.M2);
+        stopMotor(CP.moteurs.M3);
+        stopMotor(CP.moteurs.M4);
 
-        stopMotor(moteurs.M1);
-        stopMotor(moteurs.M2);
-        stopMotor(moteurs.M3);
-        stopMotor(moteurs.M4);
     }
-
-    export function map(value: number, fromLow: number, fromHigh: number, toLow: number, toHigh: number): number {
-        return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
-    }
-
 }
