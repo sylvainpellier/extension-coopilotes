@@ -151,16 +151,16 @@ export namespace CP {
 
     function initLED()
     {
-        strip = neopixel.create(DigitalPin.P12, 4, 0);
-        Roues[0].led = strip.range(2, 1);
-        Roues[1].led = strip.range(3, 1);
-        Roues[2].led = strip.range(1, 1);
-        Roues[3].led = strip.range(0, 1);
+        // strip = neopixel.create(DigitalPin.P12, 4, 0);
+        // Roues[0].led = strip.range(2, 1);
+        // Roues[1].led = strip.range(3, 1);
+        // Roues[2].led = strip.range(1, 1);
+        // Roues[3].led = strip.range(0, 1);
     }
 
     function led(indexRoue: number, couleur:any)
     {
-        Roues[indexRoue].led.showColor(neopixel.colors( couleur ));
+        // Roues[indexRoue].led.showColor(neopixel.colors( couleur ));
     }
 
     function RoueFromMoteur(moteur: CP.moteurs): number {
