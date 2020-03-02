@@ -1,3 +1,4 @@
+/// <reference path="../extensions/neopixel.ts"/>
 /// <reference path="../extensions/enum.ts"/>
 /// <reference path="../extensions/basic.ts"/>
 /// <reference path="../extensions/radio.ts"/>
@@ -9,13 +10,13 @@
 /// <reference path="../extensions/math.ts"/>
 /// <reference path="../extensions/radio.ts"/>
 /// <reference path="../extensions/pins.ts"/>
+/// <reference path="../extensions/core.ts"/>
 /// <reference path="../extensions/neopixel.ts"/>
 
 //% color="#ECA40D" weight=20 icon="\uf1b9"
 export namespace CP {
 
-
-
+    let strip;
     export enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
 
     export enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
@@ -136,18 +137,31 @@ export namespace CP {
     export interface roues {
         vitesse: number;
         moteur: moteurs;
-        led: neopixel.Strip;
+        led: any;
     }
 
-    let strip = neopixel.create(DigitalPin.P0, 4, NeoPixelMode.RGB)
 
     export const Roues: Array<CP.roues> = [
-        { vitesse: 5, moteur: CP.moteurs.M1, led: strip.range(0, 1) },
-        { vitesse: 5, moteur: CP.moteurs.M2, led: strip.range(0, 2) },
-        { vitesse: 5, moteur: CP.moteurs.M3, led: strip.range(0, 3) },
-        { vitesse: 5, moteur: CP.moteurs.M4, led: strip.range(0, 4) }
+        { vitesse: 5, moteur: CP.moteurs.M1, led: false },
+        { vitesse: 5, moteur: CP.moteurs.M2, led: false },
+        { vitesse: 5, moteur: CP.moteurs.M3, led: false },
+        { vitesse: 5, moteur: CP.moteurs.M4, led: false }
     ];
 
+
+    function initLED()
+    {
+        strip = neopixel.create(DigitalPin.P12, 4, 0);
+        Roues[0].led = strip.range(2, 1);
+        Roues[1].led = strip.range(3, 1);
+        Roues[2].led = strip.range(1, 1);
+        Roues[3].led = strip.range(0, 1);
+    }
+
+    function led(indexRoue: number, couleur:any)
+    {
+        Roues[indexRoue].led.showColor(neopixel.colors( couleur ));
+    }
 
     function RoueFromMoteur(moteur: CP.moteurs): number {
         let find: number = 99;
@@ -168,7 +182,7 @@ export namespace CP {
     }
 
     export function remap(value: number, fromLow: number, fromHigh: number, toLow: number, toHigh: number): number {
-        return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
+        return Math.floor(((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow);
     }
 
     const PCA9685_ADD = 0x40;
@@ -192,8 +206,9 @@ export namespace CP {
 
     let initialized = false;
 
-    let yahStrip: neopixel.Strip;
+    //let yahStrip: neopixel.Strip;
 
+    initLED();
     export enum sons {
 
         dadadum = 0,
@@ -375,7 +390,7 @@ export namespace CP {
     function stopMotor(index: number) {
 
         Roues[RoueFromMoteurIndex(index)].vitesse = 5;
-        Roues[RoueFromMoteurIndex(index)].led.showColor(neopixel.colors( NeoPixelColors.Red ));
+        led(RoueFromMoteurIndex(index),0xFF0000);
 
         setPwm(index, 0, 0);
         setPwm(index + 1, 0, 0);
@@ -465,9 +480,9 @@ export namespace CP {
         setPwm(14, 0, 0);
         setPwm(15, 0, 0);
 
-        Roues.forEach((r)=>{
+        Roues.forEach((r, index)=>{
             r.vitesse = 5;
-            r.led.showColor(neopixel.colors( NeoPixelColors.Red ));
+            led(index,0xFF0000);
         })
     }
 
@@ -760,6 +775,7 @@ export namespace CP {
         if (!initialized) {
             initPCA9685();
         }
+        // @ts-ignore
         if (Math.abs(x) <= 50 && Math.abs(y) <= 50) {
             x = 0;
             y = 0;
@@ -780,12 +796,12 @@ export namespace CP {
     //% group="Fonctionnalités de la voiture"
     //% advanced=true
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-    export function LED(): neopixel.Strip {
-        if (!yahStrip) {
-            yahStrip = neopixel.create(DigitalPin.P12, 4, NeoPixelMode.RGB);
-        }
-        return yahStrip;
-    }
+    // export function LED(): neopixel.Strip {
+    //     if (!yahStrip) {
+    //         yahStrip = neopixel.create(DigitalPin.P12, 4, 0);
+    //     }
+    //     return yahStrip;
+    // }
 
     //% blockId=Musique block="Musique|%index"
     //% weight=96
@@ -936,14 +952,15 @@ export namespace CP {
 
         if(RoueActuelle.vitesse > 5)
         {
-            RoueActuelle.led.showColor(neopixel.colors(NeoPixelColors.Blue));
+            led(RoueFromMoteur(index),0x0000FF);
         } else if(RoueActuelle.vitesse < 5)
         {
-            RoueActuelle.led.showColor(neopixel.colors(NeoPixelColors.Yellow));
+            led(RoueFromMoteur(index),0xFFFF00);
 
         } else
         {
-            RoueActuelle.led.showColor(neopixel.colors(NeoPixelColors.Red));
+            led(RoueFromMoteur(index),0xFF0000);
+
         }
 
 
