@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "noImplicitAny": true,
         "outDir": "built",
         "rootDir": "."
     },
-    "exclude": ["pxt_modules/**/*test.ts"]
+    "exclude": ["pxt_modules/**/*test.ts"],
+    "files" : ["../extensions/pins.ts"]
 }

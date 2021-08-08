@@ -18,7 +18,7 @@ namespace CP {
 
     export enum moteurs { M1 = 8, M2 = 10, M3 = 12, M4 = 14, M5 = 2, M6 = 13 }
 
-    export const sizeBuffer: number = 9;
+    export const sizeBuffer: number = 10;
 
     export class Data {
         from: froms;
@@ -32,93 +32,99 @@ namespace CP {
         constructor(data: Buffer = pins.createBuffer(sizeBuffer)) {
 
             this.buffer = data;
+            this.buffer[9] = false;
         }
 
 
         getFrom(): number {
-            // @ts-ignore
+
             return this.buffer[0];
         }
 
         isFrom(data: froms): boolean {
-            // @ts-ignore
+
             return (this.buffer[0] === data);
         }
 
 
         setFrom(value: number) {
-            // @ts-ignore
+
             this.buffer[0] = value;
         }
 
 
         getTo(): number {
-            // @ts-ignore
+
             return this.buffer[8];
         }
 
         isTo(data: froms): boolean {
-            // @ts-ignore
+
             return (this.buffer[8] === data);
+        }
+
+        setStop(value: boolean): boolean
+        {
+            this.buffer[9] = value;
         }
 
 
         setTo(value: number): void {
-            // @ts-ignore
+
             this.buffer[8] = value;
         }
 
 
         getType(): number {
-            // @ts-ignore
+
             return this.buffer[1];
         }
 
         setType(value: number): void {
-            // @ts-ignore
+
             this.buffer[1] = value;
         }
 
         isType(data: types): boolean {
-            // @ts-ignore
+
             return (this.buffer[1] === data);
         }
 
 
         getParam(): number {
-            // @ts-ignore
+
             return this.buffer[2];
         }
 
         setParam(value: number): void {
-            // @ts-ignore
+
             this.buffer[2] = value;
         }
 
 
         getVitesse(value: number): number {
-            // @ts-ignore
+
             return this.buffer[value + 4];
         }
 
         getVitesses(): Array<number> {
-            // @ts-ignore
+
             return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
         }
 
         setVitesse(rang: number, value: number): void {
-            // @ts-ignore
+
             this.buffer[rang + 4] = value;
         }
 
         setVitesses(values: Array<number>): void {
-            // @ts-ignore
+
             this.buffer[4] = values[0];
-            // @ts-ignore
+
             this.buffer[5] = values[1];
-            // @ts-ignore
+
             this.buffer[6] = values[2];
-            // @ts-ignore
+
             this.buffer[7] = values[3];
         }
 
@@ -291,16 +297,16 @@ namespace CP {
 
     function i2cwrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2);
-        // @ts-ignore
+
         buf[0] = reg;
-        // @ts-ignore
+
         buf[1] = value;
         pins.i2cWriteBuffer(addr, buf);
     }
 
     function i2ccmd(addr: number, value: number) {
         let buf = pins.createBuffer(1);
-        // @ts-ignore
+
         buf[0] = value;
         pins.i2cWriteBuffer(addr, buf);
     }
@@ -351,15 +357,15 @@ namespace CP {
             initPCA9685();
         }
         let buf = pins.createBuffer(5);
-        // @ts-ignore
+
         buf[0] = LED0_ON_L + 4 * channel;
-        // @ts-ignore
+
         buf[1] = on & 0xff;
-        // @ts-ignore
+
         buf[2] = (on >> 8) & 0xff;
-        // @ts-ignore
+
         buf[3] = off & 0xff;
-        // @ts-ignore
+
         buf[4] = (off >> 8) & 0xff;
         pins.i2cWriteBuffer(PCA9685_ADD, buf);
     }

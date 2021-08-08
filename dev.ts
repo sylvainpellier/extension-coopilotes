@@ -1,3 +1,4 @@
+/// <reference path="../extensions/core.ts"/>
 /// <reference path="../extensions/neopixel.ts"/>
 /// <reference path="../extensions/enum.ts"/>
 /// <reference path="../extensions/basic.ts"/>
@@ -8,15 +9,19 @@
 /// <reference path="../extensions/shims.ts"/>
 /// <reference path="../extensions/melodies.ts"/>
 /// <reference path="../extensions/math.ts"/>
-/// <reference path="../extensions/radio.ts"/>
 /// <reference path="../extensions/pins.ts"/>
-/// <reference path="../extensions/core.ts"/>
-/// <reference path="../extensions/neopixel.ts"/>
+/// <reference path="/Users/sylvainpellier/ownCloud/Projets/CooPilotes/Code Source CooPilotes/api-js/node_modules/@types/node/ts3.2/globals.d.ts" />
+/// <reference path="/Users/sylvainpellier/ownCloud/Projets/CooPilotes/Code Source CooPilotes/api-js/node_modules/@types/node/globals.d.ts" />
+ // @ts-ignore
+import Buffer from "/Users/sylvainpellier/ownCloud/Projets/CooPilotes/Code Source CooPilotes/api-js/node_modules/@types/node/globals.d"
+import {neopixel} from "../extensions/neopixel"
+import {Math} from "../extensions/math"
 
 //% color="#ECA40D" weight=20 icon="\uf1b9"
-export namespace CP {
+export
+namespace CP {
 
-    let strip;
+    let strip:neopixel.Strip;
     export enum froms { Raspberry = 1, Intermediaire = 2, Voiture = 3, Remote = 4, Joystick = 5 }
 
     export enum actions { Avance = 1, Recule = 2, Gauche = 3, Droite = 4, Stop = 5 }
@@ -45,89 +50,89 @@ export namespace CP {
 
 
         getFrom(): number {
-            // @ts-ignore
+
             return this.buffer[0];
         }
 
         isFrom(data: froms): boolean {
-            // @ts-ignore
+
             return (this.buffer[0] === data);
         }
 
 
         setFrom(value: number) {
-            // @ts-ignore
+
             this.buffer[0] = value;
         }
 
 
         getTo(): number {
-            // @ts-ignore
+
             return this.buffer[8];
         }
 
         isTo(data: froms): boolean {
-            // @ts-ignore
+
             return (this.buffer[8] === data);
         }
 
 
         setTo(value: number): void {
-            // @ts-ignore
+
             this.buffer[8] = value;
         }
 
 
         getType(): number {
-            // @ts-ignore
+
             return this.buffer[1];
         }
 
         setType(value: number): void {
-            // @ts-ignore
+
             this.buffer[1] = value;
         }
 
         isType(data: types): boolean {
-            // @ts-ignore
+
             return (this.buffer[1] === data);
         }
 
 
         getParam(): number {
-            // @ts-ignore
+
             return this.buffer[2];
         }
 
         setParam(value: number): void {
-            // @ts-ignore
+
             this.buffer[2] = value;
         }
 
 
         getVitesse(value: number): number {
-            // @ts-ignore
+
             return this.buffer[value + 4];
         }
 
         getVitesses(): Array<number> {
-            // @ts-ignore
+
             return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
         }
 
         setVitesse(rang: number, value: number): void {
-            // @ts-ignore
+
             this.buffer[rang + 4] = value;
         }
 
         setVitesses(values: Array<number>): void {
-            // @ts-ignore
+
             this.buffer[4] = values[0];
-            // @ts-ignore
+
             this.buffer[5] = values[1];
-            // @ts-ignore
+
             this.buffer[6] = values[2];
-            // @ts-ignore
+
             this.buffer[7] = values[3];
         }
 
@@ -137,30 +142,34 @@ export namespace CP {
     export interface roues {
         vitesse: number;
         moteur: moteurs;
-        led: any;
+        led: neopixel.Strip;
     }
 
 
     export const Roues: Array<CP.roues> = [
-        { vitesse: 5, moteur: CP.moteurs.M1, led: false },
-        { vitesse: 5, moteur: CP.moteurs.M2, led: false },
-        { vitesse: 5, moteur: CP.moteurs.M3, led: false },
-        { vitesse: 5, moteur: CP.moteurs.M4, led: false }
+        { vitesse: 5, moteur: CP.moteurs.M1, led: undefined },
+        { vitesse: 5, moteur: CP.moteurs.M2, led: undefined },
+        { vitesse: 5, moteur: CP.moteurs.M3, led: undefined },
+        { vitesse: 5, moteur: CP.moteurs.M4, led: undefined }
     ];
 
 
-    function initLED()
-    {
-        // strip = neopixel.create(DigitalPin.P12, 4, 0);
-        // Roues[0].led = strip.range(2, 1);
-        // Roues[1].led = strip.range(3, 1);
-        // Roues[2].led = strip.range(1, 1);
-        // Roues[3].led = strip.range(0, 1);
+    function initLED() {
+        strip = neopixel.create(DigitalPin.P12, 4, 0);
+        Roues[0].led = strip.range(2, 1);
+        Roues[1].led = strip.range(3, 1);
+        Roues[2].led = strip.range(1, 1);
+        Roues[3].led = strip.range(0, 1);
     }
 
-    function led(indexRoue: number, couleur:any)
-    {
-        // Roues[indexRoue].led.showColor(neopixel.colors( couleur ));
+    function led(indexRoue: number, couleur: string) {
+        let color:  neopixel.NeoPixelColors = neopixel.NeoPixelColors.White;
+        switch (couleur) {
+            case "blue": color = neopixel.NeoPixelColors.Blue; break;
+            case "red": color = neopixel.NeoPixelColors.Red; break;
+            case "yellow": color = neopixel.NeoPixelColors.Yellow; break;
+        }
+        Roues[indexRoue].led.showColor(neopixel.colors(color));
     }
 
     function RoueFromMoteur(moteur: CP.moteurs): number {
@@ -183,6 +192,10 @@ export namespace CP {
 
     export function remap(value: number, fromLow: number, fromHigh: number, toLow: number, toHigh: number): number {
         return Math.floor(((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow);
+    }
+
+    export function abs(value: number): number {
+        return CP.abs(value);
     }
 
     const PCA9685_ADD = 0x40;
@@ -313,17 +326,17 @@ export namespace CP {
     }
 
     function i2cwrite(addr: number, reg: number, value: number) {
-        let buf = pins.createBuffer(2);
-        // @ts-ignore
+        let buf: Buffer = pins.createBuffer(2);
+
         buf[0] = reg;
-        // @ts-ignore
+
         buf[1] = value;
         pins.i2cWriteBuffer(addr, buf);
     }
 
     function i2ccmd(addr: number, value: number) {
-        let buf = pins.createBuffer(1);
-        // @ts-ignore
+        let buf: Buffer = pins.createBuffer(1);
+
         buf[0] = value;
         pins.i2cWriteBuffer(addr, buf);
     }
@@ -373,16 +386,16 @@ export namespace CP {
         if (!initialized) {
             initPCA9685();
         }
-        let buf = pins.createBuffer(5);
-        // @ts-ignore
+        let buf: Buffer = pins.createBuffer(5);
+
         buf[0] = LED0_ON_L + 4 * channel;
-        // @ts-ignore
+
         buf[1] = on & 0xff;
-        // @ts-ignore
+
         buf[2] = (on >> 8) & 0xff;
-        // @ts-ignore
+
         buf[3] = off & 0xff;
-        // @ts-ignore
+
         buf[4] = (off >> 8) & 0xff;
         pins.i2cWriteBuffer(PCA9685_ADD, buf);
     }
@@ -390,7 +403,7 @@ export namespace CP {
     function stopMotor(index: number) {
 
         Roues[RoueFromMoteurIndex(index)].vitesse = 5;
-        led(RoueFromMoteurIndex(index),0xFF0000);
+        led(RoueFromMoteurIndex(index), "red");
 
         setPwm(index, 0, 0);
         setPwm(index + 1, 0, 0);
@@ -480,9 +493,9 @@ export namespace CP {
         setPwm(14, 0, 0);
         setPwm(15, 0, 0);
 
-        Roues.forEach((r, index)=>{
+        Roues.forEach((r, index) => {
             r.vitesse = 5;
-            led(index,0xFF0000);
+            led(index, "red");
         })
     }
 
@@ -775,8 +788,8 @@ export namespace CP {
         if (!initialized) {
             initPCA9685();
         }
-        // @ts-ignore
-        if (Math.abs(x) <= 50 && Math.abs(y) <= 50) {
+
+        if (CP.abs(x) <= 50 && CP.abs(y) <= 50) {
             x = 0;
             y = 0;
         }
@@ -950,17 +963,12 @@ export namespace CP {
         let RoueActuelle = Roues[RoueFromMoteur(index)];
         RoueActuelle.vitesse = remap(vitesse, -255, 255, 9, 1);
 
-        if(RoueActuelle.vitesse > 5)
-        {
-            led(RoueFromMoteur(index),0x0000FF);
-        } else if(RoueActuelle.vitesse < 5)
-        {
-            led(RoueFromMoteur(index),0xFFFF00);
-
-        } else
-        {
-            led(RoueFromMoteur(index),0xFF0000);
-
+        if (RoueActuelle.vitesse > 5) {
+            led(RoueFromMoteur(index), "blue");
+        } else if (RoueActuelle.vitesse < 5) {
+            led(RoueFromMoteur(index), "red");
+        } else {
+            led(RoueFromMoteur(index), "yellow");
         }
 
 
@@ -1009,7 +1017,6 @@ export namespace CP {
         if (!initialized) {
             initPCA9685();
         }
-
 
         stopMotor(CP.moteurs.M1);
         stopMotor(CP.moteurs.M2);

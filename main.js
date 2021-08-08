@@ -1,8 +1,3 @@
-/*
-load dependency
-"CooPilotes": "file:../CooPilotes"
-*/
-//% color="#ECA40D" weight=20 icon="\uf1b9"
 var CP;
 (function (CP) {
     var froms;
@@ -48,81 +43,63 @@ var CP;
         moteurs[moteurs["M6"] = 13] = "M6";
     })(moteurs = CP.moteurs || (CP.moteurs = {}));
     CP.sizeBuffer = 9;
-    var Data = /** @class */ (function () {
+    var Data = (function () {
         function Data(data) {
             if (data === void 0) { data = pins.createBuffer(CP.sizeBuffer); }
             this.buffer = data;
         }
         Data.prototype.getFrom = function () {
-            // @ts-ignore
             return this.buffer[0];
         };
         Data.prototype.isFrom = function (data) {
-            // @ts-ignore
             return (this.buffer[0] === data);
         };
         Data.prototype.setFrom = function (value) {
-            // @ts-ignore
             this.buffer[0] = value;
         };
         Data.prototype.getTo = function () {
-            // @ts-ignore
             return this.buffer[8];
         };
         Data.prototype.isTo = function (data) {
-            // @ts-ignore
             return (this.buffer[8] === data);
         };
         Data.prototype.setTo = function (value) {
-            // @ts-ignore
             this.buffer[8] = value;
         };
         Data.prototype.getType = function () {
-            // @ts-ignore
             return this.buffer[1];
         };
         Data.prototype.setType = function (value) {
-            // @ts-ignore
             this.buffer[1] = value;
         };
         Data.prototype.isType = function (data) {
-            // @ts-ignore
             return (this.buffer[1] === data);
         };
         Data.prototype.getParam = function () {
-            // @ts-ignore
             return this.buffer[2];
         };
         Data.prototype.setParam = function (value) {
-            // @ts-ignore
             this.buffer[2] = value;
         };
         Data.prototype.getVitesse = function (value) {
-            // @ts-ignore
             return this.buffer[value + 4];
         };
         Data.prototype.getVitesses = function () {
-            // @ts-ignore
             return [this.buffer[4], this.buffer[5], this.buffer[6], this.buffer[7]];
         };
         Data.prototype.setVitesse = function (rang, value) {
-            // @ts-ignore
             this.buffer[rang + 4] = value;
         };
         Data.prototype.setVitesses = function (values) {
-            // @ts-ignore
             this.buffer[4] = values[0];
-            // @ts-ignore
             this.buffer[5] = values[1];
-            // @ts-ignore
             this.buffer[6] = values[2];
-            // @ts-ignore
             this.buffer[7] = values[3];
         };
         return Data;
     }());
     CP.Data = Data;
-    var strip = neopixel.create(7 /* P0 */, 4, NeoPixelMode.RGB);
+    var strip = neopixel.create(7, 4, NeoPixelMode.RGB);
     CP.Roues = [
         { vitesse: 5, moteur: CP.moteurs.M1, led: strip.range(0, 1) },
         { vitesse: 5, moteur: CP.moteurs.M2, led: strip.range(0, 2) },
@@ -191,11 +168,8 @@ var CP;
     })(sons = CP.sons || (CP.sons = {}));
     var positions;
     (function (positions) {
-        //% blockId="avance" block="avance"
         positions[positions["Avance"] = 1] = "Avance";
-        //% blockId="recule" block="recule"
         positions[positions["Recule"] = 2] = "Recule";
-        //% blockId="arret" block="arret"
         positions[positions["Stop"] = 3] = "Stop";
     })(positions = CP.positions || (CP.positions = {}));
     var servos;
@@ -211,78 +185,54 @@ var CP;
     })(servos = CP.servos || (CP.servos = {}));
     var deplacements;
     (function (deplacements) {
-        //% blockId="Avance" block="Avance"
         deplacements[deplacements["Avance"] = 1] = "Avance";
-        //% blockId="Recule" block="Recule"
         deplacements[deplacements["Recule"] = 2] = "Recule";
-        //% blockId="MoveLeft" block="MoveLeft"
         deplacements[deplacements["Gauche"] = 3] = "Gauche";
-        //% blockId="MoveRight" block="MoveRight"
         deplacements[deplacements["Droite"] = 4] = "Droite";
-        //% blockId="Left_Front" block="Left_Front"
         deplacements[deplacements["AvantGauche"] = 5] = "AvantGauche";
-        //% blockId="Right_Front" block="Right_Front"
         deplacements[deplacements["AvantDroite"] = 6] = "AvantDroite";
-        //% blockId="Left_Back" block="Left_Back"
         deplacements[deplacements["ArriereGauche"] = 7] = "ArriereGauche";
-        //% blockId="Right_Back" block="Right_Back"
         deplacements[deplacements["ArriereDroite"] = 8] = "ArriereDroite";
     })(deplacements = CP.deplacements || (CP.deplacements = {}));
     var sens;
     (function (sens) {
-        //% blockId="Droite" block="Droite"
         sens[sens["Droite"] = 1] = "Droite";
-        //% blockId="Gauche" block="Gauche"
         sens[sens["Gauche"] = 2] = "Gauche";
     })(sens = CP.sens || (CP.sens = {}));
     var drifts;
     (function (drifts) {
-        //% blockId="Head_To_Left" block="Head_To_Left"
         drifts[drifts["AvantGauche"] = 1] = "AvantGauche";
-        //% blockId="Head_To_Right" block="Head_To_Right"
         drifts[drifts["AvantDroite"] = 2] = "AvantDroite";
-        //% blockId="Rear_To_Left" block="Rear_To_Left"
         drifts[drifts["ArriereGauche"] = 3] = "ArriereGauche";
-        //% blockId="Rear_To_Right" block="Rear_To_Right"
         drifts[drifts["ArriereDroite"] = 4] = "ArriereDroite";
     })(drifts = CP.drifts || (CP.drifts = {}));
     var enWideAngleDrift;
     (function (enWideAngleDrift) {
-        //% blockId="Left" block="Left"
         enWideAngleDrift[enWideAngleDrift["Gauche"] = 0] = "Gauche";
-        //% blockId="Right" block="Right"
         enWideAngleDrift[enWideAngleDrift["Droite"] = 1] = "Droite";
     })(enWideAngleDrift = CP.enWideAngleDrift || (CP.enWideAngleDrift = {}));
     var formes;
     (function (formes) {
-        //% blockId="Carre" block="Carre"
         formes[formes["Carre"] = 1] = "Carre";
-        //% blockId="Parallelogramme" block="Parallelogramme"
         formes[formes["Parallelogramme"] = 2] = "Parallelogramme";
-        //% blockId="Rhombus" block="Rhombus"
         formes[formes["Rhombus"] = 3] = "Rhombus";
-        //% blockId="Flash1" block="Flash1"
         formes[formes["Flash1"] = 4] = "Flash1";
-        //% blockId="Flash2" block="Flash2"
         formes[formes["Flash2"] = 5] = "Flash2";
     })(formes = CP.formes || (CP.formes = {}));
     function i2cwrite(addr, reg, value) {
         var buf = pins.createBuffer(2);
-        // @ts-ignore
         buf[0] = reg;
-        // @ts-ignore
         buf[1] = value;
         pins.i2cWriteBuffer(addr, buf);
     }
     function i2ccmd(addr, value) {
         var buf = pins.createBuffer(1);
-        // @ts-ignore
         buf[0] = value;
         pins.i2cWriteBuffer(addr, buf);
     }
     function i2cread(addr, reg) {
-        pins.i2cWriteNumber(addr, reg, 7 /* UInt8BE */);
-        return pins.i2cReadNumber(addr, 7 /* UInt8BE */);
+        pins.i2cWriteNumber(addr, reg, 7);
+        return pins.i2cReadNumber(addr, 7);
     }
     function initPCA9685() {
         i2cwrite(PCA9685_ADD, MODE1, 0x00);
@@ -298,16 +248,15 @@ var CP;
     }
     CP.getVitesses = getVitesses;
     function setFreq(freq) {
-        // Constrain the frequency
         var prescaleval = 25000000;
         prescaleval /= 4096;
         prescaleval /= freq;
         prescaleval -= 1;
-        var prescale = prescaleval; //Math.Floor(prescaleval + 0.5);
+        var prescale = prescaleval;
         var oldmode = i2cread(PCA9685_ADD, MODE1);
-        var newmode = (oldmode & 0x7F) | 0x10; // sleep
-        i2cwrite(PCA9685_ADD, MODE1, newmode); // go to sleep
-        i2cwrite(PCA9685_ADD, PRESCALE, prescale); // set the prescaler
+        var newmode = (oldmode & 0x7F) | 0x10;
+        i2cwrite(PCA9685_ADD, MODE1, newmode);
+        i2cwrite(PCA9685_ADD, PRESCALE, prescale);
         i2cwrite(PCA9685_ADD, MODE1, oldmode);
         control.waitMicros(5000);
         i2cwrite(PCA9685_ADD, MODE1, oldmode | 0xa1);
@@ -319,15 +268,10 @@ var CP;
             initPCA9685();
         }
         var buf = pins.createBuffer(5);
-        // @ts-ignore
         buf[0] = LED0_ON_L + 4 * channel;
-        // @ts-ignore
         buf[1] = on & 0xff;
-        // @ts-ignore
         buf[2] = (on >> 8) & 0xff;
-        // @ts-ignore
         buf[3] = off & 0xff;
-        // @ts-ignore
         buf[4] = (off >> 8) & 0xff;
         pins.i2cWriteBuffer(PCA9685_ADD, buf);
     }
@@ -424,12 +368,6 @@ var CP;
         ActiveMoteur(CP.moteurs.M3, vitessem3);
         ActiveMoteur(CP.moteurs.M4, vitessem4);
     }
-    //% blockId=Tourne block="Tourne|%rotation|vitesse %vitesse"
-    //% weight=102
-    //% blockGap=10
-    //% group="Contrôle de la voiture"
-    //% vitesse.min=0 vitesse.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function Tourne(rotation, vitesse) {
         if (!initialized) {
             initPCA9685();
@@ -449,12 +387,6 @@ var CP;
         }
     }
     CP.Tourne = Tourne;
-    //% blockId=Déplace block="Déplace|%direction|vitesse %vitesse"
-    //% weight=102
-    //% blockGap=10
-    //% group="Contrôle de la voiture"
-    //% vitesse.min=0 vitesse.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function Deplace(direction, vitesse) {
         if (!initialized) {
             initPCA9685();
@@ -492,12 +424,6 @@ var CP;
         }
     }
     CP.Deplace = Deplace;
-    //% blockId=Polygon block="Polygon|%polygon|vitesse %vitesse"
-    //% weight=101
-    //% blockGap=10
-    //% group="Contrôle de la voiture"
-    //% vitesse.min=0 vitesse.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function Polygon(polygon, vitesse) {
         if (!initialized) {
             initPCA9685();
@@ -593,12 +519,6 @@ var CP;
         }
     }
     CP.Polygon = Polygon;
-    //% blockId=Drift block="Drift|%direction|vitesse %vitesse"
-    //% weight=100
-    //% blockGap=10
-    //% group="Contrôle de la voiture"
-    //% vitesse.min=0 vitesse.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function Drift(direction, vitesse) {
         if (!initialized) {
             initPCA9685();
@@ -636,13 +556,6 @@ var CP;
         }
     }
     CP.Drift = Drift;
-    //% blockId=WideAngleDrift block="WideAngleDrift|%direction|vitesse_avant %vitesse_avant|vitesse_arriere %vitesse_arriere"
-    //% weight=99
-    //% blockGap=10
-    //% group="Contrôle de la voiture"
-    //% vitesse_avant.min=0 vitesse_avant.max=255
-    //% vitesse_arriere.min=0 vitesse_arriere.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function WideAngleDrift(direction, vitesse_avant, vitesse_arriere) {
         if (!initialized) {
             initPCA9685();
@@ -671,12 +584,6 @@ var CP;
         }
     }
     CP.WideAngleDrift = WideAngleDrift;
-    //% blockId=Manipuler block="Manipuler|x %x|y %y|rotation %leftOrRight"
-    //% weight=98
-    //% blockGap=10
-    //% group="Contrôle de la voiture"
-    //% leftOrRight.min=-1 leftOrRight.max=1
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function Manipuler(x, y, leftOrRight) {
         if (!initialized) {
             initPCA9685();
@@ -695,24 +602,13 @@ var CP;
         MecanumRun(x * linearvitesse, y * linearvitesse, -leftOrRight * angularvitesse);
     }
     CP.Manipuler = Manipuler;
-    //% blockId=LED block="LEC"
-    //% weight=97
-    //% blockGap=10
-    //% group="Fonctionnalités de la voiture"
-    //% advanced=true
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function LED() {
         if (!yahStrip) {
-            yahStrip = neopixel.create(19 /* P12 */, 4, NeoPixelMode.RGB);
+            yahStrip = neopixel.create(19, 4, NeoPixelMode.RGB);
         }
         return yahStrip;
     }
     CP.LED = LED;
-    //% blockId=Musique block="Musique|%index"
-    //% weight=96
-    //% blockGap=10
-    //% group="Fonctionnalités de la voiture"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function Musique(index) {
         switch (index) {
             case sons.dadadum:
@@ -778,64 +674,37 @@ var CP;
         }
     }
     CP.Musique = Musique;
-    //% blockId=Servo block="Servo(180°)|num %num|valeur %value"
-    //% weight=95
-    //% blockGap=20
-    //% advanced=true
-    //% num.min=1 num.max=4 value.min=0 value.max=180
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
     function Servo(num, value) {
-        // 50hz: 20,000 us
-        var us = (value * 1800 / 180 + 600); // 0.6 ~ 2.4
+        var us = (value * 1800 / 180 + 600);
         var pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
     }
     CP.Servo = Servo;
-    //% blockId=Servo2 block="Servo(270°)|num %num|valeur %value"
-    //% weight=94
-    //% blockGap=20
-    //% advanced=true
-    //% num.min=1 num.max=4 value.min=0 value.max=270
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
     function Servo2(num, value) {
-        // 50hz: 20,000 us
         var newvalue = remap(value, 0, 270, 0, 180);
-        var us = (newvalue * 1800 / 180 + 600); // 0.6 ~ 2.4
+        var us = (newvalue * 1800 / 180 + 600);
         var pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
     }
     CP.Servo2 = Servo2;
-    //% blockId=Servo3 block="Servo(360°)|num %num|pos %pos|valeur %value"
-    //% weight=93
-    //% blockGap=20
-    //% advanced=true
-    //% num.min=1 num.max=4 value.min=0 value.max=90
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
     function Servo3(num, pos, value) {
-        // 50hz: 20,000 us
         if (pos == positions.Stop) {
-            var us = (86 * 1800 / 180 + 600); // 0.6 ~ 2.4
+            var us = (86 * 1800 / 180 + 600);
             var pwm = us * 4096 / 20000;
             setPwm(num, 0, pwm);
         }
-        else if (pos == positions.Avance) { //0-90 -> 90 - 0
-            var us = ((90 - value) * 1800 / 180 + 600); // 0.6 ~ 2.4
+        else if (pos == positions.Avance) {
+            var us = ((90 - value) * 1800 / 180 + 600);
             var pwm = us * 4096 / 20000;
             setPwm(num, 0, pwm);
         }
-        else if (pos == positions.Recule) { //0-90 -> 90 -180
-            var us = ((90 + value) * 1800 / 180 + 600); // 0.6 ~ 2.4
+        else if (pos == positions.Recule) {
+            var us = ((90 + value) * 1800 / 180 + 600);
             var pwm = us * 4096 / 20000;
             setPwm(num, 0, pwm);
         }
     }
     CP.Servo3 = Servo3;
-    //% blockId=ActiveMoteur block="ActiveMoteur|%index|vitesse(-255~255) %vitesse"
-    //% weight=92
-    //% blockGap=10
-    //% group="Fonctionnalités de la voiture"
-    //% vitesse.min=-255 vitesse.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function ActiveMoteur(index, vitesse) {
         if (vitesse >= 255) {
             vitesse = 255;
@@ -857,7 +726,7 @@ var CP;
         if (!initialized) {
             initPCA9685();
         }
-        vitesse = remap(vitesse, -255, 255, -4095, 4095); // map 255 to 4095
+        vitesse = remap(vitesse, -255, 255, -4095, 4095);
         if (vitesse >= 4095) {
             vitesse = 4095;
         }
@@ -889,11 +758,6 @@ var CP;
         }
     }
     CP.ActiveMoteur = ActiveMoteur;
-    //% blockId=ArretMoteurs block="Arret des moteurs"
-    //% weight=91
-    //% blockGap=10
-    //% group="Fonctionnalités de la voiture"
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     function ArretMoteurs() {
         if (!initialized) {
             initPCA9685();
@@ -905,3 +769,4 @@ var CP;
     }
     CP.ArretMoteurs = ArretMoteurs;
 })(CP || (CP = {}));
+//# sourceMappingURL=main.js.map
