@@ -69,6 +69,11 @@ namespace CP {
             return value;
         }
 
+        getStop(): number
+        {
+            return this.buffer[9];
+        }
+
 
         setTo(value: number): void {
 
