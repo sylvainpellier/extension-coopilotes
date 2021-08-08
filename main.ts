@@ -32,7 +32,7 @@ namespace CP {
         constructor(data: Buffer = pins.createBuffer(sizeBuffer)) {
 
             this.buffer = data;
-            this.buffer[9] = false;
+            this.buffer[9] = 0;
         }
 
 
@@ -63,9 +63,10 @@ namespace CP {
             return (this.buffer[8] === data);
         }
 
-        setStop(value: boolean): boolean
+        setStop(value: number): number
         {
             this.buffer[9] = value;
+            return value;
         }
 
 
