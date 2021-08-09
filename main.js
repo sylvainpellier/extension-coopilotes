@@ -32,6 +32,8 @@ var CP;
         remotes[remotes["Transparent"] = 3] = "Transparent";
         remotes[remotes["Mode4Gauche"] = 4] = "Mode4Gauche";
         remotes[remotes["Mode4Droite"] = 5] = "Mode4Droite";
+        remotes[remotes["ModeArriere"] = 6] = "ModeArriere";
+        remotes[remotes["ModeAvant"] = 7] = "ModeAvant";
     })(remotes = CP.remotes || (CP.remotes = {}));
     var moteurs;
     (function (moteurs) {
@@ -42,7 +44,7 @@ var CP;
         moteurs[moteurs["M5"] = 2] = "M5";
         moteurs[moteurs["M6"] = 13] = "M6";
     })(moteurs = CP.moteurs || (CP.moteurs = {}));
-    CP.sizeBuffer = 9;
+    CP.sizeBuffer = 10;
     var Data = (function () {
         function Data(data) {
             if (data === void 0) { data = pins.createBuffer(CP.sizeBuffer); }
@@ -53,6 +55,12 @@ var CP;
         };
         Data.prototype.isFrom = function (data) {
             return (this.buffer[0] === data);
+        };
+        Data.prototype.setStop = function (val) {
+            this.buffer[9] = val;
+        };
+        Data.prototype.getStop = function () {
+            return this.buffer[9];
         };
         Data.prototype.setFrom = function (value) {
             this.buffer[0] = value;
@@ -65,6 +73,12 @@ var CP;
         };
         Data.prototype.setTo = function (value) {
             this.buffer[8] = value;
+        };
+        Data.prototype.setSpecificSpeed = function (value) {
+            this.buffer[3] = value;
+        };
+        Data.prototype.getSpecificSpeed = function () {
+            return this.buffer[3];
         };
         Data.prototype.getType = function () {
             return this.buffer[1];
@@ -99,12 +113,12 @@ var CP;
         return Data;
     }());
     CP.Data = Data;
-    var strip = neopixel.create(7, 4, NeoPixelMode.RGB);
+    var strip = neopixel.create(19, 4, NeoPixelMode.RGB);
     CP.Roues = [
-        { vitesse: 5, moteur: CP.moteurs.M1, led: strip.range(0, 1) },
-        { vitesse: 5, moteur: CP.moteurs.M2, led: strip.range(0, 2) },
-        { vitesse: 5, moteur: CP.moteurs.M3, led: strip.range(0, 3) },
-        { vitesse: 5, moteur: CP.moteurs.M4, led: strip.range(0, 4) }
+        { vitesse: 5, moteur: CP.moteurs.M1, led: strip.range(2, 1) },
+        { vitesse: 5, moteur: CP.moteurs.M2, led: strip.range(3, 1) },
+        { vitesse: 5, moteur: CP.moteurs.M3, led: strip.range(1, 1) },
+        { vitesse: 5, moteur: CP.moteurs.M4, led: strip.range(0, 1) }
     ];
     function RoueFromMoteur(moteur) {
         var find = 99;
@@ -123,7 +137,7 @@ var CP;
         return find;
     }
     function remap(value, fromLow, fromHigh, toLow, toHigh) {
-        return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
+        return Math.floor(((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow);
     }
     CP.remap = remap;
     var PCA9685_ADD = 0x40;
